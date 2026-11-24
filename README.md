@@ -327,7 +327,7 @@ cd C:\Users\SZYL\Doubao\uibc-实测台
 - 把误提交进仓库的 `.venv312/`（724 个文件）从跟踪里移除，`.gitignore` 补 `.venv312/`（缺陷 #59：`.gitignore` 只写了 `.venv/`，漏了带版本号的那个）。
 - 历史里仍能看到这批 venv 文件，**不做改写**：一旦重写历史，文档里引用的 `7338bca / 238fad3 / 0eb58bc` 全部失效，那才是真把证据链弄断。
 
-## 视角边界
+## v0.4.33 改了什么
 
-- 本仓是**仪器**，被测对象另见 [BASE_SUBJECT.md](BASE_SUBJECT.md)（zhaoxinghua09-cell/uibc-core）。
-- 完整历史与出处见 [PROVENANCE.md](PROVENANCE.md)：公开的是 v0.4.32 快照，不是全部提交历史。
+- 给「下一个接手的人或 Agent」补了三块料：`AGENTS.md`（三十秒定位 + 先读哪几件 + 怎么积累 + 硬约束）、`SECURITY_AND_ROLES.md`（三身份权限边界，评测号不进 UIBC 组织）、`CHANGELOG.md`（从 0.4.27 起的版本线）
+- 公开仓 `UIBC/uibc-bench` 上线，可被其他账号与会话直接克隆使用；公开的是快照，完整历史仍在本地 bundle
