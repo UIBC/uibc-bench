@@ -255,6 +255,34 @@ def write_attest(out_dir, summary, subject_head=None, bench_version=None, extra=
                 continue
             files.append({"path": rel, "bytes": os.path.getsize(p), "sha256": _sha256(p)})
     files.sort(key=lambda x: x["path"])
+
+    # 每组在自己的结果旁边留了一份 "_results.subject.json"：那棵树到底是从哪导入的。
+    # 只写哈希说明不了这件事——2026-11-25 的 s02 组就曾在找不到被测仓时静默地
+    # import 到解释器里已安装的另一棵树，产物看起来一切正常。所以这里既收旁证，
+    # 也把"旁证指向的仓 ≠ run.py 指定的仓"单独列成告警。
+    prov, mismatch = {}, []
+    for f in files:
+        if not f["path"].endswith("_results.subject.json"):
+            continue
+        p = os.path.join(out_dir, *f["path"].split("/"))
+        try:
+            with open(p, encoding="utf-8") as fh:
+                m = json.load(fh)
+        except Exception as e:
+            mismatch.append("%s：旁证读不出来（%s）" % (f["path"], e))
+            continue
+        prov[m.get("group") or f["path"]] = m
+        want = summary.get("subject")
+        got = m.get("subject")
+        core = m.get("uibc_core_file")
+        if want and got and os.path.normcase(os.path.abspath(want)) != os.path.normcase(os.path.abspath(got)):
+            mismatch.append("%s：跑的是 %s，指定的是 %s" % (m.get("group"), got, want))
+        if want and core:
+            want_abs = os.path.normcase(os.path.abspath(want))
+            core_abs = os.path.normcase(os.path.abspath(core))
+            if not core_abs.startswith(want_abs + os.sep):
+                mismatch.append("%s：import 到 %s，不在指定仓 %s 里" % (m.get("group"), core, want))
+
     manifest_digest = hashlib.sha256(
         "".join("%s  %s\n" % (f["sha256"], f["path"]) for f in files).encode("utf-8")).hexdigest()
     att = {
@@ -267,6 +295,8 @@ def write_attest(out_dir, summary, subject_head=None, bench_version=None, extra=
         "totals": summary.get("totals"),
         "manifest_sha256": manifest_digest,
         "files": files,
+        "subject_provenance": prov,
+        "subject_provenance_mismatch": mismatch,
     }
     if extra:
         att.update(extra)
@@ -281,6 +311,8 @@ def write_attest(out_dir, summary, subject_head=None, bench_version=None, extra=
         "- 平台：%s / %s / Python %s" % (_runs()["os"], _runs()["machine"], _runs()["python"]),
         "- 判定合计：%s" % json.dumps(summary.get("totals") or {}, ensure_ascii=False),
         "- 清单摘要（manifest_sha256）：`%s`" % manifest_digest,
+        "- 被测仓出处（每组 import 到的 uibc_core）：%s" % (", ".join("%s←%s" % (g, m.get("uibc_core_file")) for g, m in sorted(prov.items())) or "（无旁证）"),
+        "- 出处告警：%s" % ("；".join(mismatch) if mismatch else "无"),
         "",
         "复算方法：在本目录执行 `sha256sum -c` 等价操作——按下表逐条重算 sha256 与 `manifest_sha256` 比对。",
         "",

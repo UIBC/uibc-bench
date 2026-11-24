@@ -35,6 +35,12 @@ python run.py --list     # 只看有哪些组
 
 指定别的被测仓：`python run.py --subject /path/to/uibc-core`（Windows：`--subject "D:\wt\uibc-core"`）。
 
+`--subject` 对**每一组**都生效，包括 s02/s02b。这两组现在会核对导入来源：`uibc_core` 若不是从你
+指定的那棵树导进来的，整组直接 `BLOCKED` 并写明"定位到 A，但导入到 B"，不会拿解释器里已安装
+的另一份静默出结论。每次运行还会在每组结果旁落一份 `<组名>_results.subject.json`，并把
+"哪棵树"写进 `ATTEST.json` 的 `subject_provenance`；旁证与 `--subject` 不一致时，
+`subject_provenance_mismatch` 会单独列出来。
+
 跑完你会看到：
 
 ```
@@ -80,6 +86,7 @@ python compare_baseline.py runs/<时间戳> --baseline baseline.json
 | 某组 `TIMEOUT` | 该组本身慢（s04 跑被测仓全量单测，约 5 分钟） | `--timeout` 调大，或 `--quick` 跳过 |
 | 一堆 `BLOCKED` | 没装 node / 被测仓本提交里没有对应文件 | 属预期，看 `note` 里写的原因 |
 | 被测仓是符号链接/联接点 | 被测仓的自审计要求验证器来自仓内真实路径 | 用真实目录克隆，别用链接 |
+| `[BLOCKED] B0 被测仓对不上 / 无法定位` | s02/s02b 定位到了 A，但 `import` 到的 `uibc_core` 来自 B（常见于本机有 editable 安装） | 按 `note` 里的两条路径核对；用 `--subject` 指到你要测的那棵树，或卸掉那个 editable 安装 |
 
 ## 6. 把结论交出去（JUnit / HTML / 存证）
 

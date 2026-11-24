@@ -69,7 +69,7 @@ uibc-实测台/
 ├─ bench_report.py        导出 JUnit / report.html / ATTEST（产物哈希清单）
 ├─ .github\workflows\bench.yml  Windows + Linux 双平台 --quick 流水线，产物作为 artifact 上传
 ├─ thresholds.json        性能阈值（F 组用；改阈值就是改判据，需在场景清单写理由）
-├─ VERSION                当前版本号（0.4.40 = 台子 v0.4.39 + 交付层三件产物）
+├─ VERSION                当前版本号（0.4.42 = 交付层 + 跨平台修正 + 被测仓出处可证）
 ├─ run.py                 **单一入口**（跨平台）：选组、每组超时、跑完出一张表 + summary.json；退出码 0/1/2
 ├─ QUICKSTART.md          三分钟上手、判定词义（PASS/FAIL/BLOCKED/REFERENCE/TIMEOUT）、常见卡点
 ├─ first_run.py           一键首跑（陌生人 5 步内跑出结论，见 FIRST-RUN.txt）
