@@ -3,6 +3,16 @@
 每一行对应一个 tag，格式：版本 / 日期 / 一行改动 / 证据在哪。
 **没有复跑日志的「修好了」不进这张表。**
 
+## v0.4.39 — 2026-11-24
+
+主题：把 v0.4.38 里**只在 Linux 验过**的那一版 D1 修到两个平台都成立。教训写在最前面：一种平台验过不等于验过。
+
+- **真 bug**：v0.4.38 把 `fails` 从 `(类型, 名称)` 元组改成了 pytest 的 nodeid 字符串，但用例明细那里还留着 `for k, v in fails` 与 `[f"{k}:{v}" ...]`。Linux 上恰好 0 失败，这两处一次都没执行；Windows 上一旦有失败就 `ValueError: too many values to unpack`，整组被记成 ERROR。已改为直接使用 nodeid 字符串
+- **顺手补的守卫**：没有被测仓时 D1 之前会在不存在的工作目录里抛 `NotADirectoryError`(WinError 267)。现在直接记 `BLOCKED`，并把三条设置口径写在结论里
+- 复验（两个平台各自跑）：Linux `D1 PASS — 用例=1589 失败=0 跳过=7 用时=449s`；Windows `D1 PASS — 用例=1572 失败=0 跳过=25 用时=385s`
+- 公开包全量（Windows，`python run.py --subject <main 工作树>`）：11 组全有产物、相对基线回归 0、exit 0
+- 证据：`runs/<时间戳>/s04_full_suite_results.json`
+
 ## v0.4.38 — 2026-11-24
 
 主题：**D1 改成跑被测仓 README 里那条命令**。这是上一版梳理里最后一个假失败源。
