@@ -326,3 +326,8 @@ cd C:\Users\SZYL\Doubao\uibc-实测台
 
 - 把误提交进仓库的 `.venv312/`（724 个文件）从跟踪里移除，`.gitignore` 补 `.venv312/`（缺陷 #59：`.gitignore` 只写了 `.venv/`，漏了带版本号的那个）。
 - 历史里仍能看到这批 venv 文件，**不做改写**：一旦重写历史，文档里引用的 `7338bca / 238fad3 / 0eb58bc` 全部失效，那才是真把证据链弄断。
+
+## 视角边界
+
+- 本仓是**仪器**，被测对象另见 [BASE_SUBJECT.md](BASE_SUBJECT.md)（zhaoxinghua09-cell/uibc-core）。
+- 完整历史与出处见 [PROVENANCE.md](PROVENANCE.md)：公开的是 v0.4.32 快照，不是全部提交历史。
