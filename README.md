@@ -20,14 +20,56 @@ python run.py --quick    # 跳过最慢的三组，约 30 秒
 2. 上次没测的，这次覆盖到了吗？（新增场景）
 3. 上次记录的错误行为，这次是修好了还是照旧？（基线比对）
 
+## 结论怎么被接走
+
+跑一次不只出一张终端表，还会在同目录落四件东西——**给脚本的、给人的、给第三方的分开**：
+
+| 产物 | 谁消费 | 说明 |
+|---|---|---|
+| `summary.json` | 你的脚本 | 机读汇总：每组状态、用时、判定计数、基线名、平台 |
+| `results.junit.xml` | CI（GitHub Actions / Jenkins / GitLab） | JUnit XML，不需要写适配器。FAIL→failure、超时→error、BLOCKED/SKIP→skipped |
+| `report.html` | 评审会、发给他人 | 单文件、无外链、无 CDN，双击即可看；带逐条明细与基线差异 |
+| `ATTEST.json` / `ATTEST.md` | 第三方复核 | 本次全部产物的 sha256 清单 + `manifest_sha256` + 环境指纹 + 被测仓提交号。别人重算哈希就知道有没有被改过 |
+
+```bash
+python run.py --attest                                    # 连存证一起出
+python run.py --guide                                     # 不懂参数：三个问题替你选好
+python run.py --only s02 --subject ../uibc-core           # 只查一组
+python run.py --baseline baseline/2026-11.json            # 用指定基线判回归
+```
+
+平台差异不走"另存一份基线"（那等于让判据跟着平台漂）：`baseline/<平台>.json` 里只登记
+`excludes`——本平台**本来就不产出**的用例，写清理由，避免每次刷一屏"消失"。
+
+## 跟别的一致性测试台比，差在哪、好在哪
+
+同类的公开台子（都读过一遍，取它们的强项补自己的短板）：
+
+| 台子 | 它的强项 | 我们做了什么 |
+|---|---|---|
+| WPT / wpt.fyi | 机器可读报告 + **expectations 基线**用于 CI 回归；结果可上传比对 | 机读 `summary.json` + 基线回归（时间维度），并比它多一层"平台差异单独立档" |
+| OpenID conformance suite | **Guided 模式**：新手按生态/角色选测试计划，不用懂内部；结果可发布 | `--guide` 三个问题选路；`report.html` 可直接发给评审人 |
+| CNCF conformance（Sonobuoy） | "任何终端用户都能用同一个开源工具确认合规"；跑完出可归档报告包 | `ATTEST.json` 哈希存证 + 归档目录，第三方拿到即可复算 |
+| PTA / MCP 等新兴 harness | 同时出 TAP 与 JSON，`--fail-fast`、插件化 | JUnit + JSON 双格式；组级超时与整树 kill 比 `--fail-fast` 更安全 |
+
+我们与它们的**实质差别**在判词语义：它们大多"有用例失败 → 进程退非 0"。我们把两件事拆开——
+
+- 退出码只说**台子自己**好不好（组跑完没、超时没、相对基线有没有回归）；
+- 用例级 FAIL 是被测方的结论，单独统计，并标注"其中相对基线新增 N 条"。
+
+这样外人第一次跑不会被"红"吓退，也不会把被测方的历史缺陷算到台子头上；要严格发版，用 `--strict`。
+
 ## 目录
 
 ```
 uibc-实测台/
 ├─ README.md              本文件
 ├─ baseline.json          基线：仓库提交号、Python/Node 版本、场景清单、已知缺陷清单
+├─ baseline\<平台>.json   平台差异补充登记（只写"本平台本来不产出"的用例与理由，不另立判据）
+├─ bench_report.py        导出 JUnit / report.html / ATTEST（产物哈希清单）
+├─ .github\workflows\bench.yml  Windows + Linux 双平台 --quick 流水线，产物作为 artifact 上传
 ├─ thresholds.json        性能阈值（F 组用；改阈值就是改判据，需在场景清单写理由）
-├─ VERSION                当前版本号（v0.4.5 = 141 用例；含 I 组互操作与 AITB 接入）
+├─ VERSION                当前版本号（0.4.40 = 台子 v0.4.39 + 交付层三件产物）
 ├─ run.py                 **单一入口**（跨平台）：选组、每组超时、跑完出一张表 + summary.json；退出码 0/1/2
 ├─ QUICKSTART.md          三分钟上手、判定词义（PASS/FAIL/BLOCKED/REFERENCE/TIMEOUT）、常见卡点
 ├─ first_run.py           一键首跑（陌生人 5 步内跑出结论，见 FIRST-RUN.txt）

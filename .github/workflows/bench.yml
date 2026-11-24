@@ -1,0 +1,59 @@
+name: bench
+
+# 为什么有这条流水线：一致性测试台的价值在于"任何人、任何时间，用同一条命令得到可比的结论"。
+# 这里把两个平台各跑一遍 --quick，把 JUnit + HTML + 存证作为 artifact 传上去，
+# 评审时不用信任何人贴的截图，直接看这次运行的产物。
+#
+# 不跑全量（--quick 跳过 s04/s05/s08）：s04 是被测仓的全量单测，约 6–8 分钟，
+# 放在这里会拖慢每次 push；要全量请手动触发并选 full。
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "跑全量（会多花 6–8 分钟）"
+        type: boolean
+        default: false
+
+jobs:
+  bench:
+    name: ${{ matrix.os }} · py${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ["3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      # 被测仓是公开仓；生产使用时换 --subject 指向你自己的实现即可
+      - name: 取被测仓
+        shell: bash
+        run: git clone --depth 1 https://github.com/zhaoxinghua09-cell/uibc-core uibc-core-public
+
+      - name: 台子活着的快速确认（--quick）
+        if: ${{ !inputs.full }}
+        shell: bash
+        run: python run.py --quick --subject ./uibc-core-public --attest
+
+      - name: 全量
+        if: ${{ inputs.full }}
+        shell: bash
+        run: python run.py --subject ./uibc-core-public --attest
+
+      - name: 上传产物（JUnit / HTML / summary / 存证）
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-${{ matrix.os }}
+          path: |
+            runs/**
+          if-no-files-found: warn
