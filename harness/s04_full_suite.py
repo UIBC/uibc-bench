@@ -7,7 +7,8 @@ import json, os, re, subprocess, sys, time, traceback
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 KIT = os.path.dirname(HERE)
-REPO = os.path.join(KIT, "uibc-core-public")
+import _subject  # 统一解析：UIBC_SUBJECT 优先，其次 <bench根>/uibc-core-public
+REPO = _subject.resolve(require=False) or os.path.join(KIT, "uibc-core-public")
 PY = sys.executable
 RESULTS = []
 

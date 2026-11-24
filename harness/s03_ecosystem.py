@@ -8,7 +8,8 @@
 import json, os, shutil, subprocess, sys, tempfile, threading, time, traceback, hashlib, re
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-REPO = os.path.abspath(os.path.join(HERE, "..", "uibc-core-public"))
+import _subject  # 统一解析：UIBC_SUBJECT 优先，其次 <bench根>/uibc-core-public
+REPO = _subject.resolve()
 PY = sys.executable
 RESULTS = []
 CN_DIR = os.path.join(tempfile.gettempdir(), "实测_中国信通院 身份码 场景")
