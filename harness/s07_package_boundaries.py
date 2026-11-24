@@ -8,7 +8,8 @@ import json, os, shutil, subprocess, sys, tempfile, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 KIT = os.path.dirname(HERE)
-REPO = os.path.join(KIT, "uibc-core-public")
+import _subject  # 统一解析：UIBC_SUBJECT 优先，其次 <bench根>/uibc-core-public
+REPO = _subject.resolve(require=False) or os.path.join(KIT, "uibc-core-public")
 PY = sys.executable
 RESULTS = []
 
@@ -245,7 +246,8 @@ def preflight():
     否则会出现最危险的情况：解释器缺依赖 → CLI 非零退出 → 被我们当成"拒绝 → PASS"的假绿灯。
     （2026-11-23 用 Python 3.12 实跑时真的发生过一次，故在此设门。）"""
     if not os.path.isdir(REPO):
-        rec("G0 环境自检", "BLOCKED", "未找到 uibc-core-public，先执行 .\\setup.ps1")
+        rec("G0 环境自检", "BLOCKED",
+        "未找到被测仓。传 --subject <uibc-core 目录>、设 UIBC_SUBJECT，或克隆到 ./uibc-core-public（git clone --depth 1 <repo> uibc-core-public）")
         return False
     # 注意：不能用 --help 做预检——它不加载加密库，会给出"能跑"的假象；
     # 必须跑一条真的会产生密钥的命令（keygen），才能确认依赖齐全。

@@ -3,6 +3,21 @@
 每一行对应一个 tag，格式：版本 / 日期 / 一行改动 / 证据在哪。
 **没有复跑日志的「修好了」不进这张表。**
 
+## v0.4.37 — 2026-11-24
+
+主题：**从"只有我这台机器能跑"改成"别人 clone 下来就能跑"**。这一版全是可用性修复，不动任何判据。
+
+- **单一入口 `run.py`（跨平台）**：原先只有 `run_all.ps1`，Linux/macOS 的人根本进不来。现在一条命令：
+  `python run.py` / `--quick` / `--only s10,s02b` / `--subject <dir>` / `--timeout N` / `--list`
+- **每组超时真的生效**：`run_all.ps1` 声明了 `-TimeoutSec` 却**从未使用**，任何一组卡住整轮就不结束——外部使用者第一次跑就会撞上。现在超时即终止并记 `TIMEOUT`，其余组继续
+- **被测仓统一解析（真问题）**：`s03/s04/s05/s07` 各自硬写 `<bench根>/uibc-core-public`，无视 `UIBC_SUBJECT`/`--subject`。后果是同一次运行里一半组测 A 仓、一半组仍是 `BLOCKED`/`ERROR`。新增 `harness/_subject.py` 后实测：同样指定被测仓，这四组从 **FAIL+ERROR+BLOCKED 变成 46 个 PASS**（s03 27、s04 5、s05 2、s07 12）
+- **退出码语义改对**：以前"有用例 FAIL"就退 1，外人会以为 bench 自己跑挂了。现在退 1 只表示**台子坏掉**（组非 0 退出/超时/无产物）或**相对基线回归/用例消失**；用例 FAIL 是被测仓的结论，单列统计
+- **`QUICKSTART.md`**：三分钟上手、五个判定词的含义、常见卡点表；README 抬头去掉本机私有路径与联接点描述
+- `run_all.ps1` 改为转调 `run.py`（旧参数保留），逻辑只留一份
+- 新增 `--update-baseline`（改基线=改判据，仍只在你确认后手动用）
+- 本机实跑（Windows，被测仓 main）：**11 组全有产物，PASS=90 FAIL=10 BLOCKED=10 REFERENCE=1 SKIP=5，总耗时约 6.5 分钟**；s04 最慢（313s，跑被测仓全量单测）
+- 证据：`runs/<时间戳>/summary.json`、`baseline_diff.json`
+
 ## v0.4.36 — 2026-11-24
 
 - **s10 补上"带盐可判"这一档**：新增 I15–I18（`harness/s10_identity_code_interop.py`），把校验码从"永远只能判未验证"推进到"有盐判对错"

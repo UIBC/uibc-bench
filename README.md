@@ -1,7 +1,16 @@
 # 信通院身份码 · 实测台（uibc 实测台）
 
-一个**固定路径、可反复复跑、能对比基线**的测试台。不依赖任何一次聊天会话，
-放在 `C:\Users\SZYL\Doubao\uibc-实测台`，聊天目录里用联接点 `测试台` 直达。
+一个**可反复复跑、能对比基线、结论可被外人复算**的测试台。不依赖任何一次聊天会话，也不依赖我的本机路径。
+
+**先跑起来（三分钟）**：装 Python 3.10+，克隆 bench 与被测仓，然后
+
+```bash
+python run.py            # 全部 11 组
+python run.py --quick    # 跳过最慢的三组，约 30 秒
+```
+
+完整上手、退出码含义、常见卡点见 [QUICKSTART.md](QUICKSTART.md)。跨平台：Windows / Linux / macOS 同一条命令，
+除标准库外无依赖（node 可选）。
 
 ## 它解决什么问题
 
@@ -19,11 +28,13 @@ uibc-实测台/
 ├─ baseline.json          基线：仓库提交号、Python/Node 版本、场景清单、已知缺陷清单
 ├─ thresholds.json        性能阈值（F 组用；改阈值就是改判据，需在场景清单写理由）
 ├─ VERSION                当前版本号（v0.4.5 = 141 用例；含 I 组互操作与 AITB 接入）
+├─ run.py                 **单一入口**（跨平台）：选组、每组超时、跑完出一张表 + summary.json；退出码 0/1/2
+├─ QUICKSTART.md          三分钟上手、判定词义（PASS/FAIL/BLOCKED/REFERENCE/TIMEOUT）、常见卡点
 ├─ first_run.py           一键首跑（陌生人 5 步内跑出结论，见 FIRST-RUN.txt）
 ├─ package.ps1           打可分发包（zip 带顶层目录 + sha256）
 ├─ dist\                  分发包与 git bundle（给别人/归档用）
-├─ setup.ps1              一次性准备（克隆/更新仓库、建虚拟环境、生成自签证书、自检）
-├─ run_all.ps1            一键跑全部场景，产物落 runs\<时间戳>\
+├─ setup.ps1              Windows 便捷脚本：一次性准备（克隆/更新仓库、建虚拟环境、自检）；非必需
+├─ run_all.ps1            Windows 便捷脚本：转调 run.py（保留旧用法，`-TimeoutSec` 现在真的生效）
 ├─ compare_baseline.py    与基线比对，输出回归/修复清单（退出码 0=无回归）
 ├─ cases\场景清单.md       场景矩阵登记表：谁测的、测什么、判据、当前状态
 ├─ harness\               场景脚本，一个文件一个场景组
