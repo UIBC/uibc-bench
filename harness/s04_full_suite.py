@@ -99,6 +99,13 @@ def run_stream(args, outfile, cwd=REPO, timeout=900):
 
 
 def d1_unittest():
+    if not os.path.isdir(REPO):
+        # 没有被测仓就干净地说清楚，而不是让子进程在不存在的工作目录里抛
+        # NotADirectoryError（WinError 267）——那是给不出结论的错误。
+        rec("D1 外人全量单测", "BLOCKED",
+            "找不到被测仓 %s。传 --subject <uibc-core 目录>、设 UIBC_SUBJECT，"
+            "或克隆到 ./uibc-core-public" % REPO)
+        return
     fp = fingerprint()
     rec("D0 环境指纹", "INFO",
         "%s / %s / py%s / %s核 / 时区 %s / 磁盘余 %.1fGB / github:%s / iaisp:%s" % (
@@ -165,7 +172,11 @@ def d1_unittest():
     if len(fails) >= 30 and str(fp.get("repo_autocrlf", "")).lower() in ("true", "input"):
         note += "｜疑因默认克隆行尾改写（本副本 autocrlf=%s），根因与判据见 E1 组" % fp["repo_autocrlf"]
     rec("D1 外人全量单测", "PASS" if ok else "FAIL", note.strip(),
-        {"failures": [f"{k}:{v}" for k, v in fails][:40], "tail": lines[-6:],
+        # fails 现在是 pytest 的 nodeid 字符串（`FAILED path::nodeid`），不要再按元组解包：
+        # 2026-11-24 v0.4.38 第一版在这里留着旧的两元解包，Windows 上只要有 1 条失败就
+        # ValueError（too many values to unpack），整组被记成 ERROR——Linux 上恰好 0 失败，
+        # 所以只在 Windows 暴露。这正是"只在一种平台上验过就等于没验"的实例。
+        {"failures": [str(f) for f in fails][:40], "tail": lines[-6:],
          "log": "runs/d1_unittest_v.log", "retried": retried, "fingerprint": fp})
     if skips:
         kinds = sorted(set(skips))
@@ -176,7 +187,7 @@ def d1_unittest():
         print("[INFO ] github.com 不可达（%s），D1 用时 %.0fs 属正常范围" % (fp["github_unreachable"], dt))
     if fails:
         mods = {}
-        for _, name in fails:
+        for name in fails:
             mods[name] = mods.get(name, 0) + 1
         rec("D1 失败集中在哪些测试", "INFO", json.dumps(mods, ensure_ascii=False)[:400])
 
