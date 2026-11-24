@@ -12,3 +12,4 @@ __pycache__/
 cases/_scratch/
 mutants/
 .venv312/
+tools/interop/node_modules/

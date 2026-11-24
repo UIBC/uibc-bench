@@ -16,7 +16,8 @@ import json, os, platform, shutil, subprocess, sys, tempfile, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 KIT = os.path.dirname(HERE)
-REPO = os.path.join(KIT, "uibc-core-public")
+import _subject  # noqa: E402  被测仓只从一个入口定位，见 _subject.py 的历史说明
+REPO = _subject.resolve()
 PY = sys.executable
 RESULTS = []
 

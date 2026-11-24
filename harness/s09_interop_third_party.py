@@ -12,7 +12,8 @@ import json, os, ssl, subprocess, sys, threading, time, http.server, socketserve
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 KIT = os.path.dirname(HERE)
-REPO = os.path.join(KIT, "uibc-core-public")
+import _subject  # noqa: E402  被测仓只从一个入口定位，见 _subject.py 的历史说明
+REPO = _subject.resolve()
 PKI = os.path.join(KIT, "_pki")
 INTEROP = os.environ.get("UIBC_INTEROP_DIR") or os.path.join(KIT, "runs", "_interop")
 RESULTS = []
@@ -153,19 +154,39 @@ def main():
         "port=%d 文档=%d 字节 公钥 %s…" % (port, len(json.dumps(Handler.doc)), mb[:14]),
         {"port": port, "did": did, "multibase": mb})
 
+    # 2026-11-25 改判。被测仓把 did:web 的主机策略搬进了解析契约（回环/私网一律拒），
+    # 于是"我方解析本地回环 did:web"这个前提被它自己的策略作废了：原来 I1 拿注入
+    # fetcher 去解析 127.0.0.1、判 PASS，等于要求实现允许指向内网的解析——那个期望本身是错的。
+    # 拆成三条，每条只断言一件真的能成立的事：
+    #   I1  注入 fetcher 时也必须拒 → 策略在解析层，不在传输层（这条正是把 11-25 的修复钉住）
+    #   I1b 不注入 fetcher（真实传输）同样拒
+    #   I2  取公钥：回环被拒就取不到 → BLOCKED，并写明缺的前置是"一个公网 did:web 目标"
+    #       （不拿注入 fetcher 绕过策略去伪造这条，那样测的是被策略禁止的路径）
     ours, ours_key = None, None
+
     t0 = time.time()
     try:
         ours = U.resolve(did, timeout=10, fetcher=fetch_unverified)
-        vm = (ours.get("verificationMethod") or [{}])[0]
-        rec("I1 我方解析 did:web", "PASS",
-            "id=%s vm=%s type=%s %.0fms" % (ours.get("id"), vm.get("id"), vm.get("type"),
-                                            (time.time() - t0) * 1000))
-        ours_key = U.resolve_ed25519_key(did, timeout=10, fetcher=fetch_unverified)
-        rec("I2 我方取公钥", "PASS" if ours_key[0] == pk else "FAIL",
-            "32 字节与宿主一致=%s vm=%s" % (ours_key[0] == pk, ours_key[1]))
+        rec("I1 注入 fetcher 也拒回环", "FAIL",
+            "解析成功（id=%s）：主机策略只在传输层，调用方自带 fetcher 就能绕过" % ours.get("id"),
+            {"kind": "SSRF", "severity": "中高"})
     except Exception as e:
-        rec("I1 我方解析 did:web", "FAIL", "异常 %r" % (repr(e)[:120],))
+        hit = "public address" in str(e)
+        rec("I1 注入 fetcher 也拒回环", "PASS" if hit else "FAIL",
+            "%s: %s（%.0fms）" % (type(e).__name__, str(e)[:100], (time.time() - t0) * 1000))
+
+    t0 = time.time()
+    try:
+        U.resolve(did, timeout=10)
+        rec("I1b 真实传输同样拒", "FAIL", "不带 fetcher 也解析成功：回环没有被拒")
+    except Exception as e:
+        hit = "public address" in str(e)
+        rec("I1b 真实传输同样拒", "PASS" if hit else "FAIL",
+            "%s: %s（%.0fms）" % (type(e).__name__, str(e)[:100], (time.time() - t0) * 1000))
+
+    rec("I2 我方取公钥", "BLOCKED",
+        "回环 did:web 被策略拒绝，取不到公钥。缺的前置：一个公网 did:web 目标（需网络）；"
+        "本组不用注入 fetcher 绕过策略来伪造这一条", {"needs": "public did:web target"})
 
     t0 = time.time()
     theirs = third_party(did)
@@ -185,28 +206,17 @@ def main():
 
     if theirs is None:
         pass  # I4–I6 已在上方按依赖缺失记为 BLOCKED，不再重复记一条 FAIL
-    elif not (isinstance(ours, dict) and ours.get("id")):
-        rec("I4 两实现逐字段比对", "BLOCKED", "我方解析未成功，无可比对对象")
-    elif not theirs.get("ok"):
-        rec("I4 两实现逐字段比对", "FAIL",
-            "第三方未成功解析（%s），比对无法成立" % theirs.get("error"),
-            {"result": theirs})
-    else:
-        diffs = []
-        if ours.get("id") != theirs.get("didDocumentId"):
-            diffs.append("文档 id：%r vs %r" % (ours.get("id"), theirs.get("didDocumentId")))
-        vmo = (ours.get("verificationMethod") or [{}])[0]
-        if vmo.get("id") != theirs.get("vmId"):
-            diffs.append("vm id：%r vs %r" % (vmo.get("id"), theirs.get("vmId")))
-        if vmo.get("type") != theirs.get("vmType"):
-            diffs.append("vm type：%r vs %r" % (vmo.get("type"), theirs.get("vmType")))
-        if vmo.get("publicKeyMultibase") != theirs.get("publicKeyMultibase"):
-            diffs.append("公钥：%r vs %r" % (vmo.get("publicKeyMultibase"),
-                                          theirs.get("publicKeyMultibase")))
-        rec("I4 两实现逐字段比对", "PASS" if not diffs else "FAIL",
-            "id/vm/type/公钥 全部一致" if not diffs else "；".join(diffs)[:220],
-            {"diffs": diffs})
-
+    elif ours is None:
+        # 逐字段比对需要两边都拿到文档。我方现在按策略拒绝回环，客观上没有可比对对象；
+        # 记 BLOCKED 而不是"通过"，同时把分歧本身单独判一条——分歧是设计，不是缺陷，
+        # 但必须由机器证明它确实按设计发生了，而不是嘴上说。
+        rec("I4 两实现逐字段比对", "BLOCKED",
+            "我方按策略拒绝回环，没有可比对对象。要恢复这条：给一个公网 did:web 目标，"
+            "两边都解析同一份文档再比", {"needs": "public did:web target"})
+        ok4 = theirs.get("ok") is True
+        rec("I4b 策略分歧按设计发生", "PASS" if ok4 else "FAIL",
+            "我方拒回环 / 第三方成功解析=%s（第三方无主机策略，这是分歧的全部内容）" % theirs.get("ok"),
+            {"th": theirs})
     def _tp_error(d):
         """第三方真的给出了自己的错误码（而不是我们脚本/node 自身故障）。"""
         e = (d or {}).get("error") or ""

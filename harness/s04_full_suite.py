@@ -18,8 +18,30 @@ def rec(case, verdict, note="", extra=None):
     print("[%-5s] %-44s %s" % (verdict, case, note))
 
 
+def _tmp_env():
+    """把临时目录钉到被测仓所在盘。
+
+    2026-11-25 实测（Windows，bench 在 F:、系统 TEMP 在 C:）：被测仓
+    tests/test_crosswalk_probe.py 用 tempfile 造文件再与被测仓算相对路径，
+    `ntpath.relpath` 跨盘直接抛 ValueError: path is on mount 'C:', start on
+    mount 'F:'，7 条用例全红。那不是被测仓的缺陷，是台子让临时目录跟被测仓
+    分了盘。CI 单盘永远看不到，外人（尤其 Windows 用户）一跑就中。
+    """
+    if os.name != "nt":
+        return {}
+    drive = os.path.splitdrive(os.path.abspath(REPO))[0]
+    if not drive:
+        return {}
+    d = os.path.join(drive + os.sep, "_uibc_bench_tmp")
+    try:
+        os.makedirs(d, exist_ok=True)
+    except Exception:
+        return {}
+    return {"TEMP": d, "TMP": d, "TMPDIR": d}
+
 def run(args, cwd=REPO, timeout=900, env=None):
     e = dict(os.environ); e.update(env or {}); e.setdefault("PYTHONIOENCODING", "utf-8")
+    e.update(_tmp_env())
     e["PYTHONPATH"] = REPO + (os.pathsep + e["PYTHONPATH"] if e.get("PYTHONPATH") else "")
     t0 = time.time()
     p = subprocess.run([PY] + args, cwd=cwd, capture_output=True, text=True,
@@ -79,6 +101,7 @@ def run_stream(args, outfile, cwd=REPO, timeout=900):
     谁也无法判断卡在哪条用例。改成落盘流式输出：超时也留证据。
     """
     e = dict(os.environ); e.setdefault("PYTHONIOENCODING", "utf-8")
+    e.update(_tmp_env())
     e["PYTHONPATH"] = REPO + (os.pathsep + e["PYTHONPATH"] if e.get("PYTHONPATH") else "")
     os.makedirs(os.path.dirname(outfile), exist_ok=True)
     t0 = time.time()
