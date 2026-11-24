@@ -82,9 +82,12 @@ jobs:
 
       # 被测仓的验证路径用 cryptography/asn1crypto（见其 pyproject 的 [verify] extra）。
       # 不装的话，B0 组会以 ModuleNotFoundError 报 BLOCKED——那是台子没备料，不是被测仓有问题。
-      - name: 装被测仓依赖（[verify] extra）
+      # [test] 也不能少：D1 跑的是被测仓自己的 pytest 全量，缺 pytest 时 `python -m pytest`
+      # 0 秒就 exit 1，D1 会红成"被测仓全量挂"，实际一个用例都没跑（2026-11-25 首次全量 CI
+      # 就踩了这个：用例=-1 失败=0 用时=0s）。所以这里连 [test] extra 一起装。
+      - name: 装被测仓依赖（[verify] + [test] extra）
         shell: bash
-        run: python -m pip install "./uibc-core-public[verify]"
+        run: python -m pip install "./uibc-core-public[verify,test]"
 
       # 跨实现对照那一组（s09）要的是"另一方的实现"，不是另一份本仓代码：
       # uport/Veramo 生态的 did-resolver + web-did-resolver（版本钉在 tools/interop/package.json）。
