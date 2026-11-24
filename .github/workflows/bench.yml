@@ -41,9 +41,40 @@ jobs:
           python-version: ${{ matrix.python }}
 
       # 被测仓是公开仓；生产使用时换 --subject 指向你自己的实现即可
-      - name: 取被测仓
+      #
+      # 钉住提交号而不是取 HEAD：基线比的是"同一份被测代码的判定"，不是"今天的
+      # 被测代码"。取 HEAD 的话，被测仓每合一次改动，这边就多一条"回归"——红的
+      # 原因压根不在这条台子上。台子一红就该信，不能红成常态。
+      # 钉的值来自 baseline.json 的 subject_head，也就是这份基线记录时测的那棵树的提交。
+      - name: 读基线钉住的被测仓提交
+        id: pin
         shell: bash
-        run: git clone --depth 1 https://github.com/zhaoxinghua09-cell/uibc-core uibc-core-public
+        run: |
+          PIN=$(python -c "import json;print(json.load(open('baseline.json',encoding='utf-8'))['subject_head'])")
+          echo "subject_pin=$PIN" >> "$GITHUB_OUTPUT"
+          echo "被测仓钉在 \`$PIN\`（baseline.json 的 subject_head）" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 取被测仓（钉住的提交）
+        shell: bash
+        run: |
+          git init -q uibc-core-public
+          cd uibc-core-public
+          git remote add origin https://github.com/zhaoxinghua09-cell/uibc-core
+          git fetch -q --depth 1 origin "${{ steps.pin.outputs.subject_pin }}"
+          git checkout -q FETCH_HEAD
+          git log --oneline -1
+
+      # 被测仓 HEAD 已经往前走了多少，如实报出来，但不判红：
+      # 基线老了是需要"刷基线"的信号，不是这条流水线坏了。刷不刷是人的决定。
+      - name: 报告被测仓漂移（不判红）
+        shell: bash
+        run: |
+          cd uibc-core-public
+          PINNED=$(git rev-parse HEAD)
+          git fetch -q --depth 50 origin main || true
+          AHEAD=$(git rev-list --count "$PINNED"..origin/main 2>/dev/null || echo "未知")
+          echo "被测仓 main 比基线钉住的提交多 \`$AHEAD\` 个提交。" >> "$GITHUB_STEP_SUMMARY"
+          echo "若判定因此有变化，那是基线老了，要单独一次提交重录基线（等于改判据，须在 CHANGELOG 写明哪几条、为什么）。" >> "$GITHUB_STEP_SUMMARY"
 
       # 被测仓的验证路径用 cryptography/asn1crypto（见其 pyproject 的 [verify] extra）。
       # 不装的话，B0 组会以 ModuleNotFoundError 报 BLOCKED——那是台子没备料，不是被测仓有问题。
