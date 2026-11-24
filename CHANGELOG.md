@@ -3,6 +3,31 @@
 每一行对应一个 tag，格式：版本 / 日期 / 一行改动 / 证据在哪。
 **没有复跑日志的「修好了」不进这张表。**
 
+## v0.4.41 — 2026-11-25
+
+第一次真的把这条流水线交给 GitHub 的双平台 runner，就抓出三个"只在我这台机器上成立"的假设：
+
+- **编码**：windows-latest 的控制台是 cp1252，`run.py` 打的一行 `◀` 直接 `UnicodeEncodeError`，job exit 1。
+  本机 cp936 编得出来，所以从来没暴露。现在 `run.py` 起手把 stdout/stderr 重设为 UTF-8（`errors="replace"`），
+  子进程也注入 `PYTHONUTF8=1` / `PYTHONIOENCODING=utf-8`，workflow 再钉一层同名环境变量。
+- **备料**：被测仓的验证路径要 `cryptography`（`[verify]` extra），CI 没装，B0 组全 BLOCKED、
+  s01 平白多出 7 条 FAIL。workflow 增加 `pip install "./uibc-core-public[verify]"`；QUICKSTART 增 §1.5 写清这一步。
+- **性能判据不能跨宿主**：`F1` 的 300ms 阈值在家宽成立、在共享 runner 上必然误报（实测 P50≈950ms）。
+  设了 `CI` 且没给 `UIB_PROFILE` 时，`F1` 三项只测量、记 `REFERENCE`，不参与判据；要判性能就在目标网络里指定档位。
+
+## v0.4.40 — 2026-11-24
+
+主题：**把"跑得出结论"升级为"结论能被别人接走"**。台子判定逻辑一字未改，新增的全是交付层与可复核层。
+
+- 新增 `bench_report.py`：每次运行自动落 `results.junit.xml`（CI 零适配读取）、`report.html`（单文件、无外链、给人看）、`ATTEST.json` + `ATTEST.md`（全部产物 sha256 + `manifest_sha256` + 环境指纹 + 被测仓提交号，第三方可复算）
+- 新增 `--attest` / `--no-junit` / `--no-html` / `--baseline <file>` / `--guide`（三个问题替新手选好要跑的组）
+- 新增 `baseline/<平台>.json` 的 `excludes` 机制：把"本平台本来就不产出"的用例单独立档，避免每次刷屏"消失"。**判据仍只有 `baseline.json` 一份，excludes 不影响任何判定值，也不影响 `--strict`**
+- 新增 `.github/workflows/bench.yml`：Windows + Linux 双平台 `--quick` 流水线，JUnit/HTML/存证作为 artifact 上传；可手动触发全量
+- 修 `compare_baseline.py`：`--strict-missing` 之前只写在 `run.py` 的调用里、对方并不认这个参数（`--strict` 一开就 argparse 报错）；现在对方真的接收，且"消失"默认不再单独导致退 1（由 `run.py` 按 `--strict` 统一裁决）
+- 订正 `QUICKSTART.md` 退出码口径（仍是 v0.4.37 定下的语义，文档还留在旧写法）；README 增补"结论怎么被接走""跟别的一致性测试台比"两节
+- 复验：Windows `--quick --only s10,s02b,s06` 冒烟 → JUnit 可被 `ElementTree` 解析（23 例、3 skipped）、HTML 生成、存证生成、exit 0；`--guide` 非交互可跑
+- 证据：`runs/<时间戳>/results.junit.xml`、`report.html`、`ATTEST.json`
+
 ## v0.4.39 — 2026-11-24
 
 主题：把 v0.4.38 里**只在 Linux 验过**的那一版 D1 修到两个平台都成立。教训写在最前面：一种平台验过不等于验过。

@@ -1,0 +1,21 @@
+{
+ "platform": "linux",
+ "updated": "2026-11-24",
+ "why": "这些用例本来就只在一个平台产出（Windows 克隆 / 代码页 / 行尾配置），在 Linux 上\"没产出\"是正常现象。登记在这里是为了既不放松判据（判据仍只有 baseline.json 一份），又不再每次刷屏\"消失\"提示。判据本身不变：能产出的用例照样逐条比判定值。",
+ "excludes": [
+  "D1 跳过原因归档",
+  "E1 .gitattributes 是否覆盖 tests/fixtures",
+  "E1 受影响模块在默认克隆下",
+  "E1 字节锚定文件匹配",
+  "E1 实际行尾配置",
+  "E1 行尾改写文件数",
+  "E1 默认配置克隆仓库",
+  "M4 控制台编码 cp936 下 CLI"
+ ],
+ "evidence": {
+  "run": "runs/20261124_231016",
+  "subject_head": "25962f1",
+  "note": "Linux 全量：11 组全有产物、PASS=94 FAIL=7、相对基线回归 0、exit 0"
+ },
+ "also_see": "Windows 上同样存在平台专属用例（cp936 / 默认克隆），若日后 Windows 侧也出现固定的\"消失\"，按同一格式建 baseline/windows.json"
+}

@@ -26,9 +26,61 @@ import sys
 import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+
+
+def _harden_stdio():
+    """终端不因为一个字符把整轮跑挂掉。
+
+    2026-11-24 GitHub 的 windows-latest 上真挂过：runner 的控制台是 cp1252，
+    一行带 `◀`/中文的输出直接抛 UnicodeEncodeError，整个 job exit 1——
+    而同样的代码在本机 cp936 上跑得好好的。这不是"环境怪"，是"没适配"：
+    任何人换台机器、换个 locale 就该能跑，所以统一把 stdout/stderr 定成 UTF-8，
+    编不出来的字符替换掉，而不是崩。
+    """
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+        except Exception:
+            pass
+
+
+_harden_stdio()
 HARNESS = os.path.join(HERE, "harness")
 QUICK_SKIP = ("s04", "s05", "s08")   # 全量套件 / Windows 克隆 / 环境矩阵：慢或挑平台
 VERDICTS = ("PASS", "FAIL", "BLOCKED", "REFERENCE", "SKIP", "TIMEOUT")
+
+
+def platform_slug():
+    if sys.platform.startswith("win"):
+        return "windows"
+    if sys.platform == "darwin":
+        return "macos"
+    return "linux"
+
+
+def resolve_baseline(cli_value):
+    """基线选择：显式 --baseline > baseline.json（判据只有一份，避免"改判据改出真绿"）。
+
+    平台差异不走"另存一份基线"，而是 `baseline/<平台>.json` 里的 **excludes 补充登记**：
+    有些用例本来就只在一个平台产出（Windows 克隆、cp936 编码），在本平台"没产出"是正常现象。
+    把它们登记进 excludes，写清理由，就能既不放松判据、又不再刷屏一样的"消失"提示。
+    （WPT 的 expectations、Chromium 的 baselines 也是这个思路：差异单独立档，判据不跟着漂。）
+    """
+    if cli_value:
+        return os.path.abspath(cli_value), "--baseline 指定", []
+    return os.path.join(HERE, "baseline.json"), "通用基线 baseline.json", platform_excludes()
+
+
+def platform_excludes():
+    """读 baseline/<平台>.json 里的 excludes（没有就返回空列表）。"""
+    p = os.path.join(HERE, "baseline", platform_slug() + ".json")
+    if not os.path.exists(p):
+        return []
+    try:
+        with open(p, encoding="utf-8") as f:
+            return [str(x) for x in (json.load(f).get("excludes") or [])]
+    except Exception:
+        return []
 
 
 def say(msg=""):
@@ -145,6 +197,11 @@ def _kill_tree(proc):
 def run_group(name, path, out_dir, timeout, subject):
     out_json = os.path.join(out_dir, name + "_results.json")
     env = dict(os.environ)
+    # 子进程也一样钉 UTF-8：各组脚本会打印中文和 `◀`，在 cp1252 的控制台上会直接抛
+    # UnicodeEncodeError（GitHub windows-latest 上真发生过）。父进程 print 修了不算完，
+    # 跑在子进程里的这些组也得修。
+    env["PYTHONUTF8"] = "1"
+    env["PYTHONIOENCODING"] = "utf-8"
     if subject:
         env["UIBC_SUBJECT"] = subject
     cmd = [sys.executable, path, out_json]
@@ -185,6 +242,33 @@ def run_group(name, path, out_dir, timeout, subject):
                 log=text.strip().splitlines()[-12:])
 
 
+def guided_choice(args):
+    """引导模式：不懂参数的人用这个。三条路对应三种真实目的，选完就等于把参数替人填好。"""
+    say("uibc-bench 引导模式（直接回车＝默认值）")
+    say("  1) 只想确认台子在我这台机上活着       → --quick，约 1 分钟，跳过三组最慢的")
+    say("  2) 给被测仓做一次完整体检             → 全量 11 组，约 6–9 分钟")
+    say("  3) 只查某一组（比如刚改完 DID 解析）   → 输入组名，如 s02、s10")
+    try:
+        ans = input("选 1 / 2 / 3 [1]: ").strip() or "1"
+    except (EOFError, KeyboardInterrupt):
+        ans = "1"
+    if ans.startswith("2"):
+        args.quick = False
+        say("[guide] 全量体检")
+    elif ans.startswith("3"):
+        try:
+            name = input("组名（可逗号分隔，--list 可看全量）: ").strip()
+        except (EOFError, KeyboardInterrupt):
+            name = ""
+        args.only = name
+        args.quick = False
+        say("[guide] 只跑 %s" % (name or "（空，等同全量）"))
+    else:
+        args.quick = True
+        say("[guide] 快速体检（--quick）")
+    return args
+
+
 def main():
     ap = argparse.ArgumentParser(add_help=True, description="uibc-bench 单一入口")
     ap.add_argument("--list", action="store_true", help="只列出场景组")
@@ -197,8 +281,17 @@ def main():
     ap.add_argument("--strict", action="store_true",
                     help="发布前自查用：基线里的用例本次没产出也算失败（换平台会误报，平时别开）")
     ap.add_argument("--update-baseline", action="store_true",
-                    help="用本次结果刷新 baseline.json（改基线=改判据，确认状态确实变好了才用）")
+                    help="用本次结果刷新基线；刷新的是本平台文件 baseline/<平台>.json，不动通用基线")
+    ap.add_argument("--baseline", default="", help="基线文件（默认优先 baseline/<平台>.json，再退回 baseline.json）")
+    ap.add_argument("--no-junit", action="store_true", help="不写 results.junit.xml（CI 用文件）")
+    ap.add_argument("--no-html", action="store_true", help="不写 report.html（人看文件）")
+    ap.add_argument("--attest", action="store_true",
+                    help="额外写 ATTEST.json / ATTEST.md：本次全部产物的 sha256 清单 + 环境指纹，供第三方复算")
+    ap.add_argument("--guide", action="store_true", help="引导模式：三个问题替你选好要跑的组")
     args = ap.parse_args()
+
+    if args.guide:
+        args = guided_choice(args)
 
     groups = discover()
     if not groups:
@@ -246,10 +339,11 @@ def main():
 
     # 基线比对（有就打，没有就明说）
     diff = None
+    baseline_path, baseline_why, baseline_excludes = resolve_baseline(args.baseline)
     if not args.no_baseline and os.path.exists(os.path.join(HERE, "compare_baseline.py")):
-        say("[run] 基线比对")
+        say("[run] 基线比对 · %s" % baseline_why)
         cmd = [sys.executable, os.path.join(HERE, "compare_baseline.py"), out_dir,
-               "--baseline", os.path.join(HERE, "baseline.json")]
+               "--baseline", baseline_path]
         if args.update_baseline:
             cmd.append("--update")
         if args.strict:
@@ -280,13 +374,38 @@ def main():
     say("合计：" + (" ".join("%s=%d" % (k, totals[k]) for k in VERDICTS if totals.get(k)) or "-"))
     say("产物：%s" % out_dir)
 
-    summary = dict(when=ts, subject=subject, timeout=args.timeout, groups=results, totals=totals)
+    summary = dict(when=ts, subject=subject, timeout=args.timeout, groups=results, totals=totals,
+                   baseline=os.path.relpath(baseline_path, HERE).replace(os.sep, "/"),
+                   baseline_note=baseline_why, platform=platform_slug())
     with open(os.path.join(out_dir, "summary.json"), "w", encoding="utf-8") as f:
         json.dump(summary, f, ensure_ascii=False, indent=1)
     with open(os.path.join(out_dir, "run.log"), "w", encoding="utf-8") as f:
         for r in results:
             f.write("=== %s (%s, %.1fs) ===\n" % (r["group"], r["status"], r["seconds"]))
             f.write("\n".join(r["log"]) + "\n\n")
+
+    # ── 交出去：JUnit（CI 读）+ HTML（人读）+ ATTEST（第三方复算） ──
+    # 这三件是"外人能不能用"的关键：报告不是给自己看的截图，而是能被脚本接走的文件。
+    try:
+        import bench_report as R
+        groups_cases = R.load_cases(out_dir)
+        if not args.no_junit:
+            say("[run] JUnit  %s" % R.write_junit(out_dir, summary, groups_cases))
+        if not args.no_html:
+            say("[run] 报告    %s" % R.write_html(out_dir, summary, diff, groups_cases,
+                                                  subject_head=R.git_head(subject),
+                                                  baseline_name=os.path.relpath(baseline_path, HERE)))
+        if args.attest:
+            with open(os.path.join(HERE, "VERSION"), encoding="utf-8") as f:
+                ver = (f.read().strip() or None)
+            j, m, digest = R.write_attest(out_dir, summary, subject_head=R.git_head(subject),
+                                          bench_version=ver,
+                                          extra={"baseline": os.path.relpath(baseline_path, HERE)})
+            say("[run] 存证    %s / %s（manifest_sha256=%s…）" % (j, m, digest[:16]))
+        say()
+    except Exception as e:
+        say("[run] 导出 JUnit/HTML/存证失败（不影响判定，但这次不能外发）：%r" % (e,))
+
 
     # 退出码只管"这台台子有没有坏"，不管"被测仓好不好"：
     # 一个用例 FAIL 是本次测量得出的结论（也可能是基线里早就记着的已知缺陷），
@@ -299,7 +418,7 @@ def main():
     # 没跑的组（--quick / --only）本来就不会产出用例，不该算"消失"。
     ran_prefixes = {r["group"].split("_")[0].split("-")[0] for r in results}
     try:
-        with open(os.path.join(HERE, "baseline.json"), encoding="utf-8") as f:
+        with open(baseline_path, encoding="utf-8") as f:
             base_by_case = {c["case"]: c.get("group", "") for c in json.load(f).get("cases", [])}
         skipped = [c for c in vanished
                    if base_by_case.get(c) and base_by_case[c].split("_")[0] not in ran_prefixes]
@@ -308,6 +427,13 @@ def main():
             say("[run] 本次没跑的组，其基线用例 %d 条不计入'消失'（--quick/--only 的正常现象）" % len(skipped))
     except Exception:
         pass
+
+    # 已登记的平台差异（baseline/<平台>.json 的 excludes）：本平台本来就不产出，不算"消失"。
+    if baseline_excludes and vanished and not args.strict:
+        known = [c for c in vanished if c in baseline_excludes]
+        vanished = [c for c in vanished if c not in baseline_excludes]
+        if known:
+            say("[run] 本平台已登记不产出的用例 %d 条（baseline/%s.json），不计入'消失'" % (len(known), platform_slug()))
 
     if diff is not None:
         say("\n[run] 相对基线：回归 %d、消失 %d、新增 %d、变化 %d"

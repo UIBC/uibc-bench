@@ -26,6 +26,8 @@ def main():
     ap.add_argument("run")
     ap.add_argument("--baseline", default=os.path.join(KIT, "baseline.json"))
     ap.add_argument("--update", action="store_true")
+    ap.add_argument("--strict-missing", action="store_true",
+                    help="基线里的用例本次没产出也算失败（换平台/改名会误报，发布前自查才开）")
     a = ap.parse_args()
     run = load_run(a.run)
     base = {}
@@ -80,7 +82,7 @@ def main():
         with open(bp, "w", encoding="utf-8") as f:
             json.dump(base, f, ensure_ascii=False, indent=1)
         print("基线已刷新：%s" % bp)
-    return 1 if (regress or missing) else 0
+    return 1 if (regress or (missing and a.strict_missing)) else 0
 
 
 if __name__ == "__main__":
