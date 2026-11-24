@@ -10,7 +10,7 @@ from datetime import datetime, timedelta, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from _portutil import free_port, serve_any
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "uibc-core-public")))
+import _subject
 RESULTS = []
 CA_DIR = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "_pki"))
 
@@ -156,7 +156,15 @@ def main():
 
     time.sleep(0.5)
 
-    from uibc_core import did as didmod
+    global SUBJECT, didmod
+    try:
+        didmod, SUBJECT = _subject.load("did")
+    except _subject.WrongSubjectImported as e:
+        rec("B0 被测仓对不上", "BLOCKED", str(e)[:300])
+        write_results(); return
+    except RuntimeError as e:
+        rec("B0 被测仓无法定位", "BLOCKED", " ".join(str(e).split())[:300])
+        write_results(); return
 
     # B1 回环地址是否被允许
     t0 = time.time()
@@ -277,6 +285,8 @@ def write_results():
     with open(out, "w", encoding="utf-8") as f:
         json.dump(RESULTS, f, ensure_ascii=False, indent=1)
     v = {}
+    if globals().get('SUBJECT') and globals().get('didmod'):
+        _subject.write_meta(out, SUBJECT, globals().get('didmod'), 's02')
     for r in RESULTS:
         v[r["verdict"]] = v.get(r["verdict"], 0) + 1
     print("=== 汇总 %s ===" % v)

@@ -3,6 +3,40 @@
 每一行对应一个 tag，格式：版本 / 日期 / 一行改动 / 证据在哪。
 **没有复跑日志的「修好了」不进这张表。**
 
+## v0.4.42 — 2026-11-25
+
+主题：**被测仓出处必须是可证的，不是我口头的**。起因是 s02 组在三台机器上给出三种结论，
+而代码一行没差——查下去发现差的是"`import uibc_core` 到底导进来哪棵树"。
+
+- **真缺陷**：`s02` / `s02b` 自己硬写 `sys.path.insert(0, ../uibc-core-public)`，没有走 `_subject`。
+  当那个目录不存在时，这一行等于没写，`import uibc_core` 就落到解释器里已安装的那份——
+  这台机器上是一个 editable 安装，指向 `D:\wt-acps-subj\x\uibc-core-main`。于是
+  `python harness/s02b...py` 会对着**没被要求测的那棵树**出结论，且不吭声：同一组用例、
+  两台机器、两棵不同的树、两种判定。现场证据：仓根 `s02b_results.json`（22:34）三条全 FAIL，
+  同时 `runs/20261125_000450/` 同样的用例 PASS/INFO——差别只在导进来的那份 `uibc_core`。
+- **修法**：两组改走 `_subject.load()`。它先按 `UIBC_SUBJECT` → 仓内 `uibc-core-public` 定位，
+  定位不到就 `BLOCKED` 并给三条设置路径，**不再回落到解释器里已安装的包**；定位到了还会核对
+  `uibc_core.__file__` 是否落在该树内，对不上直接拒绝出结论（`WrongSubjectImported`）。
+- **存证层**：每组结果旁多一份 `<组名>_results.subject.json`（被测仓路径、实际的 `uibc_core` 文件、
+  解释器、`UIBC_SUBJECT` 取值），并写进 `ATTEST.json` 的 `subject_provenance`。
+  旁证指向的仓与 `run.py` 指定的仓不一致时，`subject_provenance_mismatch` 单独列出——
+  这条就是为了让"测错树"变成一份能被第三方看见的产物，而不是一句解释。
+  旁证写成旁挂文件而不塞进 results 列表：用例清单必须正好等于本组断言的东西，baseline 才有意义。
+- **复验**（Windows，`python run.py --only s02,s02b --no-baseline --attest --subject D:\wt-acps-subj\x\uibc-core-main`）：
+  `PASS=14`、exit 0、`ATTEST.md` 打出 `s02←…\uibc_core\did.py, s02b←…\uibc_core\did.py`、出处告警"无"；
+  无被测仓时两组均记 `BLOCKED`（含三条设置指引），不再静默导入；人为把旁证改到别的树，
+  `mismatch` 立刻报 `s02b：import 到 …\uibc-core-OTHER\…，不在指定仓 …`。
+- **证据**：`runs/20261125_smoke/`（`*.subject.json`、`ATTEST.json` 的 `subject_provenance` 段）
+- **顺手堵的一个更贵的坑**：流水线原来是 `git clone --depth 1 …/uibc-core` 取 HEAD，等于拿"今天的被测仓"
+  去比"昨天的基线"，被测仓一合改动这边就多一条"回归"。本次就当场发生了：被测仓合入
+  `did:web` 主机策略（拒绝回环）后，`I1 我方解析 did:web` 从 PASS 翻 FAIL、`B1'`/`B3'`/`B5'` 反向翻好，
+  台子被判 exit 1——红的理由完全不在台子上。现在 `baseline.json` 记 `subject_head`（完整 40 位提交号，
+  不是缩写——缩写 git 拉不到，第一版就是这么红的；也就是上一轮双平台全绿时测的那棵树 `25962f1`），
+  流水线按它钉住克隆；被测仓 main 领先多少单独打一行进
+  job summary，**不判红**。基线老了是"该重录基线"的信号，重录等于改判据，必须单独一次提交并在本表写明。
+  顺带说明：`I1` 翻 FAIL 不是被测仓的 bug，是这条用例的前提（本地回环可解析）被它自己的策略作废了，
+  重录基线时要连用例一起重设，不能把它记成"已知回归"糊过去。
+
 ## v0.4.41 — 2026-11-25
 
 第一次真的把这条流水线交给 GitHub 的双平台 runner，就抓出三个"只在我这台机器上成立"的假设：
