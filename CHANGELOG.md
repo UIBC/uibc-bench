@@ -3,6 +3,13 @@
 每一行对应一个 tag，格式：版本 / 日期 / 一行改动 / 证据在哪。
 **没有复跑日志的「修好了」不进这张表。**
 
+## v0.4.34 — 2026-11-24
+
+- 新增 I 组 **s10 身份码两套体系互操作**：`harness/s10_identity_code_interop.py`（八段国标 vs 十段 ACPs 两个读取器互为对方拒收；校验码不判；无 `VERIFIED` 出口）
+- 新增场景文档 `cases/身份码两套体系_20261124.md`，含 7 PASS / 1 REFERENCE 的逐项结果与本组边界
+- 第三方 Rust 实现（`aipmc-basic` 0.0.2）记 **REFERENCE**：引用 `uibc-core` 2026-11-24 实跑日志，本台不复算，不把它算成 PASS
+- 证据：`s10_results.json`（本机 Windows、Python 3.12 实跑，被测对象 `uibc-core` main `a3b4a82`）
+
 ## v0.4.33 — 2026-11-24
 
 - 新增 `AGENTS.md`（任何账号/会话/机器的接手入口）、`SECURITY_AND_ROLES.md`（三身份权限边界）、本 `CHANGELOG.md`
