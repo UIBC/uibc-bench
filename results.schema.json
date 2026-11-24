@@ -1,0 +1,22 @@
+{
+ "$schema": "https://json-schema.org/draft-07/schema#",
+ "title": "uibc 实测台单条结果",
+ "description": "所有场景脚本输出的数组元素必须满足本契约；字段名改动需同步 bench.py 与文档。",
+ "type": "array",
+ "items": {
+  "type": "object",
+  "required": ["case", "verdict", "note"],
+  "properties": {
+   "case": {"type": "string", "description": "用例名，全局唯一；同一用例跨运行必须同名，否则比对会当成新增"},
+   "verdict": {"type": "string", "enum": ["PASS", "FAIL", "WARN", "INFO", "BLOCKED", "ERROR"],
+               "description": "PASS 通过；FAIL 被测方问题；WARN 需人工判断；INFO 观测值；BLOCKED 环境缺失；ERROR 脚本自身出错"},
+   "note": {"type": "string", "description": "人读说明：为什么这么判、关键数字、命中序列"},
+   "ms": {"type": ["number", "null"], "description": "耗时毫秒，可选"},
+   "status": {"type": ["integer", "null"], "description": "HTTP 状态码或进程退出码，可选"},
+   "body": {"type": ["string", "null"], "description": "响应片段（已截断），可选"},
+   "extra": {"type": "object", "description": "结构化细节：kind(缺陷类别) / severity(严重度) / 原始数据"},
+   "group": {"type": "string", "description": "由 bench.py 回填的场景组名"}
+  },
+  "additionalProperties": true
+ }
+}

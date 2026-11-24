@@ -1,0 +1,42 @@
+[
+ {
+  "case": "N1 版本声明一致性",
+  "verdict": "FAIL",
+  "note": "pyproject=0.5.0；6 条 README 声明不一致",
+  "extra": {
+   "actual": "0.5.0",
+   "mismatches": [
+    {
+     "file": "README.md",
+     "line": 71,
+     "claimed": "0.4.0"
+    },
+    {
+     "file": "README.md",
+     "line": 71,
+     "claimed": "0.3.3"
+    },
+    {
+     "file": "README.md",
+     "line": 71,
+     "claimed": "0.2.1"
+    },
+    {
+     "file": "README.md",
+     "line": 71,
+     "claimed": "0.3.3"
+    },
+    {
+     "file": "README.md",
+     "line": 208,
+     "claimed": "0.3.3"
+    },
+    {
+     "file": "README.md",
+     "line": 208,
+     "claimed": "0.3.0"
+    }
+   ]
+  }
+ }
+]

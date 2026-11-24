@@ -1,0 +1,21 @@
+{
+  "_note": "性能阈值：超 warn 判 WARN，超 fail 判 FAIL。改阈值要写进 cases/场景清单.md 并说明理由。",
+  "platform_agents_p95_ms": 300,
+  "platform_tls_handshake_ms": 1500,
+  "did_key_resolve_ms": 3,
+  "cli_demo_ms": 10000,
+  "verify_pkg_10ev_ms": 2000,
+  "full_suite_ms": 420000,
+  "profiles": {
+    "local": {
+      "platform_tls_handshake_ms": 1500,
+      "_note": "本机直连（北京家宽/公司网）",
+      "platform_agents_p95_ms": 300
+    },
+    "cloud": {
+      "platform_tls_handshake_ms": 3000,
+      "_note": "云主机公网出口（实测 P95 424ms，留 2 倍余量）",
+      "platform_agents_p95_ms": 900
+    }
+  }
+}

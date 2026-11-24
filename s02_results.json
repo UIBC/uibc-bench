@@ -1,0 +1,136 @@
+[
+ {
+  "case": "B1 did:web 指向回环 127.0.0.1",
+  "verdict": "INFO",
+  "note": "解析成功（88ms），服务端收到 ['/.well-known/did.json'] —— 无主机白名单，回环可被解析",
+  "extra": {
+   "kind": "SSRF",
+   "severity": "中高"
+  }
+ },
+ {
+  "case": "B2 did:web URL 构造边界",
+  "verdict": "INFO",
+  "note": "11 个边界样本，2 个被拒绝；内网字面量未被拦：['did:web:169.254.169.254', 'did:web:10.0.0.1', 'did:web:192.168.1.1:8443', 'did:web:localhost', 'did:web:metadata.google.internal']",
+  "extra": {
+   "urls": {
+    "did:web:169.254.169.254": "https://169.254.169.254/.well-known/did.json",
+    "did:web:10.0.0.1": "https://10.0.0.1/.well-known/did.json",
+    "did:web:192.168.1.1:8443": "https://192.168.1.1/8443/did.json",
+    "did:web:localhost": "https://localhost/.well-known/did.json",
+    "did:web:metadata.google.internal": "https://metadata.google.internal/.well-known/did.json",
+    "did:web:example.com%3A8443": "https://example.com:8443/.well-known/did.json",
+    "did:web:%2F%2Fevil.com": "https://%2F%2Fevil.com/.well-known/did.json",
+    "did:web:exa mple.com": "ERR DIDError: not a DID: 'did:web:exa mple.com'",
+    "did:web:例子.中国": "https://例子.中国/.well-known/did.json",
+    "did:web:example.com:user:al": "https://example.com/user/al/did.json",
+    "did:web:example.com::": "ERR DIDError: not a DID: 'did:web:example.com::'"
+   },
+   "kind": "SSRF/输入校验"
+  }
+ },
+ {
+  "case": "B3 https 被 302 降级到 http",
+  "verdict": "PASS",
+  "note": "DIDError: document id 'did:web:127.0.0.1%3A8530' does not match 'did:web:127.0.0.1%3A8530:redir'",
+  "extra": {
+   "hits": [
+    "/.well-known/did.json",
+    "/.well-known/did.json",
+    "/.well-known/did.json",
+    "/.well-known/did.json",
+    "/.well-known/did.json",
+    "/.well-known/did.json",
+    "/.well-known/did.json",
+    "/.well-known/did.json",
+    "/.well-known/did.json",
+    "/.well-known/did.json",
+    "/.well-known/did.json",
+    "/.well-known/did.json",
+    "/.well-known/did.json",
+    "/.well-known/did.json",
+    "/.well-known/did.json",
+    "/.well-known/did.json",
+    "/.well-known/did.json",
+    "/.well-known/did.json",
+    "/.well-known/did.json",
+    "/.well-known/did.json"
+   ]
+  }
+ },
+ {
+  "case": "B4 慢响应超时",
+  "verdict": "PASS",
+  "note": "2.0s 后抛出 TimeoutError（timeout=2）",
+  "extra": {}
+ },
+ {
+  "case": "B5 20MB 文档",
+  "verdict": "PASS",
+  "note": "0.7s 拒绝：document id 'did:web:127.0.0.1%3A8530' does not match 'did:web:127.0.0.1%3A8530:",
+  "extra": {}
+ },
+ {
+  "case": "B6 返回 HTML 而非 JSON",
+  "verdict": "PASS",
+  "note": "DIDError: document at https://127.0.0.1:8530/html/did.json is not JSON: Expecting value: line 1 colu",
+  "extra": {}
+ },
+ {
+  "case": "B7 非 Ed25519 文档",
+  "verdict": "PASS",
+  "note": "DIDError: no usable Ed25519 verification method in DID document",
+  "extra": {}
+ },
+ {
+  "case": "B8 畸形 DID 'did:key:'",
+  "verdict": "PASS",
+  "note": "DIDError: not a DID: 'did:key:'",
+  "extra": {}
+ },
+ {
+  "case": "B8 畸形 DID 'did:key:z'",
+  "verdict": "PASS",
+  "note": "DIDError: invalid multibase value",
+  "extra": {}
+ },
+ {
+  "case": "B8 畸形 DID 'did:key:zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz'",
+  "verdict": "PASS",
+  "note": "DIDError: unsupported did:key key type, got multicodec prefix b9a2",
+  "extra": {}
+ },
+ {
+  "case": "B8 畸形 DID 'did:web:'",
+  "verdict": "PASS",
+  "note": "DIDError: not a DID: 'did:web:'",
+  "extra": {}
+ },
+ {
+  "case": "B8 畸形 DID 'did:'",
+  "verdict": "PASS",
+  "note": "DIDError: not a DID: 'did:'",
+  "extra": {}
+ },
+ {
+  "case": "B8 畸形 DID 'DID:web:x'",
+  "verdict": "PASS",
+  "note": "DIDError: not a DID: 'DID:web:x'",
+  "extra": {}
+ },
+ {
+  "case": "B8 畸形 DID ' did:web:a.com'",
+  "verdict": "PASS",
+  "note": "DIDError: not a DID: ' did:web:a.com'",
+  "extra": {}
+ },
+ {
+  "case": "B9 20 线程并发解析",
+  "verdict": "PASS",
+  "note": "ok=20 err=0 耗时 0.6s，实际请求 20 次（无缓存，扇出=并发数）",
+  "extra": {
+   "kind": "扇出/放大",
+   "severity": "低"
+  }
+ }
+]

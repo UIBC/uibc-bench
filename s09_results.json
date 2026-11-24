@@ -1,0 +1,73 @@
+[
+ {
+  "case": "I0 本地 did:web 宿主",
+  "verdict": "INFO",
+  "note": "port=2509 文档=354 字节 公钥 z6Mkhrot4q334Y…",
+  "extra": {
+   "port": 2509,
+   "did": "did:web:127.0.0.1%3A2509",
+   "multibase": "z6Mkhrot4q334YKxcuUqgRjVdfCayGkqQwFixAQKzW1Amv4R"
+  }
+ },
+ {
+  "case": "I1 我方解析 did:web",
+  "verdict": "PASS",
+  "note": "id=did:web:127.0.0.1%3A2509 vm=did:web:127.0.0.1%3A2509#key-1 type=Ed25519VerificationKey2020 124ms",
+  "extra": {}
+ },
+ {
+  "case": "I2 我方取公钥",
+  "verdict": "PASS",
+  "note": "32 字节与宿主一致=True vm=did:web:127.0.0.1%3A2509#key-1",
+  "extra": {}
+ },
+ {
+  "case": "I3 第三方解析 did:web",
+  "verdict": "PASS",
+  "note": "ok=True id=did:web:127.0.0.1%3A2509 vm=did:web:127.0.0.1%3A2509#key-1 281ms ",
+  "extra": {
+   "result": {
+    "ok": true,
+    "didDocumentId": "did:web:127.0.0.1%3A2509",
+    "vmId": "did:web:127.0.0.1%3A2509#key-1",
+    "vmType": "Ed25519VerificationKey2020",
+    "controller": "did:web:127.0.0.1%3A2509",
+    "publicKeyMultibase": "z6Mkhrot4q334YKxcuUqgRjVdfCayGkqQwFixAQKzW1Amv4R",
+    "publicKeyJwk": null,
+    "vms": 1
+   }
+  }
+ },
+ {
+  "case": "I4 两实现逐字段比对",
+  "verdict": "PASS",
+  "note": "id/vm/type/公钥 全部一致",
+  "extra": {
+   "diffs": []
+  }
+ },
+ {
+  "case": "I5 坏 DID 两边都拒",
+  "verdict": "PASS",
+  "note": "我方 DIDError / 第三方 invalidDid",
+  "extra": {
+   "th": {
+    "ok": false,
+    "error": "invalidDid",
+    "message": ""
+   }
+  }
+ },
+ {
+  "case": "I6 不可达方法两边都拒",
+  "verdict": "PASS",
+  "note": "我方 URLError / 第三方 resolutionError",
+  "extra": {
+   "th": {
+    "ok": false,
+    "error": "resolutionError",
+    "message": "Unable to retrieve DID document: fetch failed"
+   }
+  }
+ }
+]

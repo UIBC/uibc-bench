@@ -1,0 +1,6 @@
+{
+  "name": "UIBC (self-test)",
+  "implementation": "uibc-core 0.5.0 resolve() behind HTTPS binding shim",
+  "endpoint": "https://127.0.0.1:9443/1.0/identifiers",
+  "supportedDidMethods": ["did:key"]
+}

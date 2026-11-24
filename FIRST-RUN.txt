@@ -1,0 +1,43 @@
+给拿到这个包的人：先跑这一条，别读文档。
+
+    python first_run.py                 # 快跑，约 3–6 分钟，跑 4 个组
+    python first_run.py --full          # 全量，约 10–20 分钟（含 1086 例单测）
+
+它会自己做 5 件事，不需要你懂内部结构：
+  1 体检（Python 3.10+ / git / node 有无）
+  2 克隆被测仓库（缺则 depth=1；发现符号链接或目录联接会直接拒绝，并说明原因）
+  3 建 .venv 并装 [verify,test] 附加依赖（首次 1–2 分钟）
+  4 跑场景组，结果写进 runs\<时间戳>_<标签>\
+  5 打印一句话结论 + 看板 HTML 路径
+
+跑完你应该看到：
+  - 一个 runs\...\summary.html（双击就开，单文件、无外链）
+  - 每组 *_results.json（逐条 case / verdict / note，可当证据）
+
+如果你看到 FAIL：那是"被测方待确认项"，不是本台故障。
+请连 note 与 extra 一起看，不要只看颜色。
+
+特别地，如果 D1 显示"失败=47"这一类数量，先看同一行的括注：
+被测仓有一批硬编码 sha256 的测试夹具，Windows 默认克隆（core.autocrlf=true）
+会在检出时改写行尾，导致这批用例成片失败——根因是对方仓库缺 .gitattributes 规则，
+E1 组会用字节比对证明这一点。想验证"是不是行尾问题"，去掉这一层干扰再跑一次：
+
+    git -C uibc-core-public config core.autocrlf false
+    git -C uibc-core-public rm --cached -r . >nul & git -C uibc-core-public reset --hard
+
+已知限制（写在这里，不藏在文档里）：
+  - 没测 macOS / ARM64 / 容器 / 离线 / 企业代理 MITM / 弱网 / 磁盘满 / 24h 长跑
+  - s05 只在 Windows 有意义，其他平台会自动 SKIP
+  - 阈值按环境分档（UIB_PROFILE=local 默认 / cloud），换机器请先看档位
+  - 平台侧调用是只读探测，不注册、不写入、并发 ≤8
+  - I 组（跨实现互操作）要一个第三方解析器：没装 node 时 I3–I6 记 BLOCKED（不是消失）。
+    想跑通就先在包根执行：npm i --prefix tools\\interop
+    再把 scripts 与 node_modules 放进 runs\\_interop（s09 从那里取，脚本里已写明）
+
+想用官方基准而不是我们的自造用例（推荐先做这一步再看别的）：
+  W3C 官方 DID Resolution Test Suite 的接入件与复跑命令在 tools\\official_suite\\README.md。
+  它只认 HTTPS endpoint，所以先用 tools\\resolver_https_shim.py 起一个本地 endpoint，
+  再把 tools\\official_suite\\UIBC-selftest.json 放进套件的 resolvers\\ 目录。
+  已知结果：错误路径全过，成功路径受 did:key 键型覆盖限制（P-521 不在支持范围）。
+
+出问题时先看 runs\<最新>\run.log —— 每组的原始输出都在里面。

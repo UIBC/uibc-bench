@@ -1,0 +1,14 @@
+# 测试台自身版本化：只跟踪"能复跑的部分"，不跟踪被测仓库与生成物
+uibc-core-public/
+uibc-core-public_crlf_evidence/
+.venv/
+_pki/
+_logs/
+dist/
+runs/
+evidence/*.json
+*.pyc
+__pycache__/
+cases/_scratch/
+mutants/
+.venv312/

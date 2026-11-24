@@ -1,0 +1,9 @@
+{
+  "name": "uibc-interop-3p",
+  "private": true,
+  "description": "第三方 did:web 解析器（uport/Veramo 生态），供 harness/s09 对照用；版本与实测通过的一致",
+  "dependencies": {
+    "did-resolver": "6.0.0",
+    "web-did-resolver": "3.2.0"
+  }
+}

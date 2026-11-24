@@ -1,0 +1,3049 @@
+{
+ "dir": "C:\\Users\\SZYL\\Doubao\\chats\\2026-11-23\\new-chat-3\\发布前审查_20261123",
+ "local": [
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "check_version_drift.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "runs\\20261123_153232_v043full\\",
+   "status": "OK",
+   "resolved": "."
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "baseline.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\baseline.json"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "runs\\20261123_153140_interop\\",
+   "status": "OK",
+   "resolved": "."
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "05_S6\\uniresolver_p521_probe.json",
+   "status": "OK",
+   "resolved": "05_S6\\uniresolver_p521_probe.json"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "tools\\version_drift.json",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "tools\\resolver_https_shim.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "tools\\official_suite\\",
+   "status": "OK",
+   "resolved": "."
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "runs\\d1_unittest_v.log",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "runs\\_firstrun_041*.log",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "dist\\uibc-实测台-0.4.3-20261123.*",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "D:\\Workbuddy\\weknora",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "B 本机不存在（入库阻塞事实，非引用错误）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "weknora_sync_state.json",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "B 本机不存在（入库阻塞事实，非引用错误）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "D:\\Workbuddy\\weknora",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "B 本机不存在（入库阻塞事实，非引用错误）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "F:\\家底盘点",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "B 本机不存在（入库阻塞事实，非引用错误）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "D:\\LGD-Eval\\evaluation-protocol",
+   "status": "OK",
+   "resolved": "D:\\LGD-Eval\\evaluation-protocol"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "24_外部基准全景.md",
+   "status": "OK",
+   "resolved": "24_外部基准全景.md"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "27_第六轮复评.md",
+   "status": "OK",
+   "resolved": "27_第六轮复评.md"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "summary.txt",
+   "status": "OK",
+   "resolved": "28_官方套件_Windows日志\\summary.txt"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "05_S6\\dif_jwk_crosscheck.json",
+   "status": "OK",
+   "resolved": "05_S6\\dif_jwk_crosscheck.json"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "uibc-实测台-0.4.8-20261123.zip",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": ".tar.gz",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "runs\\20261123_184008_run",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "compare_baseline.py",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\compare_baseline.py"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "31_键型扩展证据\\official_format_report\\",
+   "status": "OK",
+   "resolved": "31_键型扩展证据\\official_format_report"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "index.html",
+   "status": "OK",
+   "resolved": "31_键型扩展证据\\official_format_report\\index.html"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "index.json",
+   "status": "OK",
+   "resolved": "31_键型扩展证据\\official_format_report\\index.json"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "uibc-实测台-0.4.9-repro-20261123.zip",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "REPRODUCE.md",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\docs\\REPRODUCE.md"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "tools/keytype_vectors.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "runs\\20261123_185713_v049",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "compare_baseline.py",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\compare_baseline.py"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "31_键型扩展证据\\keytype_vectors\\",
+   "status": "OK",
+   "resolved": "31_键型扩展证据\\keytype_vectors"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "tools/mutation_test_shim.py",
+   "status": "OK",
+   "resolved": "32_载体变异证据\\vm\\tools\\mutation_test_shim.py"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "32_载体变异测试.md",
+   "status": "OK",
+   "resolved": "32_载体变异测试.md"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "32_载体变异证据\\win\\",
+   "status": "OK",
+   "resolved": "32_载体变异证据\\win"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "32_载体变异证据\\vm\\",
+   "status": "OK",
+   "resolved": "32_载体变异证据\\vm"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "tools/binding_probe.py",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\tools\\binding_probe.py"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "33_规范追踪证据\\",
+   "status": "OK",
+   "resolved": "33_规范追踪证据"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "spec_trace.json",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\spec_trace.json"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "spec_trace.md",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\spec_trace.md"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "tools/spec_traceability.py",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\tools\\spec_traceability.py"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "tools/spec_map.json",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\tools\\spec_map.json"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "tools/binding_probe.py",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\tools\\binding_probe.py"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "33_规范追踪矩阵与绑定层探针.md",
+   "status": "OK",
+   "resolved": "33_规范追踪矩阵与绑定层探针.md"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "uibc-kit-0.4.11-20261123.tar.gz",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "dist/_pack.py",
+   "status": "OK",
+   "resolved": "41_外部复核校准证据\\evidence_pack.py"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "*.json",
+   "status": "OK",
+   "resolved": "25_LGD-Eval预演_结论.json"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "tools/*.json",
+   "status": "OK",
+   "resolved": "25_LGD-Eval预演_结论.json"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "spec_map.json",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\tools\\spec_map.json"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "33_规范追踪证据\\repro_self_test\\",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\repro_self_test"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "34_竞品证据\\",
+   "status": "OK",
+   "resolved": "34_竞品证据"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "20261123_remote_negative_paths.json",
+   "status": "OK",
+   "resolved": "34_竞品证据\\20261123_remote_negative_paths.json"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "probe_remote.py",
+   "status": "OK",
+   "resolved": "34_竞品证据\\probe_remote.py"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "34_竞品注册清单与端点对标.md",
+   "status": "OK",
+   "resolved": "34_竞品注册清单与端点对标.md"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "tools/make_cert.ps1",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "34_竞品证据\\repro_0413_win_nocert\\",
+   "status": "OK",
+   "resolved": "34_竞品证据\\repro_0413_win_nocert"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "uibc_core/did.py",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\uibc_core\\did.py"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "tools/did_web_probe.py",
+   "status": "OK",
+   "resolved": "35_did_web证据\\did_web_probe.py"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "35_did_web证据\\",
+   "status": "OK",
+   "resolved": "35_did_web证据"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "tools/registration_preflight.py",
+   "status": "OK",
+   "resolved": "36_登记预演证据\\registration_preflight.py"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "36_登记预演证据\\",
+   "status": "OK",
+   "resolved": "36_登记预演证据"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "runs\\20261123_v0415_regress",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "04_S4_外人实跑.md",
+   "status": "OK",
+   "resolved": "04_S4_外人实跑.md"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "06_S7_现状复核.md",
+   "status": "OK",
+   "resolved": "06_S7_现状复核.md"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "16_环境矩阵_v0.4.2.md",
+   "status": "OK",
+   "resolved": "16_环境矩阵_v0.4.2.md"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "37_全组复核证据\\",
+   "status": "OK",
+   "resolved": "37_全组复核证据"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "runs\\20261123_e1_retry",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "00_发布前审查标准_v2_20261123.md",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "38_九门自查_S0-S9.md",
+   "status": "OK",
+   "resolved": "38_九门自查_S0-S9.md"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "tools/package_audit.py",
+   "status": "OK",
+   "resolved": "38_九门自查证据\\package_audit.py"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "tools/no_claim_scan.py",
+   "status": "OK",
+   "resolved": "38_九门自查证据\\no_claim_scan.py"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "10_S6响应与整改.md",
+   "status": "OK",
+   "resolved": "10_S6响应与整改.md"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "README.md",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\README.md"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "s01_results.json",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "cases\\竞品对标_20261123.md",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\cases\\竞品对标_20261123.md"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "40_外部复核证据\\",
+   "status": "OK",
+   "resolved": "40_外部复核证据"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "github_visibility.py",
+   "status": "OK",
+   "resolved": "40_外部复核证据\\github_visibility.py"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "dist\\uibc-bench-v0.4.17.bundle",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "00_裁决与结论.md",
+   "ref": "external_review.py",
+   "status": "OK",
+   "resolved": "40_外部复核证据\\external_review.py"
+  },
+  {
+   "from": "01_S0_前提与定位.md",
+   "ref": "uibc-实测台\\bench.py",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\bench.py"
+  },
+  {
+   "from": "01_S0_前提与定位.md",
+   "ref": "baseline.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\baseline.json"
+  },
+  {
+   "from": "01_S0_前提与定位.md",
+   "ref": "runs\\",
+   "status": "OK",
+   "resolved": "."
+  },
+  {
+   "from": "01_S0_前提与定位.md",
+   "ref": "s04_results.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\runs\\20261123_130328_outsider_run\\s04_results.json"
+  },
+  {
+   "from": "01_S0_前提与定位.md",
+   "ref": "cases\\规范对照调研_20261123.md",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\cases\\规范对照调研_20261123.md"
+  },
+  {
+   "from": "01_S0_前提与定位.md",
+   "ref": "dist\\",
+   "status": "OK",
+   "resolved": "."
+  },
+  {
+   "from": "01_S0_前提与定位.md",
+   "ref": "cases\\竞品对标_20261123.md",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\cases\\竞品对标_20261123.md"
+  },
+  {
+   "from": "01_S0_前提与定位.md",
+   "ref": "baseline.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\baseline.json"
+  },
+  {
+   "from": "02_S1_引证直达核查.md",
+   "ref": "tools/s1_links.py",
+   "status": "OK",
+   "resolved": "tools\\s1_links.py"
+  },
+  {
+   "from": "02_S1_引证直达核查.md",
+   "ref": "11_S1跨节点复核.md",
+   "status": "OK",
+   "resolved": "11_S1跨节点复核.md"
+  },
+  {
+   "from": "03_S3_红队清单.md",
+   "ref": "s01_results.json",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "03_S3_红队清单.md",
+   "ref": "evidence\\",
+   "status": "OK",
+   "resolved": "."
+  },
+  {
+   "from": "03_S3_红队清单.md",
+   "ref": "baseline.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\baseline.json"
+  },
+  {
+   "from": "04_S4_外人实跑.md",
+   "ref": "runs\\20261123_v0415_regress",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "04_S4_外人实跑.md",
+   "ref": "外人实跑\\room",
+   "status": "OK",
+   "resolved": "外人实跑\\room"
+  },
+  {
+   "from": "04_S4_外人实跑.md",
+   "ref": "room\\runs\\20261123_130328_outsider_run\\",
+   "status": "OK",
+   "resolved": "."
+  },
+  {
+   "from": "04_S4_外人实跑.md",
+   "ref": "thresholds.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\thresholds.json"
+  },
+  {
+   "from": "05_S6_外部AI评审.md",
+   "ref": "D:\\标准\\新建文本文档.txt",
+   "status": "OK",
+   "resolved": "D:\\标准\\新建文本文档.txt"
+  },
+  {
+   "from": "05_S6_外部AI评审.md",
+   "ref": "05_S6\\20261123_四镜回执_siliconflow.md",
+   "status": "OK",
+   "resolved": "05_S6\\20261123_四镜回执_siliconflow.md"
+  },
+  {
+   "from": "05_S6_外部AI评审.md",
+   "ref": "10_S6响应与整改.md",
+   "status": "OK",
+   "resolved": "10_S6响应与整改.md"
+  },
+  {
+   "from": "05_S6_外部AI评审.md",
+   "ref": "05_S6\\_rerun_expert_adversary.txt",
+   "status": "OK",
+   "resolved": "05_S6\\_rerun_expert_adversary.txt"
+  },
+  {
+   "from": "05_S6_外部AI评审.md",
+   "ref": "05_S6\\\\_rerun3_expert_adversary.txt",
+   "status": "OK",
+   "resolved": "05_S6\\_rerun3_expert_adversary.txt"
+  },
+  {
+   "from": "05_S6_外部AI评审.md",
+   "ref": "31_键型扩展对照实验.md",
+   "status": "OK",
+   "resolved": "31_键型扩展对照实验.md"
+  },
+  {
+   "from": "05_S6_外部AI评审.md",
+   "ref": "tools\\05_S6\\20261123_185109_facts_siliconflow.md",
+   "status": "OK",
+   "resolved": "tools\\05_S6\\20261123_185109_facts_siliconflow.md"
+  },
+  {
+   "from": "05_S6_外部AI评审.md",
+   "ref": "tools\\05_S6\\20261123_185109_outsider_siliconflow.md",
+   "status": "OK",
+   "resolved": "tools\\05_S6\\20261123_185109_outsider_siliconflow.md"
+  },
+  {
+   "from": "06_S7_现状复核.md",
+   "ref": "runs\\20261123_v0415_regress",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "06_S7_现状复核.md",
+   "ref": "tools\\s2_s7_facts.json",
+   "status": "OK",
+   "resolved": "tools\\s2_s7_facts.json"
+  },
+  {
+   "from": "07_S8_GitHub外人实测.md",
+   "ref": "receipt.json",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "C 运行时产物（跑 run.py 才生成）"
+  },
+  {
+   "from": "07_S8_GitHub外人实测.md",
+   "ref": "receipt.json",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "C 运行时产物（跑 run.py 才生成）"
+  },
+  {
+   "from": "07_S8_GitHub外人实测.md",
+   "ref": "tools/check_version_drift.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "07_S8_GitHub外人实测.md",
+   "ref": "tools/version_drift.json",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "07_S8_GitHub外人实测.md",
+   "ref": "tools/status_page.py",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\tools\\status_page.py"
+  },
+  {
+   "from": "07_S8_GitHub外人实测.md",
+   "ref": "conformance/uibc-conformance-0.5.0.zip",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\conformance\\uibc-conformance-0.5.0.zip"
+  },
+  {
+   "from": "08_S2_事实一致.md",
+   "ref": "tools/s2_s7_facts.py",
+   "status": "OK",
+   "resolved": "tools\\s2_s7_facts.py"
+  },
+  {
+   "from": "08_S2_事实一致.md",
+   "ref": "baseline.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\baseline.json"
+  },
+  {
+   "from": "08_S2_事实一致.md",
+   "ref": "s2_s7_facts.json",
+   "status": "OK",
+   "resolved": "tools\\s2_s7_facts.json"
+  },
+  {
+   "from": "08_S2_事实一致.md",
+   "ref": "dist\\",
+   "status": "OK",
+   "resolved": "."
+  },
+  {
+   "from": "08_S2_事实一致.md",
+   "ref": "s04_results.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\runs\\20261123_130328_outsider_run\\s04_results.json"
+  },
+  {
+   "from": "08_S2_事实一致.md",
+   "ref": "thresholds.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\thresholds.json"
+  },
+  {
+   "from": "08_S2_事实一致.md",
+   "ref": "baseline.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\baseline.json"
+  },
+  {
+   "from": "10_S6响应与整改.md",
+   "ref": "harness/s06_perf_thresholds.py",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\harness\\s06_perf_thresholds.py"
+  },
+  {
+   "from": "10_S6响应与整改.md",
+   "ref": "11_S1跨节点复核.md",
+   "status": "OK",
+   "resolved": "11_S1跨节点复核.md"
+  },
+  {
+   "from": "10_S6响应与整改.md",
+   "ref": "env_fingerprint.json",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "12_新缺陷_换环境逼出.md",
+   "ref": "s02_did_hostile.py",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\harness\\s02_did_hostile.py"
+  },
+  {
+   "from": "12_新缺陷_换环境逼出.md",
+   "ref": "env_fingerprint.json",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "13_跨OS全组复核.md",
+   "ref": "16_环境矩阵_v0.4.2.md",
+   "status": "OK",
+   "resolved": "16_环境矩阵_v0.4.2.md"
+  },
+  {
+   "from": "13_跨OS全组复核.md",
+   "ref": "21_跨实现互操作.md",
+   "status": "OK",
+   "resolved": "21_跨实现互操作.md"
+  },
+  {
+   "from": "13_跨OS全组复核.md",
+   "ref": "27_第六轮复评.md",
+   "status": "OK",
+   "resolved": "27_第六轮复评.md"
+  },
+  {
+   "from": "13_跨OS全组复核.md",
+   "ref": "thresholds.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\thresholds.json"
+  },
+  {
+   "from": "13_跨OS全组复核.md",
+   "ref": "12_新缺陷_换环境逼出.md",
+   "status": "OK",
+   "resolved": "12_新缺陷_换环境逼出.md"
+  },
+  {
+   "from": "14_修复记录_v0.4.1.md",
+   "ref": "harness/_portutil.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "14_修复记录_v0.4.1.md",
+   "ref": "bench.py",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\bench.py"
+  },
+  {
+   "from": "14_修复记录_v0.4.1.md",
+   "ref": "setup.ps1",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\setup.ps1"
+  },
+  {
+   "from": "14_修复记录_v0.4.1.md",
+   "ref": "first_run.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "14_修复记录_v0.4.1.md",
+   "ref": "runs/_env_fingerprint.json",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "14_修复记录_v0.4.1.md",
+   "ref": "FIRST-RUN.txt",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\FIRST-RUN.txt"
+  },
+  {
+   "from": "14_修复记录_v0.4.1.md",
+   "ref": "first_run.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "14_修复记录_v0.4.1.md",
+   "ref": "FIRST-RUN.txt",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\FIRST-RUN.txt"
+  },
+  {
+   "from": "14_修复记录_v0.4.1.md",
+   "ref": "15_重跑结果_v0.4.1.md",
+   "status": "OK",
+   "resolved": "15_重跑结果_v0.4.1.md"
+  },
+  {
+   "from": "14_修复记录_v0.4.1.md",
+   "ref": "baseline.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\baseline.json"
+  },
+  {
+   "from": "14_修复记录_v0.4.1.md",
+   "ref": "16_环境矩阵_v0.4.2.md",
+   "status": "OK",
+   "resolved": "16_环境矩阵_v0.4.2.md"
+  },
+  {
+   "from": "14_修复记录_v0.4.1.md",
+   "ref": "15_重跑结果_v0.4.1.md",
+   "status": "OK",
+   "resolved": "15_重跑结果_v0.4.1.md"
+  },
+  {
+   "from": "14_修复记录_v0.4.1.md",
+   "ref": "15_重跑结果_v0.4.1.md",
+   "status": "OK",
+   "resolved": "15_重跑结果_v0.4.1.md"
+  },
+  {
+   "from": "15_重跑结果_v0.4.1.md",
+   "ref": "runs\\20261123_184008_run",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "15_重跑结果_v0.4.1.md",
+   "ref": "00_裁决与结论.md",
+   "status": "OK",
+   "resolved": "00_裁决与结论.md"
+  },
+  {
+   "from": "15_重跑结果_v0.4.1.md",
+   "ref": "31_键型扩展对照实验.md",
+   "status": "OK",
+   "resolved": "31_键型扩展对照实验.md"
+  },
+  {
+   "from": "15_重跑结果_v0.4.1.md",
+   "ref": "runs\\d1_unittest_v.log",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "15_重跑结果_v0.4.1.md",
+   "ref": "FIRST-RUN.txt",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\FIRST-RUN.txt"
+  },
+  {
+   "from": "15_重跑结果_v0.4.1.md",
+   "ref": "dist\\uibc-实测台-0.4.1-20261123.zip",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "15_重跑结果_v0.4.1.md",
+   "ref": "runs\\_pkgtest_041\\",
+   "status": "OK",
+   "resolved": "."
+  },
+  {
+   "from": "15_重跑结果_v0.4.1.md",
+   "ref": "runs\\_firstrun_041.log",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "15_重跑结果_v0.4.1.md",
+   "ref": "runs\\_firstrun_041_full.log",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "15_重跑结果_v0.4.1.md",
+   "ref": "baseline.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\baseline.json"
+  },
+  {
+   "from": "15_重跑结果_v0.4.1.md",
+   "ref": "baseline.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\baseline.json"
+  },
+  {
+   "from": "15_重跑结果_v0.4.1.md",
+   "ref": "runs\\20261123_145812_v042",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "15_重跑结果_v0.4.1.md",
+   "ref": "16_环境矩阵_v0.4.2.md",
+   "status": "OK",
+   "resolved": "16_环境矩阵_v0.4.2.md"
+  },
+  {
+   "from": "16_环境矩阵_v0.4.2.md",
+   "ref": "runs\\20261123_v0415_regress",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "16_环境矩阵_v0.4.2.md",
+   "ref": "runs\\20261123_155619_interop_cert",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "17_国际惯例对标.md",
+   "ref": "s0x_results.json",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "C 运行时产物/占位"
+  },
+  {
+   "from": "18_S6原始回执全文.md",
+   "ref": "05_S6\\20261123_四镜回执_siliconflow.md",
+   "status": "OK",
+   "resolved": "05_S6\\20261123_四镜回执_siliconflow.md"
+  },
+  {
+   "from": "18_S6原始回执全文.md",
+   "ref": "05_S6\\_rerun_expert_adversary.txt",
+   "status": "OK",
+   "resolved": "05_S6\\_rerun_expert_adversary.txt"
+  },
+  {
+   "from": "18_S6原始回执全文.md",
+   "ref": "05_S6\\_rerun3_expert_adversary.txt",
+   "status": "OK",
+   "resolved": "05_S6\\_rerun3_expert_adversary.txt"
+  },
+  {
+   "from": "18_S6原始回执全文.md",
+   "ref": "05_S6\\_rerun4_expert.txt",
+   "status": "OK",
+   "resolved": "05_S6\\_rerun4_expert.txt"
+  },
+  {
+   "from": "18_S6原始回执全文.md",
+   "ref": "baseline.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\baseline.json"
+  },
+  {
+   "from": "18_S6原始回执全文.md",
+   "ref": "baseline.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\baseline.json"
+  },
+  {
+   "from": "18_S6原始回执全文.md",
+   "ref": "tools/s2_s7_facts.py",
+   "status": "OK",
+   "resolved": "tools\\s2_s7_facts.py"
+  },
+  {
+   "from": "18_S6原始回执全文.md",
+   "ref": "10_S6响应与整改.md",
+   "status": "OK",
+   "resolved": "10_S6响应与整改.md"
+  },
+  {
+   "from": "18_S6原始回执全文.md",
+   "ref": "runs\\20261123_142052_v041g\\",
+   "status": "OK",
+   "resolved": "."
+  },
+  {
+   "from": "18_S6原始回执全文.md",
+   "ref": "s04_results.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\runs\\20261123_130328_outsider_run\\s04_results.json"
+  },
+  {
+   "from": "18_S6原始回执全文.md",
+   "ref": "s2_s7_facts.json",
+   "status": "OK",
+   "resolved": "tools\\s2_s7_facts.json"
+  },
+  {
+   "from": "18_S6原始回执全文.md",
+   "ref": "tools/s2_s7_facts.py",
+   "status": "OK",
+   "resolved": "tools\\s2_s7_facts.py"
+  },
+  {
+   "from": "18_S6原始回执全文.md",
+   "ref": "baseline.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\baseline.json"
+  },
+  {
+   "from": "18_S6原始回执全文.md",
+   "ref": "s04_results.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\runs\\20261123_130328_outsider_run\\s04_results.json"
+  },
+  {
+   "from": "18_S6原始回执全文.md",
+   "ref": "runs\\",
+   "status": "OK",
+   "resolved": "."
+  },
+  {
+   "from": "18_S6原始回执全文.md",
+   "ref": "tools/s2_s7_facts.py",
+   "status": "OK",
+   "resolved": "tools\\s2_s7_facts.py"
+  },
+  {
+   "from": "19_第四轮复评处置.md",
+   "ref": "05_S6\\20261123_四镜回执_siliconflow.md",
+   "status": "OK",
+   "resolved": "05_S6\\20261123_四镜回执_siliconflow.md"
+  },
+  {
+   "from": "19_第四轮复评处置.md",
+   "ref": "_rerun_expert_adversary.txt",
+   "status": "OK",
+   "resolved": "05_S6\\_rerun_expert_adversary.txt"
+  },
+  {
+   "from": "19_第四轮复评处置.md",
+   "ref": "_rerun3_expert_adversary.txt",
+   "status": "OK",
+   "resolved": "05_S6\\_rerun3_expert_adversary.txt"
+  },
+  {
+   "from": "19_第四轮复评处置.md",
+   "ref": "_rerun4_expert.txt",
+   "status": "OK",
+   "resolved": "05_S6\\_rerun4_expert.txt"
+  },
+  {
+   "from": "19_第四轮复评处置.md",
+   "ref": "18_S6原始回执全文.md",
+   "status": "OK",
+   "resolved": "18_S6原始回执全文.md"
+  },
+  {
+   "from": "19_第四轮复评处置.md",
+   "ref": "17_国际惯例对标.md",
+   "status": "OK",
+   "resolved": "17_国际惯例对标.md"
+  },
+  {
+   "from": "19_第四轮复评处置.md",
+   "ref": "first_run.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "19_第四轮复评处置.md",
+   "ref": "thresholds.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\thresholds.json"
+  },
+  {
+   "from": "20_官方套件实跑.md",
+   "ref": "05_S6\\uniresolver_p521_probe.json",
+   "status": "OK",
+   "resolved": "05_S6\\uniresolver_p521_probe.json"
+  },
+  {
+   "from": "20_官方套件实跑.md",
+   "ref": "baseline.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\baseline.json"
+  },
+  {
+   "from": "21_跨实现互操作.md",
+   "ref": "harness/s09_interop_third_party.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "21_跨实现互操作.md",
+   "ref": "runs\\20261123_155619_interop_cert",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "21_跨实现互操作.md",
+   "ref": "harness/s09_interop_third_party.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "22_第五轮复评处置.md",
+   "ref": "05_S6\\uniresolver_p521_probe.json",
+   "status": "OK",
+   "resolved": "05_S6\\uniresolver_p521_probe.json"
+  },
+  {
+   "from": "22_第五轮复评处置.md",
+   "ref": "FIRST-RUN.txt",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\FIRST-RUN.txt"
+  },
+  {
+   "from": "22_第五轮复评处置.md",
+   "ref": "tools/check_version_drift.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "22_第五轮复评处置.md",
+   "ref": "tools\\version_drift.json",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "22_第五轮复评处置.md",
+   "ref": "docs/external-review/EXTERNAL-NODE-001.md",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\docs\\external-review\\EXTERNAL-NODE-001.md"
+  },
+  {
+   "from": "23_被测仓既有外部复现核查.md",
+   "ref": "docs/external-review/EXTERNAL-NODE-001.md",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\docs\\external-review\\EXTERNAL-NODE-001.md"
+  },
+  {
+   "from": "23_被测仓既有外部复现核查.md",
+   "ref": "docs/external-review/EXTERNAL-NODE-002.md",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\docs\\external-review\\EXTERNAL-NODE-002.md"
+  },
+  {
+   "from": "23_被测仓既有外部复现核查.md",
+   "ref": "-returned.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\docs\\external-review\\EXTERNAL-NODE-002-returned.json"
+  },
+  {
+   "from": "23_被测仓既有外部复现核查.md",
+   "ref": "-ours-rerun.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\docs\\external-review\\EXTERNAL-NODE-002-ours-rerun.json"
+  },
+  {
+   "from": "23_被测仓既有外部复现核查.md",
+   "ref": "docs/external-review/RE-RUN-REQUEST.md",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\docs\\external-review\\RE-RUN-REQUEST.md"
+  },
+  {
+   "from": "23_被测仓既有外部复现核查.md",
+   "ref": "INDEPENDENCE.md",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\INDEPENDENCE.md"
+  },
+  {
+   "from": "23_被测仓既有外部复现核查.md",
+   "ref": "docs/STRANGER-TRIAL.md",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\docs\\STRANGER-TRIAL.md"
+  },
+  {
+   "from": "23_被测仓既有外部复现核查.md",
+   "ref": "INDEPENDENCE.md",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\INDEPENDENCE.md"
+  },
+  {
+   "from": "24_外部基准全景.md",
+   "ref": "tools/run_official_suite.sh",
+   "status": "OK",
+   "resolved": "32_载体变异证据\\vm\\tools\\run_official_suite.sh"
+  },
+  {
+   "from": "24_外部基准全景.md",
+   "ref": "packages/did-core-test-server/suites/implementations/*.json",
+   "status": "OK",
+   "resolved": "25_LGD-Eval预演_结论.json"
+  },
+  {
+   "from": "24_外部基准全景.md",
+   "ref": "05_S6\\uniresolver_p521_probe.json",
+   "status": "OK",
+   "resolved": "05_S6\\uniresolver_p521_probe.json"
+  },
+  {
+   "from": "25_LGD-Eval预演.md",
+   "ref": "D:\\LGD-Eval\\evaluation-protocol",
+   "status": "OK",
+   "resolved": "D:\\LGD-Eval\\evaluation-protocol"
+  },
+  {
+   "from": "25_LGD-Eval预演.md",
+   "ref": "evidence-grader.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "25_LGD-Eval预演.md",
+   "ref": "25_LGD-Eval预演_证据清单.json",
+   "status": "OK",
+   "resolved": "25_LGD-Eval预演_证据清单.json"
+  },
+  {
+   "from": "25_LGD-Eval预演.md",
+   "ref": "25_LGD-Eval预演_结论.json",
+   "status": "OK",
+   "resolved": "25_LGD-Eval预演_结论.json"
+  },
+  {
+   "from": "25_LGD-Eval预演.md",
+   "ref": "25_LGD-Eval预演_报告.md",
+   "status": "OK",
+   "resolved": "25_LGD-Eval预演_报告.md"
+  },
+  {
+   "from": "26_外部语料复跑.md",
+   "ref": "26_外部语料复跑_conformance-report.json",
+   "status": "OK",
+   "resolved": "26_外部语料复跑_conformance-report.json"
+  },
+  {
+   "from": "27_第六轮复评.md",
+   "ref": "tools/05_S6/20261123_161854_facts_siliconflow.md",
+   "status": "OK",
+   "resolved": "tools\\05_S6\\20261123_161854_facts_siliconflow.md"
+  },
+  {
+   "from": "27_第六轮复评.md",
+   "ref": "run_official_suite.sh",
+   "status": "OK",
+   "resolved": "32_载体变异证据\\vm\\tools\\run_official_suite.sh"
+  },
+  {
+   "from": "27_第六轮复评.md",
+   "ref": "tools/official_suite/README.md",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\README.md"
+  },
+  {
+   "from": "27_第六轮复评.md",
+   "ref": "harness/s09_interop_third_party.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "27_第六轮复评.md",
+   "ref": "runs\\20261123_162343_v044fix",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "27_第六轮复评.md",
+   "ref": "dist\\uibc-实测台-0.4.8-repro-20261123.zip",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "27_第六轮复评.md",
+   "ref": "REPRODUCE.md",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\docs\\REPRODUCE.md"
+  },
+  {
+   "from": "28_官方套件一键脚本_双OS实测.md",
+   "ref": "run_official_suite.sh",
+   "status": "OK",
+   "resolved": "32_载体变异证据\\vm\\tools\\run_official_suite.sh"
+  },
+  {
+   "from": "28_官方套件一键脚本_双OS实测.md",
+   "ref": "summary.txt",
+   "status": "OK",
+   "resolved": "28_官方套件_Windows日志\\summary.txt"
+  },
+  {
+   "from": "28_官方套件一键脚本_双OS实测.md",
+   "ref": "shim_smoke.json",
+   "status": "OK",
+   "resolved": "28_官方套件_Windows日志\\shim_smoke.json"
+  },
+  {
+   "from": "28_官方套件一键脚本_双OS实测.md",
+   "ref": "summary.txt",
+   "status": "OK",
+   "resolved": "28_官方套件_Windows日志\\summary.txt"
+  },
+  {
+   "from": "28_接入AITB试真台.md",
+   "ref": "D:\\Workbuddy\\00-总控台\\bench",
+   "status": "OK",
+   "resolved": "D:\\Workbuddy\\00-总控台\\bench"
+  },
+  {
+   "from": "28_接入AITB试真台.md",
+   "ref": "aitb.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "28_接入AITB试真台.md",
+   "ref": "assay.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "28_接入AITB试真台.md",
+   "ref": "bench.py",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\bench.py"
+  },
+  {
+   "from": "28_接入AITB试真台.md",
+   "ref": "DOCTRINE.md",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "28_接入AITB试真台.md",
+   "ref": "C:\\Users\\SZYL\\Doubao\\uibc-实测台",
+   "status": "OK",
+   "resolved": "C:\\Users\\SZYL\\Doubao\\uibc-实测台"
+  },
+  {
+   "from": "28_接入AITB试真台.md",
+   "ref": "D:\\Workbuddy\\00-总控台\\bench\\presets\\uibc.json",
+   "status": "OK",
+   "resolved": "D:\\Workbuddy\\00-总控台\\bench\\presets\\uibc.json"
+  },
+  {
+   "from": "28_接入AITB试真台.md",
+   "ref": "uibc-实测台\\tools\\aitb_bridge.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "28_接入AITB试真台.md",
+   "ref": "config.local.json",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "28_接入AITB试真台.md",
+   "ref": "DOCTRINE.md",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "29_云主机v0.4.5全组复核.md",
+   "ref": "uibc-实测台-0.4.5-20261123.tar.gz",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "29_云主机v0.4.5全组复核.md",
+   "ref": "tools/run_official_suite.sh",
+   "status": "OK",
+   "resolved": "32_载体变异证据\\vm\\tools\\run_official_suite.sh"
+  },
+  {
+   "from": "30_竞品对照与准入差距.md",
+   "ref": "34_竞品证据\\resolvers\\",
+   "status": "OK",
+   "resolved": "34_竞品证据\\resolvers"
+  },
+  {
+   "from": "30_竞品对照与准入差距.md",
+   "ref": "tools/did_web_probe.py",
+   "status": "OK",
+   "resolved": "35_did_web证据\\did_web_probe.py"
+  },
+  {
+   "from": "30_竞品对照与准入差距.md",
+   "ref": "did.py",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\uibc_core\\did.py"
+  },
+  {
+   "from": "30_竞品对照与准入差距.md",
+   "ref": "tools/probe_remote.py",
+   "status": "OK",
+   "resolved": "34_竞品证据\\probe_remote.py"
+  },
+  {
+   "from": "30_竞品对照与准入差距.md",
+   "ref": "34_竞品注册清单与端点对标.md",
+   "status": "OK",
+   "resolved": "34_竞品注册清单与端点对标.md"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "tools/resolver_https_shim.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "summary.txt",
+   "status": "OK",
+   "resolved": "28_官方套件_Windows日志\\summary.txt"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "runs\\20261123_183716_official",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "31_键型扩展证据\\win_0.4.8\\183716_*",
+   "status": "OK",
+   "resolved": "31_键型扩展证据\\win_0.4.8\\183716_10-bindings.log"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "runs\\20261123_183733_official",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "31_键型扩展证据\\win_0.4.8\\183733_*",
+   "status": "OK",
+   "resolved": "31_键型扩展证据\\win_0.4.8\\183733_10-bindings.log"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "31_键型扩展证据\\vm_0.4.8\\183631_*",
+   "status": "OK",
+   "resolved": "31_键型扩展证据\\vm_0.4.8\\183631_10-bindings_A.log"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "31_键型扩展证据\\vm_0.4.8\\183637_*",
+   "status": "OK",
+   "resolved": "31_键型扩展证据\\vm_0.4.8\\183637_10-bindings_B.log"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "runs\\20261123_180002_official",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "summary.txt",
+   "status": "OK",
+   "resolved": "28_官方套件_Windows日志\\summary.txt"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "183716_summary.txt",
+   "status": "OK",
+   "resolved": "31_键型扩展证据\\win_0.4.8\\183716_summary.txt"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "183733_summary.txt",
+   "status": "OK",
+   "resolved": "31_键型扩展证据\\win_0.4.8\\183733_summary.txt"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "uibc_core/did.py",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\uibc_core\\did.py"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "31_键型扩展证据\\vm_0.4.8\\",
+   "status": "OK",
+   "resolved": "31_键型扩展证据\\vm_0.4.8"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "183631_summary_A.txt",
+   "status": "OK",
+   "resolved": "31_键型扩展证据\\vm_0.4.8\\183631_summary_A.txt"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "183637_summary_B.txt",
+   "status": "OK",
+   "resolved": "31_键型扩展证据\\vm_0.4.8\\183637_summary_B.txt"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "05_S6\\dif_jwk_crosscheck.json",
+   "status": "OK",
+   "resolved": "05_S6\\dif_jwk_crosscheck.json"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "did.py",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\uibc_core\\did.py"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "runs\\20261123_162343_v044fix",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "uibc_core/did.py",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\uibc_core\\did.py"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "runs\\20261123_184008_run",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "tools/keytype_vectors.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "31_键型扩展证据\\keytype_vectors\\",
+   "status": "OK",
+   "resolved": "31_键型扩展证据\\keytype_vectors"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "win_B_18of18.json",
+   "status": "OK",
+   "resolved": "31_键型扩展证据\\keytype_vectors\\win_B_18of18.json"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "win_A_6of14.json",
+   "status": "OK",
+   "resolved": "31_键型扩展证据\\keytype_vectors\\win_A_6of14.json"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "vm_B_18of18.json",
+   "status": "OK",
+   "resolved": "31_键型扩展证据\\keytype_vectors\\vm_B_18of18.json"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "vm_A_6of14.json",
+   "status": "OK",
+   "resolved": "31_键型扩展证据\\keytype_vectors\\vm_A_6of14.json"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "uibc_core/did.py",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\uibc_core\\did.py"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "tools/resolver_https_shim.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "baseline.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\baseline.json"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "summary.txt",
+   "status": "OK",
+   "resolved": "28_官方套件_Windows日志\\summary.txt"
+  },
+  {
+   "from": "31_键型扩展对照实验.md",
+   "ref": "runs\\20261123_180805_official",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "32_载体变异测试.md",
+   "ref": "00_裁决与结论.md",
+   "status": "OK",
+   "resolved": "00_裁决与结论.md"
+  },
+  {
+   "from": "32_载体变异测试.md",
+   "ref": "09_S5_可视化看板.html",
+   "status": "OK",
+   "resolved": "09_S5_可视化看板.html"
+  },
+  {
+   "from": "32_载体变异测试.md",
+   "ref": "31_键型扩展对照实验.md",
+   "status": "OK",
+   "resolved": "31_键型扩展对照实验.md"
+  },
+  {
+   "from": "32_载体变异测试.md",
+   "ref": "setup.ps1",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\setup.ps1"
+  },
+  {
+   "from": "32_载体变异测试.md",
+   "ref": "setup.ps1",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\setup.ps1"
+  },
+  {
+   "from": "32_载体变异测试.md",
+   "ref": "32_载体变异证据\\win\\mutation_win.json",
+   "status": "OK",
+   "resolved": "32_载体变异证据\\win\\mutation_win.json"
+  },
+  {
+   "from": "32_载体变异测试.md",
+   "ref": "32_载体变异证据\\vm\\runs\\20261123_mutation_vm.json",
+   "status": "OK",
+   "resolved": "32_载体变异证据\\vm\\runs\\20261123_mutation_vm.json"
+  },
+  {
+   "from": "32_载体变异测试.md",
+   "ref": "32_载体变异证据\\vm\\tools\\",
+   "status": "OK",
+   "resolved": "32_载体变异证据\\vm\\tools"
+  },
+  {
+   "from": "32_载体变异测试.md",
+   "ref": "32_载体变异证据\\vm\\runs\\20261123_203654_official",
+   "status": "OK",
+   "resolved": "32_载体变异证据\\vm\\runs\\20261123_203654_official"
+  },
+  {
+   "from": "32_载体变异测试.md",
+   "ref": "compare_baseline.py",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\compare_baseline.py"
+  },
+  {
+   "from": "32_载体变异测试.md",
+   "ref": "tools/mutation_test_shim.py",
+   "status": "OK",
+   "resolved": "32_载体变异证据\\vm\\tools\\mutation_test_shim.py"
+  },
+  {
+   "from": "32_载体变异测试.md",
+   "ref": "dist\\uibc-实测台-0.4.10-20261123.tar.gz",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "32_载体变异测试.md",
+   "ref": "dist\\uibc-实测台-0.4.10-20261123.zip",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "32_载体变异测试.md",
+   "ref": "dist\\uibc-实测台-0.4.10-repro-20261123.zip",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "32_载体变异测试.md",
+   "ref": "runs\\20261123_201445",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "00_裁决与结论.md",
+   "status": "OK",
+   "resolved": "00_裁决与结论.md"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "09_S5_可视化看板.html",
+   "status": "OK",
+   "resolved": "09_S5_可视化看板.html"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "32_载体变异测试.md",
+   "status": "OK",
+   "resolved": "32_载体变异测试.md"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "tools/binding_probe.py",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\tools\\binding_probe.py"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "keytype_vectors.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "tools/spec_traceability.py",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\tools\\spec_traceability.py"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "index.json",
+   "status": "OK",
+   "resolved": "31_键型扩展证据\\official_format_report\\index.json"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "baseline.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\baseline.json"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "tools/spec_map.json",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\tools\\spec_map.json"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "spec_trace.json",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\spec_trace.json"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "spec_trace.md",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\spec_trace.md"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "tools/binding_probe.py",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\tools\\binding_probe.py"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "33_规范追踪证据\\spec_trace.json",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\spec_trace.json"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "spec_map.json",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\tools\\spec_map.json"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "uibc-实测台-0.4.11-repro-20261123.zip",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "dist/_pack_repro.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "uibc-kit-0.4.11-20261123.tar.gz",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "spec_map.json",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\tools\\spec_map.json"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "dist/_pack.py",
+   "status": "OK",
+   "resolved": "41_外部复核校准证据\\evidence_pack.py"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "tools/*.json",
+   "status": "OK",
+   "resolved": "25_LGD-Eval预演_结论.json"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "tools/spec_map.json",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\tools\\spec_map.json"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "33_规范追踪证据\\repro_self_test\\",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\repro_self_test"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "probe411.json",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\repro_self_test\\probe411.json"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "trace411.json",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\repro_self_test\\trace411.json"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "trace411.md",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\repro_self_test\\trace411.md"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "repro_pkg_as_tested.zip",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\repro_self_test\\repro_pkg_as_tested.zip"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "dist\\uibc-实测台-0.4.11-20261123.tar.gz",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "dist\\uibc-实测台-0.4.11-20261123.zip",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "dist\\uibc-实测台-0.4.11-repro-20261123.zip",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "33_规范追踪证据\\spec_trace.json",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\spec_trace.json"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "33_规范追踪证据\\win_A_15of15.json",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\win_A_15of15.json"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "win_B_15of15.json",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\win_B_15of15.json"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "33_规范追踪证据\\vm_A_15of15.json",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\vm_A_15of15.json"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "vm_B_15of15.json",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\vm_B_15of15.json"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "33_规范追踪证据\\repro_self_test\\",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\repro_self_test"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "33_规范追踪证据\\tools\\",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\tools"
+  },
+  {
+   "from": "33_规范追踪矩阵与绑定层探针.md",
+   "ref": "spec_map.json",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\tools\\spec_map.json"
+  },
+  {
+   "from": "34_竞品注册清单与端点对标.md",
+   "ref": "34_竞品证据\\resolvers\\*.json",
+   "status": "OK",
+   "resolved": "25_LGD-Eval预演_结论.json"
+  },
+  {
+   "from": "34_竞品注册清单与端点对标.md",
+   "ref": "tools/binding_probe.py",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\tools\\binding_probe.py"
+  },
+  {
+   "from": "34_竞品注册清单与端点对标.md",
+   "ref": "tools/probe_remote.py",
+   "status": "OK",
+   "resolved": "34_竞品证据\\probe_remote.py"
+  },
+  {
+   "from": "34_竞品注册清单与端点对标.md",
+   "ref": "tools/probe_remote.py",
+   "status": "OK",
+   "resolved": "34_竞品证据\\probe_remote.py"
+  },
+  {
+   "from": "34_竞品注册清单与端点对标.md",
+   "ref": "34_竞品证据\\20261123_remote_negative_paths.json",
+   "status": "OK",
+   "resolved": "34_竞品证据\\20261123_remote_negative_paths.json"
+  },
+  {
+   "from": "34_竞品注册清单与端点对标.md",
+   "ref": "34_竞品证据\\",
+   "status": "OK",
+   "resolved": "34_竞品证据"
+  },
+  {
+   "from": "34_竞品注册清单与端点对标.md",
+   "ref": "20261123_remote_negative_paths.json",
+   "status": "OK",
+   "resolved": "34_竞品证据\\20261123_remote_negative_paths.json"
+  },
+  {
+   "from": "34_竞品注册清单与端点对标.md",
+   "ref": "20261123_remote_DIF.json",
+   "status": "OK",
+   "resolved": "34_竞品证据\\20261123_remote_DIF.json"
+  },
+  {
+   "from": "34_竞品注册清单与端点对标.md",
+   "ref": "tools/make_cert.ps1",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "34_竞品注册清单与端点对标.md",
+   "ref": "tools/binding_probe.py",
+   "status": "OK",
+   "resolved": "33_规范追踪证据\\tools\\binding_probe.py"
+  },
+  {
+   "from": "34_竞品注册清单与端点对标.md",
+   "ref": "tools/run_official_suite.ps1",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "34_竞品注册清单与端点对标.md",
+   "ref": "uibc-实测台-0.4.14-20261123.zip",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "34_竞品注册清单与端点对标.md",
+   "ref": "tools/make_cert.ps1",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "34_竞品注册清单与端点对标.md",
+   "ref": "34_竞品证据\\repro_0413_win_nocert\\",
+   "status": "OK",
+   "resolved": "34_竞品证据\\repro_0413_win_nocert"
+  },
+  {
+   "from": "34_竞品注册清单与端点对标.md",
+   "ref": "ENV_AND_RESULT.txt",
+   "status": "OK",
+   "resolved": "34_竞品证据\\repro_0413_win_nocert\\ENV_AND_RESULT.txt"
+  },
+  {
+   "from": "34_竞品注册清单与端点对标.md",
+   "ref": "summary.txt",
+   "status": "OK",
+   "resolved": "28_官方套件_Windows日志\\summary.txt"
+  },
+  {
+   "from": "34_竞品注册清单与端点对标.md",
+   "ref": "shim_smoke.json",
+   "status": "OK",
+   "resolved": "28_官方套件_Windows日志\\shim_smoke.json"
+  },
+  {
+   "from": "34_竞品注册清单与端点对标.md",
+   "ref": "probe_0413_final.json",
+   "status": "OK",
+   "resolved": "34_竞品证据\\repro_0413_win_nocert\\probe_0413_final.json"
+  },
+  {
+   "from": "35_第二方法证据_did_web.md",
+   "ref": "uibc_core/did.py",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\uibc_core\\did.py"
+  },
+  {
+   "from": "35_第二方法证据_did_web.md",
+   "ref": "tools/did_web_probe.py",
+   "status": "OK",
+   "resolved": "35_did_web证据\\did_web_probe.py"
+  },
+  {
+   "from": "35_第二方法证据_did_web.md",
+   "ref": "tools/make_cert.ps1",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "35_第二方法证据_did_web.md",
+   "ref": "35_did_web证据\\",
+   "status": "OK",
+   "resolved": "35_did_web证据"
+  },
+  {
+   "from": "35_第二方法证据_did_web.md",
+   "ref": "win_didweb_12of12.json",
+   "status": "OK",
+   "resolved": "35_did_web证据\\win_didweb_12of12.json"
+  },
+  {
+   "from": "35_第二方法证据_did_web.md",
+   "ref": "vm_didweb_12of12.json",
+   "status": "OK",
+   "resolved": "35_did_web证据\\vm_didweb_12of12.json"
+  },
+  {
+   "from": "35_第二方法证据_did_web.md",
+   "ref": "did_web_probe.py",
+   "status": "OK",
+   "resolved": "35_did_web证据\\did_web_probe.py"
+  },
+  {
+   "from": "36_登记预演与方法门槛.md",
+   "ref": "tools/registration_preflight.py",
+   "status": "OK",
+   "resolved": "36_登记预演证据\\registration_preflight.py"
+  },
+  {
+   "from": "36_登记预演与方法门槛.md",
+   "ref": "36_登记预演证据\\",
+   "status": "OK",
+   "resolved": "36_登记预演证据"
+  },
+  {
+   "from": "36_登记预演与方法门槛.md",
+   "ref": "preflight_A.json",
+   "status": "OK",
+   "resolved": "36_登记预演证据\\20261123_preflight_A.json"
+  },
+  {
+   "from": "36_登记预演与方法门槛.md",
+   "ref": "preflight_B.json",
+   "status": "OK",
+   "resolved": "36_登记预演证据\\20261123_preflight_B.json"
+  },
+  {
+   "from": "36_登记预演与方法门槛.md",
+   "ref": "preflight_C.json",
+   "status": "OK",
+   "resolved": "36_登记预演证据\\20261123_preflight_C.json"
+  },
+  {
+   "from": "36_登记预演与方法门槛.md",
+   "ref": "suite_vectors.json",
+   "status": "OK",
+   "resolved": "36_登记预演证据\\suite_vectors.json"
+  },
+  {
+   "from": "36_登记预演与方法门槛.md",
+   "ref": "registration_preflight.py",
+   "status": "OK",
+   "resolved": "36_登记预演证据\\registration_preflight.py"
+  },
+  {
+   "from": "37_全组复核_v0.4.15.md",
+   "ref": "runs\\20261123_v0415_regress",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "37_全组复核_v0.4.15.md",
+   "ref": "runs\\20261123_e1_retry",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "37_全组复核_v0.4.15.md",
+   "ref": "baseline_diff.json",
+   "status": "OK",
+   "resolved": "37_全组复核证据\\baseline_diff.json"
+  },
+  {
+   "from": "37_全组复核_v0.4.15.md",
+   "ref": "baseline_diff.json",
+   "status": "OK",
+   "resolved": "37_全组复核证据\\baseline_diff.json"
+  },
+  {
+   "from": "37_全组复核_v0.4.15.md",
+   "ref": "04_S4_外人实跑.md",
+   "status": "OK",
+   "resolved": "04_S4_外人实跑.md"
+  },
+  {
+   "from": "37_全组复核_v0.4.15.md",
+   "ref": "runs\\20261123_v0415_regress\\",
+   "status": "OK",
+   "resolved": "."
+  },
+  {
+   "from": "37_全组复核_v0.4.15.md",
+   "ref": "summary.json",
+   "status": "OK",
+   "resolved": "37_全组复核证据\\summary.json"
+  },
+  {
+   "from": "37_全组复核_v0.4.15.md",
+   "ref": "baseline_diff.json",
+   "status": "OK",
+   "resolved": "37_全组复核证据\\baseline_diff.json"
+  },
+  {
+   "from": "37_全组复核_v0.4.15.md",
+   "ref": "s*_results.json",
+   "status": "OK",
+   "resolved": "37_全组复核证据\\e1_retry\\s05_results.json"
+  },
+  {
+   "from": "37_全组复核_v0.4.15.md",
+   "ref": "summary.html",
+   "status": "OK",
+   "resolved": "37_全组复核证据\\summary.html"
+  },
+  {
+   "from": "37_全组复核_v0.4.15.md",
+   "ref": "37_全组复核证据\\",
+   "status": "OK",
+   "resolved": "37_全组复核证据"
+  },
+  {
+   "from": "37_全组复核_v0.4.15.md",
+   "ref": "runs\\20261123_e1_retry",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "37_全组复核_v0.4.15.md",
+   "ref": "tests/fixtures/aer1-merkle-vectors.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\tests\\fixtures\\aer1-merkle-vectors.json"
+  },
+  {
+   "from": "37_全组复核_v0.4.15.md",
+   "ref": "37_全组复核证据\\e1_retry\\",
+   "status": "OK",
+   "resolved": "37_全组复核证据\\e1_retry"
+  },
+  {
+   "from": "37_全组复核_v0.4.15.md",
+   "ref": "s05_results.json",
+   "status": "OK",
+   "resolved": "37_全组复核证据\\e1_retry\\s05_results.json"
+  },
+  {
+   "from": "37_全组复核_v0.4.15.md",
+   "ref": "e1_compare.json",
+   "status": "OK",
+   "resolved": "37_全组复核证据\\e1_retry\\e1_compare.json"
+  },
+  {
+   "from": "37_全组复核_v0.4.15.md",
+   "ref": "summary.json",
+   "status": "OK",
+   "resolved": "37_全组复核证据\\summary.json"
+  },
+  {
+   "from": "37_全组复核_v0.4.15.md",
+   "ref": "results.schema.json",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\results.schema.json"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "发布前审查_20261123\\",
+   "status": "OK",
+   "resolved": "."
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "09_S5_可视化看板.html",
+   "status": "OK",
+   "resolved": "09_S5_可视化看板.html"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "D:\\Workbuddy\\00-总控台\\发布前审查\\00_发布前审查标准_v2_20261123.md",
+   "status": "OK",
+   "resolved": "D:\\Workbuddy\\00-总控台\\发布前审查\\00_发布前审查标准_v2_20261123.md"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "01_S0_前提与定位.md",
+   "status": "OK",
+   "resolved": "01_S0_前提与定位.md"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "tools/package_audit.py",
+   "status": "OK",
+   "resolved": "38_九门自查证据\\package_audit.py"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "tools/no_claim_scan.py",
+   "status": "OK",
+   "resolved": "38_九门自查证据\\no_claim_scan.py"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "D:\\Workbuddy\\weknora",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "B 本机不存在（入库阻塞事实，非引用错误）"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "F:\\家底盘点",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "B 本机不存在（入库阻塞事实，非引用错误）"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "weknora_sync_state.json",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "B 本机不存在（入库阻塞事实，非引用错误）"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "receipt.json",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "C 运行时产物（跑 run.py 才生成）"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "run.py",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\audit\\20261121\\repro_kit\\run.py"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "s0x_results.json",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "C 运行时产物/占位"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "38_九门自查证据\\package_audit.json",
+   "status": "OK",
+   "resolved": "38_九门自查证据\\package_audit.json"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "10_S6响应与整改.md",
+   "status": "OK",
+   "resolved": "10_S6响应与整改.md"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "11_S1跨节点复核.md",
+   "status": "OK",
+   "resolved": "11_S1跨节点复核.md"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "08_S2_事实一致.md",
+   "status": "OK",
+   "resolved": "08_S2_事实一致.md"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "tools\\05_S6\\20261123_131751_facts_siliconflow.md",
+   "status": "OK",
+   "resolved": "tools\\05_S6\\20261123_131751_facts_siliconflow.md"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "tools\\05_S6\\20261123_161854_facts_siliconflow.md",
+   "status": "OK",
+   "resolved": "tools\\05_S6\\20261123_161854_facts_siliconflow.md"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "外人实跑\\room\\uibc-core-public",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "README.md",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\README.md"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "s01_results.json",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "runs\\",
+   "status": "OK",
+   "resolved": "."
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "cases\\竞品对标_20261123.md",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\cases\\竞品对标_20261123.md"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": ".sha256",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\anchors\\20261117_public_drafts.sha256"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "uibc-实测台-0.4.16-20261123.zip",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "uibc-实测台-0.4.16-20261123.tar.gz",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "uibc-实测台-0.4.16-repro-20261123.zip",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "39_规范钉住_S0.md",
+   "status": "OK",
+   "resolved": "39_规范钉住_S0.md"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "39_规范钉住证据\\spec_pin.json",
+   "status": "OK",
+   "resolved": "39_规范钉住证据\\spec_pin.json"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "05_S6\\20261123_四镜回执_siliconflow.md",
+   "status": "OK",
+   "resolved": "05_S6\\20261123_四镜回执_siliconflow.md"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "05_S6\\_rerun3_expert_adversary.txt",
+   "status": "OK",
+   "resolved": "05_S6\\_rerun3_expert_adversary.txt"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "_rerun4_expert.txt",
+   "status": "OK",
+   "resolved": "05_S6\\_rerun4_expert.txt"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "_rerun_expert_adversary.txt",
+   "status": "OK",
+   "resolved": "05_S6\\_rerun_expert_adversary.txt"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "40_外部复核证据\\s1_expert.json",
+   "status": "OK",
+   "resolved": "40_外部复核证据\\s1_expert.json"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "38_九门自查证据\\no_claim_scan.json",
+   "status": "OK",
+   "resolved": "38_九门自查证据\\no_claim_scan.json"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "33_规范追踪矩阵与绑定层探针.md",
+   "status": "OK",
+   "resolved": "33_规范追踪矩阵与绑定层探针.md"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "34_竞品证据\\repro_0413_win_nocert\\",
+   "status": "OK",
+   "resolved": "34_竞品证据\\repro_0413_win_nocert"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "09_S5_可视化看板.html",
+   "status": "OK",
+   "resolved": "09_S5_可视化看板.html"
+  },
+  {
+   "from": "38_九门自查_S0-S9.md",
+   "ref": "38_九门自查证据\\s9_anon_visibility.json",
+   "status": "OK",
+   "resolved": "38_九门自查证据\\s9_anon_visibility.json"
+  },
+  {
+   "from": "39_规范钉住_S0.md",
+   "ref": "00_发布前审查标准_v2_20261123.md",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "39_规范钉住_S0.md",
+   "ref": "tools/spec_pin.py",
+   "status": "OK",
+   "resolved": "39_规范钉住证据\\spec_pin.py"
+  },
+  {
+   "from": "39_规范钉住_S0.md",
+   "ref": "39_规范钉住证据\\spec_pin.json",
+   "status": "OK",
+   "resolved": "39_规范钉住证据\\spec_pin.json"
+  },
+  {
+   "from": "39_规范钉住_S0.md",
+   "ref": "31b_官方格式报告_UIBC-selftest.html",
+   "status": "OK",
+   "resolved": "31b_官方格式报告_UIBC-selftest.html"
+  },
+  {
+   "from": "39_规范钉住_S0.md",
+   "ref": "index.json",
+   "status": "OK",
+   "resolved": "31_键型扩展证据\\official_format_report\\index.json"
+  },
+  {
+   "from": "39_规范钉住_S0.md",
+   "ref": "check_version_drift.py",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "38_九门自查_S0-S9.md",
+   "status": "OK",
+   "resolved": "38_九门自查_S0-S9.md"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "39_规范钉住_S0.md",
+   "status": "OK",
+   "resolved": "39_规范钉住_S0.md"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "40_外部复核证据\\",
+   "status": "OK",
+   "resolved": "40_外部复核证据"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "round8.json",
+   "status": "OK",
+   "resolved": "40_外部复核证据\\round8.json"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "round9.json",
+   "status": "OK",
+   "resolved": "40_外部复核证据\\round9.json"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "s1_expert.json",
+   "status": "OK",
+   "resolved": "40_外部复核证据\\s1_expert.json"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "s9_visibility.json",
+   "status": "OK",
+   "resolved": "40_外部复核证据\\s9_visibility.json"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "41_外部复核仪器校准.md",
+   "status": "OK",
+   "resolved": "41_外部复核仪器校准.md"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "spec_pin.json",
+   "status": "OK",
+   "resolved": "39_规范钉住证据\\spec_pin.json"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "05_S6\\*.md",
+   "status": "OK",
+   "resolved": "00_裁决与结论.md"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "s1_expert.json",
+   "status": "OK",
+   "resolved": "40_外部复核证据\\s1_expert.json"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "32_载体变异证据\\",
+   "status": "OK",
+   "resolved": "32_载体变异证据"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "34_竞品证据\\repro_0413_win_nocert\\",
+   "status": "OK",
+   "resolved": "34_竞品证据\\repro_0413_win_nocert"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "package_audit.json",
+   "status": "OK",
+   "resolved": "38_九门自查证据\\package_audit.json"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "s9_anon_visibility.json",
+   "status": "OK",
+   "resolved": "38_九门自查证据\\s9_anon_visibility.json"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "tools/github_visibility.py",
+   "status": "OK",
+   "resolved": "40_外部复核证据\\github_visibility.py"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "09_S5_可视化看板.html",
+   "status": "OK",
+   "resolved": "09_S5_可视化看板.html"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "dist\\uibc-bench-v0.4.17.bundle",
+   "status": "MISSING",
+   "resolved": null,
+   "bucket": "A 引用错误（需改文档）"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "40_外部复核证据\\",
+   "status": "OK",
+   "resolved": "40_外部复核证据"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "41_外部复核仪器校准.md",
+   "status": "OK",
+   "resolved": "41_外部复核仪器校准.md"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "41_外部复核仪器校准.md",
+   "status": "OK",
+   "resolved": "41_外部复核仪器校准.md"
+  },
+  {
+   "from": "40_外部复核第八九轮.md",
+   "ref": "41_外部复核校准证据\\",
+   "status": "OK",
+   "resolved": "41_外部复核校准证据"
+  },
+  {
+   "from": "41_外部复核仪器校准.md",
+   "ref": "tools/review_matrix.py",
+   "status": "OK",
+   "resolved": "41_外部复核校准证据\\review_matrix.py"
+  },
+  {
+   "from": "41_外部复核仪器校准.md",
+   "ref": "review_matrix.py",
+   "status": "OK",
+   "resolved": "41_外部复核校准证据\\review_matrix.py"
+  },
+  {
+   "from": "41_外部复核仪器校准.md",
+   "ref": "\\evidence",
+   "status": "OK",
+   "resolved": "外人实跑\\room\\uibc-core-public\\anchors\\001\\package\\evidence"
+  },
+  {
+   "from": "41_外部复核仪器校准.md",
+   "ref": "\\*",
+   "status": "OK",
+   "resolved": "00_裁决与结论.md"
+  },
+  {
+   "from": "41_外部复核仪器校准.md",
+   "ref": "\\\\",
+   "status": "OK",
+   "resolved": "."
+  },
+  {
+   "from": "41_外部复核仪器校准.md",
+   "ref": "review_matrix.py",
+   "status": "OK",
+   "resolved": "41_外部复核校准证据\\review_matrix.py"
+  },
+  {
+   "from": "41_外部复核仪器校准.md",
+   "ref": "\\\\",
+   "status": "OK",
+   "resolved": "."
+  },
+  {
+   "from": "41_外部复核仪器校准.md",
+   "ref": "\\\\*",
+   "status": "OK",
+   "resolved": "00_裁决与结论.md"
+  },
+  {
+   "from": "41_外部复核仪器校准.md",
+   "ref": "\\\\\\*",
+   "status": "OK",
+   "resolved": "00_裁决与结论.md"
+  },
+  {
+   "from": "41_外部复核仪器校准.md",
+   "ref": "41_外部复核校准证据\\",
+   "status": "OK",
+   "resolved": "41_外部复核校准证据"
+  }
+ ],
+ "urls": [
+  {
+   "url": "http://legreq.com",
+   "status": "OK",
+   "detail": "200（未配 must）"
+  },
+  {
+   "url": "https://127.0.0.1:",
+   "status": "SKIP",
+   "detail": "本机端点（需本机脚本起服务后才有响应）"
+  },
+  {
+   "url": "https://127.0.0.1:9443/1.0/identifiers",
+   "status": "SKIP",
+   "detail": "本机端点（需本机脚本起服务后才有响应）"
+  },
+  {
+   "url": "https://127.0.0.1:9443/1.0/identifiers\",\"supportedDidMethods\":",
+   "status": "SKIP",
+   "detail": "本机端点（需本机脚本起服务后才有响应）"
+  },
+  {
+   "url": "https://127.0.0.1:9443/1.0/identifiers/",
+   "status": "SKIP",
+   "detail": "本机端点（需本机脚本起服务后才有响应）"
+  },
+  {
+   "url": "https://143-198-140-182.sslip.io/1.0/identifiers",
+   "status": "N/A",
+   "detail": "解析器端点根 URL，需拼 DID 才有响应"
+  },
+  {
+   "url": "https://api.siliconflow.cn/v1/chat/completions",
+   "status": "N/A",
+   "detail": "POST 专用接口，GET 恒 404"
+  },
+  {
+   "url": "https://artsandego.dylanharris.org/ssc/spex/css/css-conditional-rules-4-feb22.pdf",
+   "status": "BLOCKED",
+   "detail": "URLError"
+  },
+  {
+   "url": "https://datatracker.ietf.org/doc/draft-ietf-idr-sr-policy-seglist-id/11/",
+   "status": "OK",
+   "detail": "200（未配 must）"
+  },
+  {
+   "url": "https://dev.uniresolver.io/",
+   "status": "OK",
+   "detail": "200（未配 must）"
+  },
+  {
+   "url": "https://dev.uniresolver.io/1.0/identifiers",
+   "status": "N/A",
+   "detail": "解析器端点根 URL，需拼 DID 才有响应"
+  },
+  {
+   "url": "https://dev.uniresolver.io/1.0/identifiers/",
+   "status": "N/A",
+   "detail": "解析器端点根 URL，需拼 DID 才有响应"
+  },
+  {
+   "url": "https://dev.uniresolver.io/1.0/identifiers/did:key:z2J9gcGbsEDU…jto1ccQu",
+   "status": "SKIP",
+   "detail": "模板/占位"
+  },
+  {
+   "url": "https://example.com/.well-known/did.json",
+   "status": "SKIP",
+   "detail": "文档占位域名"
+  },
+  {
+   "url": "https://example.com/user/al/did.json",
+   "status": "SKIP",
+   "detail": "文档占位域名"
+  },
+  {
+   "url": "https://example.com:8443/.well-known/did.json",
+   "status": "SKIP",
+   "detail": "文档占位域名"
+  },
+  {
+   "url": "https://getrfc.com/rfc7942",
+   "status": "OK",
+   "detail": "200（未配 must）"
+  },
+  {
+   "url": "https://github.com/w3c/did-resolution-test-suite",
+   "status": "OK",
+   "detail": "命中 'did-resolution-test-suite'"
+  },
+  {
+   "url": "https://github.com/w3c/did-test-suite",
+   "status": "OK",
+   "detail": "200（未配 must）"
+  },
+  {
+   "url": "https://github.com/zhaoxinghua09-cell/uibc-core",
+   "status": "OK",
+   "detail": "命中 'uibc'"
+  },
+  {
+   "url": "https://github.com/…':",
+   "status": "SKIP",
+   "detail": "模板/占位"
+  },
+  {
+   "url": "https://identity.foundation/universal-resolver/",
+   "status": "BLOCKED",
+   "detail": "TimeoutError"
+  },
+  {
+   "url": "https://raw.githubusercontent.com/w3c/did-resolution-test-suite/main/resolvers/*.json",
+   "status": "SKIP",
+   "detail": "模板/占位"
+  },
+  {
+   "url": "https://resolver.cheqd.net/1.0/identifiers",
+   "status": "N/A",
+   "detail": "解析器端点根 URL，需拼 DID 才有响应"
+  },
+  {
+   "url": "https://resolver.privado.id/1.0/identifiers",
+   "status": "N/A",
+   "detail": "解析器端点根 URL，需拼 DID 才有响应"
+  },
+  {
+   "url": "https://uniresolver.io/",
+   "status": "OK",
+   "detail": "200（未配 must）"
+  },
+  {
+   "url": "https://w3c.github.io/did-resolution-test-suite/",
+   "status": "OK",
+   "detail": "命中 'DID Resolution'"
+  },
+  {
+   "url": "https://w3c.github.io/did-resolution/#bindings-https",
+   "status": "OK",
+   "detail": "命中 'DID Resolution'"
+  },
+  {
+   "url": "https://w3c.github.io/did-resolution/#did-resolution-options:~:text&#x3D;If%20the%20resolution%20is%20successful%2C%20this%20MUST%20be%20a%20metadata%20structure",
+   "status": "OK",
+   "detail": "命中 'If the resolution is successful, this MUST be'"
+  },
+  {
+   "url": "https://w3c.github.io/did-resolution/#did-resolution-options:~:text&#x3D;If%20the%20resolution%20is%20unsuccessful%2C%20this%20output%20MUST%20be%20an%20empty%20metadata%20structure.",
+   "status": "OK",
+   "detail": "命中 'If the resolution is unsuccessful, this output MUST'"
+  },
+  {
+   "url": "https://w3c.github.io/did-resolution/#types:~:text&#x3D;A%20metadata%20structure%20consisting%20of%20values%20relating%20to%20the%20results%20of%20the%20DID%20resolution%20process.%20This%20structure%20is%20REQUIRED",
+   "status": "OK",
+   "detail": "命中 'A metadata structure consisting of values relating to'"
+  },
+  {
+   "url": "https://w3c.github.io/did-resolution/#types:~:text&#x3D;All%20conforming%20DID%20resolvers%20MUST%20implement%20the%20DID%20resolution%20function%20for%20at%20least%20one%20DID%20method",
+   "status": "OK",
+   "detail": "命中 'All conforming DID resolvers MUST implement the DID'"
+  },
+  {
+   "url": "https://w3c.github.io/did-resolution/#types:~:text&#x3D;Determine%20whether%20the%20DID%20method%20of%20the%20input%20DID%20is%20supported%20by%20the%20DID%20resolver%20that%20implements%20this%20algorithm.%20If%20not%2C%20the%20DID%20resolver%20MUST%20return%20the%20following%20result%3A",
+   "status": "OK",
+   "detail": "命中 'Determine whether the DID method of the input'"
+  },
+  {
+   "url": "https://w3c.github.io/did-resolution/#types:~:text&#x3D;If%20the%20resolution%20is%20successful%2C%20this%20MUST%20be%20a%20DID%20document%20that%20is%20capable%20of%20being%20represented%20in%20one%20of%20the%20conformant%20representations%20of%20the%20Decentralized%20Identifiers%20",
+   "status": "OK",
+   "detail": "命中 'If the resolution is successful, this MUST be'"
+  },
+  {
+   "url": "https://w3c.github.io/did-resolution/#types:~:text&#x3D;If%20the%20resolution%20is%20unsuccessful%2C%20this%20structure%20MUST%20contain%20an%20error%20property%20describing%20the%20error.",
+   "status": "OK",
+   "detail": "命中 'If the resolution is unsuccessful, this structure MUST'"
+  },
+  {
+   "url": "https://w3c.github.io/did-resolution/#types:~:text&#x3D;The%20value%20of%20id%20in%20the%20resolved%20DID%20document%20MUST%20be%20string%20equal%20to%20the%20DID%20that%20was%20resolved.",
+   "status": "OK",
+   "detail": "命中 'The value of id in the resolved DID'"
+  },
+  {
+   "url": "https://w3c.github.io/did-resolution/#types:~:text&#x3D;Validate%20that%20the%20input%20DID%20conforms%20to%20the%20did%20rule%20of%20the%20DID%20Syntax.%20If%20not%2C%20the%20DID%20resolver%20MUST%20return%20the%20following%20result%3A",
+   "status": "OK",
+   "detail": "命中 'Validate that the input DID conforms to the'"
+  },
+  {
+   "url": "https://w3c.github.io/did-resolution/#types:~:text&#x3D;are%20valid.%20If%20not%2C%20the%20DID%20resolver%20MUST%20return%20the%20following%20result%3A",
+   "status": "OK",
+   "detail": "命中 'are valid. If not, the DID resolver MUST'"
+  },
+  {
+   "url": "https://w3c.github.io/did-test-suite/",
+   "status": "OK",
+   "detail": "200（未配 must）"
+  },
+  {
+   "url": "https://w3c.github.io/did-wg-charter/",
+   "status": "OK",
+   "detail": "200（未配 must）"
+  },
+  {
+   "url": "https://w3id.org/security/suites/jws-2020/v1",
+   "status": "OK",
+   "detail": "200（未配 must）"
+  },
+  {
+   "url": "https://www.rfc-editor.org/info/rfc7942",
+   "status": "OK",
+   "detail": "200（未配 must）"
+  },
+  {
+   "url": "https://www.rfc-editor.org/rfc/rfc7942.html",
+   "status": "OK",
+   "detail": "200（未配 must）"
+  },
+  {
+   "url": "https://www.w3.org/2004/02/Process-20040205/tr.html",
+   "status": "OK",
+   "detail": "200（未配 must）"
+  },
+  {
+   "url": "https://www.w3.org/TR/did-resolution/",
+   "status": "OK",
+   "detail": "命中 'DID Resolution'"
+  },
+  {
+   "url": "https://www.w3.org/Tools/respec/respec-w3c",
+   "status": "OK",
+   "detail": "200（未配 must）"
+  },
+  {
+   "url": "https://www.w3.org/ns/did#INVALID_DID",
+   "status": "OK",
+   "detail": "200（未配 must）"
+  }
+ ],
+ "summary": {
+  "local_total": 449,
+  "local_missing": 102,
+  "url_total": 47,
+  "url_ok": 29,
+  "url_blocked": 2,
+  "url_dead": 0,
+  "url_skip": 10,
+  "url_na": 6,
+  "local_hard_missing": 90
+ }
+}

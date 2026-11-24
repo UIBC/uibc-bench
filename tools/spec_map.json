@@ -1,0 +1,204 @@
+{
+ "_说明": [
+  "官方 23 条断言的逐条映射。key = 官方报告 rows[].id（与 index.json 原文字面一致，工具会校验）。",
+  "cases: 本测试台 baseline.json 里能直接对应这条规范要求的用例名（字面匹配，工具会校验存在性）。",
+  "kind: bench-direct（bench 用例直接断言同一要求） / bench-partial（bench 覆盖相邻层面，不是同一条断言） / suite-only（只有官方套件覆盖，bench 无对应用例） / carrier（由载体变异测试证明套件对这条敏感） / info（套件前置条件，非规范 MUST 断言）",
+  "这份映射是人工写的判定，工具只做机械校验（行数、名字是否存在、判定分布），不替人做规范解释。"
+ ],
+ "rows": {
+  "All HTTPS bindings MUST use TLS": {
+   "kind": "bench-partial",
+   "cases": [
+    "A3 TLS 基线"
+   ],
+   "note": "P15 断言明文 HTTP 拿不到结果（端点是 HTTPS-only）；TLS 本身的密码学强度未测，只测了「必须走 TLS」这一层",
+   "probe": [
+    "P15"
+   ]
+  },
+  "All conforming DID resolvers MUST implement the GET version of the HTTPS binding": {
+   "kind": "suite-only",
+   "cases": [],
+   "note": "bench 没有对解析端点做 GET 绑定断言，靠套件",
+   "probe": [
+    "P1"
+   ]
+  },
+  "If Accept is application/did-resolution, HTTP body MUST contain a DID resolution result": {
+   "kind": "suite-only",
+   "cases": [],
+   "probe": [
+    "P3"
+   ]
+  },
+  "If function is successful and returns a didDocument, HTTP response status code MUST be 200": {
+   "kind": "suite-only",
+   "cases": [],
+   "probe": [
+    "P1"
+   ]
+  },
+  "HTTP response MUST contain a Content-Type header whose value MUST equal contentType in didResolutionMetadata": {
+   "kind": "carrier",
+   "cases": [],
+   "note": "bench 无对应用例；由载体变异 M1/M2 双向证明套件对该条敏感，且实现侧已按此修过（v0.4.6）",
+   "probe": [
+    "P2"
+   ]
+  },
+  "HTTP response body MUST contain the didDocument result of the DID resolution function": {
+   "kind": "suite-only",
+   "cases": [],
+   "probe": [
+    "P3"
+   ]
+  },
+  "If Accept is set to a DID representation media type, response body MUST contain only the didDocument (not the full resolution result)": {
+   "kind": "suite-only",
+   "cases": [],
+   "note": "shim 有 did+ld+json 分支，但 bench 未断言",
+   "probe": [
+    "P4"
+   ]
+  },
+  "GET binding: resolver MUST accept URL-encoded DIDs (required because clients MUST URL-encode when resolution options other than accept are provided)": {
+   "kind": "bench-partial",
+   "cases": [
+    "B2 did:web URL 构造边界"
+   ],
+   "note": "B2 测的是 URL 构造边界，含编码情形但不是「必须接受 URL 编码」这条断言",
+   "probe": [
+    "P11"
+   ]
+  },
+  "METHOD_NOT_SUPPORTED error MUST map to HTTP status 501": {
+   "kind": "bench-partial",
+   "cases": [
+    "I6 不可达方法两边都拒"
+   ],
+   "note": "I6 断言两实现对不可达方法都报错，未断言 501",
+   "probe": [
+    "P8"
+   ]
+  },
+  "Implementation has at least one valid DID to test": {
+   "kind": "info",
+   "cases": [
+    "F2 did:key 单次解析"
+   ],
+   "note": "套件前置条件，非规范 MUST",
+   "probe": [
+    "P1"
+   ]
+  },
+  "Every supported DID method has test DIDs defined": {
+   "kind": "info",
+   "cases": [],
+   "note": "套件前置条件；我们只支持 did:key（及 did:web 非清单内）"
+  },
+  "All conformant DID resolvers MUST implement the DID resolution function for at least one DID method": {
+   "kind": "bench-direct",
+   "cases": [
+    "F2 did:key 单次解析"
+   ],
+   "note": "bench 有 did:key 解析成功用例"
+  },
+  "The didResolutionMetadata structure is REQUIRED.": {
+   "kind": "carrier",
+   "cases": [],
+   "note": "由变异 M2（删空 contentType）证明套件对 metadata 缺失敏感",
+   "probe": [
+    "P3"
+   ]
+  },
+  "If resolution is successful, the didDocument MUST be a conformant DID document": {
+   "kind": "suite-only",
+   "cases": [
+    "D2 网关一致性 43 条"
+   ],
+   "note": "D2 是网关一致性，不是文档符合性；文档符合性由套件 schema 检查 + 18 条键型向量",
+   "probe": [
+    "P13"
+   ]
+  },
+  "The value of id in the resolved DID document MUST match the DID that was resolved": {
+   "kind": "bench-direct",
+   "cases": [
+    "B1' 回环目标可解析(id自洽)",
+    "B5' 20MB 文档(id自洽)"
+   ],
+   "note": "两条 B 组用例都显式断言 id 自洽；另有变异 M3 证明套件对这条敏感",
+   "probe": [
+    "P12"
+   ]
+  },
+  "If the resolution options are invalid, produces an INVALID_OPTIONS (or FEATURE_NOT_SUPPORTED) error and conformant resolution result": {
+   "kind": "suite-only",
+   "cases": [],
+   "note": "shim 对非法 versionTime 返回 INVALID_OPTIONS，但 bench 未断言",
+   "probe": [
+    "P14"
+   ]
+  },
+  "The did input MUST be a conformant DID; otherwise produces an INVALID_DID error and conformant resolution result": {
+   "kind": "bench-direct",
+   "cases": [
+    "B8 畸形 DID ' did:web:a.com'",
+    "B8 畸形 DID 'DID:web:x'",
+    "B8 畸形 DID 'did:'"
+   ],
+   "note": "B8 组 6 条畸形输入全报错，属实现层直接断言"
+  },
+  "The error property in DID Resolution Metadata is REQUIRED when there is an error in the resolution process.": {
+   "kind": "carrier",
+   "cases": [
+    "I5 坏 DID 两边都拒"
+   ],
+   "note": "I5 断言两实现都报错；error 对象本身由套件断言，并有变异 M4 证明敏感",
+   "probe": [
+    "P10"
+   ]
+  },
+  "If the DID method is not supported, produces a METHOD_NOT_SUPPORTED error and conformant resolution result": {
+   "kind": "bench-partial",
+   "cases": [
+    "I6 不可达方法两边都拒"
+   ],
+   "note": "I6 是「不可达」，不是「方法不支持」；方法层未断言",
+   "probe": [
+    "P8"
+   ]
+  },
+  "INVALID_DID error MUST map to HTTP status 400 (input: \"not-a-did\")": {
+   "kind": "bench-partial",
+   "cases": [
+    "I5 坏 DID 两边都拒"
+   ],
+   "note": "I5 是两实现同时拒绝，不是 HTTP 400 状态码断言",
+   "probe": [
+    "P6"
+   ]
+  },
+  "INVALID_DID error MUST map to HTTP status 400 (input: \"did:example\")": {
+   "kind": "suite-only",
+   "cases": [],
+   "probe": [
+    "P7"
+   ]
+  },
+  "If the resolution is successful, the `didDocumentMetadata` MUST be a metadata structure": {
+   "kind": "suite-only",
+   "cases": [],
+   "probe": [
+    "P3"
+   ]
+  },
+  "If the resolution is unsuccessful, the `didDocumentMetadata` output MUST be an empty metadata structure": {
+   "kind": "suite-only",
+   "cases": [],
+   "probe": [
+    "P9"
+   ]
+  }
+ }
+}
