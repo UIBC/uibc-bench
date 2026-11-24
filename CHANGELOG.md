@@ -3,6 +3,16 @@
 每一行对应一个 tag，格式：版本 / 日期 / 一行改动 / 证据在哪。
 **没有复跑日志的「修好了」不进这张表。**
 
+## v0.4.38 — 2026-11-24
+
+主题：**D1 改成跑被测仓 README 里那条命令**。这是上一版梳理里最后一个假失败源。
+
+- **换了仪器**：`D1 外人全量单测` 原用 `python -m unittest discover tests -v`，而 `uibc-core` 的 README 让外人跑的是 `python -m pytest -q`。同一提交实测：unittest 收 **1157** 例、pytest 收 **1589** 例；用前者会把一个 pytest 风格用例（module 级 `importorskip`）记成 FAIL，实际照文档跑是绿的。判据是"外人照文档做能不能一次过"，仪器就该是文档里那条命令
+- 解析跟着换：失败行从 `FAIL: x (mod.Cls.meth)` 改为 `FAILED path::nodeid`；汇总从 `Ran N tests / skipped=N` 改为 `N passed / N skipped`；单条复跑仍用 `pytest -k`
+- 实测：Linux 干净克隆 `D1 PASS — exit=0 用例=1589 失败=0 跳过=7 用时=449s`；Windows 本机同一判据 `s04 PASS=5`
+- 前一版顺带发现的真问题（被测仓 `EVIDENCE-INDEX.md` 的用例数在 Linux/Windows 上算出来不同）已在 `uibc-core` PR #424 修掉：改静态计数后两平台都是 1510，D1 不再因此报 FAIL
+- 证据：`runs/<时间戳>/s04_full_suite_results.json`
+
 ## v0.4.37 — 2026-11-24
 
 主题：**从"只有我这台机器能跑"改成"别人 clone 下来就能跑"**。这一版全是可用性修复，不动任何判据。

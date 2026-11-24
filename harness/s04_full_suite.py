@@ -109,41 +109,41 @@ def d1_unittest():
         {"fingerprint": fp, "file": "runs/_env_fingerprint.json"})
     t0_tests = time.time()
     outp = os.path.join(KIT, "runs", "d1_unittest_v.log")
-    code, txt, dt, timed_out = run_stream(["-m", "unittest", "discover", "tests", "-v"], outp, timeout=900)
+    # 命令用被测仓 README 里写的那一条（`python -m pytest -q`），不是 unittest discovery：
+    # 2026-11-24 实测，同一提交 unittest 只收 1157 例、pytest 收 1589 例；用前者会把
+    # 一个 pytest 风格用例（module 级 importorskip）记成 FAIL，而外人照文档跑其实是绿的。
+    code, txt, dt, timed_out = run_stream(["-m", "pytest", "-q"], outp, timeout=900)
     retried = False
     retry_note = ""
     if code != 0 and not timed_out:
         # 失败不等于被测方有缺陷，也不等于我们环境有问题：先复跑再定性。
         # v0.4.5 起改为**只复跑失败的那几条**（全量复跑 345s 太重，且会把一次偶发拖成十分钟）：
         # 单条复跑通过 = 偶发竞态（仍记 FAIL，但把证据写进结论）；单条也失败 = 真失败。
-        fails0 = re.findall(r"^(?:FAIL|ERROR): \S+ \((\S+)\)", txt, re.M)
+        fails0 = re.findall(r"^FAILED (\S+::\S+)", txt, re.M)
         run_ok, run_n = 0, 0
         details = []
-        for dotted in fails0[:5]:
-            parts = dotted.split(".")
-            if len(parts) < 3:
-                continue
-            mod, cls, meth = parts[-3], parts[-2], parts[-1]
-            f = os.path.join(REPO, "tests", mod + ".py")
+        for nodeid in fails0[:5]:
+            f_rel = nodeid.split("::")[0]
+            meth = nodeid.split("::")[-1].split("[")[0]
+            f = os.path.join(REPO, f_rel)
             if not os.path.exists(f):
                 details.append("%s -> 找不到测试文件（复跑跳过）" % meth[:50]); run_n += 1; continue
             run_n += 1
             o2 = os.path.join(KIT, "runs", "d1_single_rerun_%d.log" % run_n)
             # 用 pytest -k 单跑：unittest 的 `-m unittest 模块.类.方法` 在本仓需要 tests 在 sys.path，
             # 写错路径会把"脚本没跑起来"误读成"用例失败"（v0.4.5 修的就是这个假阴性）。
-            c2, t2, _, to2 = run_stream(["-m", "pytest", os.path.join("tests", mod + ".py"),
-                                        "-k", meth, "-q"], o2, timeout=300)
+            c2, t2, _, to2 = run_stream(["-m", "pytest", f_rel, "-k", meth, "-q"], o2, timeout=300)
             ok2 = (c2 == 0 and not to2 and "no tests ran" not in t2)
             run_ok += 1 if ok2 else 0
             details.append("%s -> %s" % (meth[:60], "PASS" if ok2 else "FAIL"))
         if run_n:
             retry_note = "｜单条复跑 %d/%d 通过（%s）" % (run_ok, run_n, "；".join(details))
     lines = [l for l in txt.splitlines() if l.strip()]
-    m = re.search(r"Ran (\d+) tests?", txt)
+    m = re.search(r"(\d+) passed", txt)
     n = int(m.group(1)) if m else -1
-    fails = re.findall(r"^(FAIL|ERROR): (\S+)", txt, re.M)
-    skipped = re.search(r"skipped=(\d+)", txt)
-    skips = re.findall(r"skipped '([^']{0,60})'", txt)
+    fails = re.findall(r"^FAILED (\S+)", txt, re.M)
+    skipped = re.search(r"(\d+) skipped", txt)
+    skips = re.findall(r"SKIPPED \[\d+\] (\S+?):", txt)
     ok = code == 0 and not timed_out
     if timed_out:
         # 卡点定位：最后一条已开始的用例就是嫌疑对象
