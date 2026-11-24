@@ -51,6 +51,10 @@ jobs:
         shell: bash
         run: |
           PIN=$(python -c "import json;print(json.load(open('baseline.json',encoding='utf-8'))['subject_head'])")
+          if [[ ! "$PIN" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "::error::baseline.json 的 subject_head 必须是完整 40 位提交号，当前是 '$PIN'（缩写 git 拉不到）"
+            exit 1
+          fi
           echo "subject_pin=$PIN" >> "$GITHUB_OUTPUT"
           echo "被测仓钉在 \`$PIN\`（baseline.json 的 subject_head）" >> "$GITHUB_STEP_SUMMARY"
 
