@@ -20,7 +20,16 @@ KIT = os.path.dirname(HERE)
 REPO = os.environ.get("UIBC_SUBJECT") or os.path.join(KIT, "uibc-core-public")
 RESULTS = []
 
+# 来源守卫：必须证明读的是 REPO 里的代码，否则宁可不测。
+# 2026-11-24 在云主机上踩过一次：REPO 指向不存在的目录时，sys.path 会退到
+# 机器上已安装的同名包，测试照跑、结论照出，但测的根本不是指定的那份代码。
+if not os.path.isdir(REPO):
+    sys.exit("[ABORT] 被测路径不存在：%s（不会被当成通过，也不会静默退回已安装包）" % REPO)
 sys.path.insert(0, REPO)
+import uibc_core  # noqa: E402
+_SRC = os.path.abspath(uibc_core.__file__)
+if not _SRC.startswith(os.path.abspath(REPO) + os.sep):
+    sys.exit("[ABORT] uibc_core 实际来自 %s，不在被测路径 %s 之下；拒绝用别人的代码出结论" % (_SRC, REPO))
 from uibc_core.agent_identity_code import parse_agent_code, detect_profile  # noqa: E402
 from uibc_core.acps_identity_code import read_acps_code  # noqa: E402
 
