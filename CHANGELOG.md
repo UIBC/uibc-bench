@@ -3,6 +3,18 @@
 每一行对应一个 tag，格式：版本 / 日期 / 一行改动 / 证据在哪。
 **没有复跑日志的「修好了」不进这张表。**
 
+## v0.4.41 — 2026-11-25
+
+第一次真的把这条流水线交给 GitHub 的双平台 runner，就抓出三个"只在我这台机器上成立"的假设：
+
+- **编码**：windows-latest 的控制台是 cp1252，`run.py` 打的一行 `◀` 直接 `UnicodeEncodeError`，job exit 1。
+  本机 cp936 编得出来，所以从来没暴露。现在 `run.py` 起手把 stdout/stderr 重设为 UTF-8（`errors="replace"`），
+  子进程也注入 `PYTHONUTF8=1` / `PYTHONIOENCODING=utf-8`，workflow 再钉一层同名环境变量。
+- **备料**：被测仓的验证路径要 `cryptography`（`[verify]` extra），CI 没装，B0 组全 BLOCKED、
+  s01 平白多出 7 条 FAIL。workflow 增加 `pip install "./uibc-core-public[verify]"`；QUICKSTART 增 §1.5 写清这一步。
+- **性能判据不能跨宿主**：`F1` 的 300ms 阈值在家宽成立、在共享 runner 上必然误报（实测 P50≈950ms）。
+  设了 `CI` 且没给 `UIB_PROFILE` 时，`F1` 三项只测量、记 `REFERENCE`，不参与判据；要判性能就在目标网络里指定档位。
+
 ## v0.4.40 — 2026-11-24
 
 主题：**把"跑得出结论"升级为"结论能被别人接走"**。台子判定逻辑一字未改，新增的全是交付层与可复核层。

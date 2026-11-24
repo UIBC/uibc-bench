@@ -13,6 +13,18 @@ cd uibc-bench
 > Windows 上别用 `tar` 解 tarball：非 ASCII 文件名会按本地代码页解码（`résumé.md`→`r茅sum茅.md`），
 > 被测仓里几个字节锚定的用例会因此假失败。要解包请用 `python -m tarfile`。
 
+## 1.5 先给被测仓备料（第一次跑必做）
+
+被测仓的验证路径用 `cryptography` / `asn1crypto`（见其 `pyproject.toml` 的 `[verify]` extra）。
+不装的话，B0 组会以 `ModuleNotFoundError` 报 BLOCKED——这是台子没备料，不是被测仓有问题，
+但结论表上看起来一样刺眼。一行装好：
+
+```bash
+python -m pip install "./uibc-core-public[verify]"
+```
+
+装完再跑 `run.py --quick`，B0 组才会真的验签名路径。
+
 ## 2. 跑
 
 ```bash
@@ -104,3 +116,14 @@ python run.py --guide                  # 完全不想记参数：三个问题替
 
 判据仍然只有 `baseline.json` 一份；`excludes` 只影响"消失"提示，不影响任何判定值，也不影响 `--strict`。
 
+
+## 8. CI 上为什么性能项显示 REFERENCE
+
+`F1` 量的是"从这台机器到信通院平台的往返"，同一台平台家宽 P50≈86ms、云主机≈392ms、
+GitHub 共享 runner 实测≈950ms。拿一个绝对阈值去判任意 runner 的计时，只会产出噪音——
+所以设了 `CI` 环境变量而没指定 `UIB_PROFILE` 时，`F1` 三项只测量、记 `REFERENCE`，不参与判据。
+要真判性能，就在目标网络里跑并 `set UIB_PROFILE=<档位>`（档位见 `thresholds.json`）。
+
+另外 `run.py` 与各组子进程都强制 UTF-8（`PYTHONUTF8=1` / `PYTHONIOENCODING=utf-8`）。
+起因是 GitHub 的 windows-latest 控制台是 cp1252，一行带中文的输出就把整个 job 打成 exit 1——
+本机 cp936 上根本复现不了。任何人换机器、换 locale 都应该能跑，所以编码不靠环境赏脸。

@@ -26,6 +26,25 @@ import sys
 import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+
+
+def _harden_stdio():
+    """终端不因为一个字符把整轮跑挂掉。
+
+    2026-11-24 GitHub 的 windows-latest 上真挂过：runner 的控制台是 cp1252，
+    一行带 `◀`/中文的输出直接抛 UnicodeEncodeError，整个 job exit 1——
+    而同样的代码在本机 cp936 上跑得好好的。这不是"环境怪"，是"没适配"：
+    任何人换台机器、换个 locale 就该能跑，所以统一把 stdout/stderr 定成 UTF-8，
+    编不出来的字符替换掉，而不是崩。
+    """
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+        except Exception:
+            pass
+
+
+_harden_stdio()
 HARNESS = os.path.join(HERE, "harness")
 QUICK_SKIP = ("s04", "s05", "s08")   # 全量套件 / Windows 克隆 / 环境矩阵：慢或挑平台
 VERDICTS = ("PASS", "FAIL", "BLOCKED", "REFERENCE", "SKIP", "TIMEOUT")
@@ -178,6 +197,11 @@ def _kill_tree(proc):
 def run_group(name, path, out_dir, timeout, subject):
     out_json = os.path.join(out_dir, name + "_results.json")
     env = dict(os.environ)
+    # 子进程也一样钉 UTF-8：各组脚本会打印中文和 `◀`，在 cp1252 的控制台上会直接抛
+    # UnicodeEncodeError（GitHub windows-latest 上真发生过）。父进程 print 修了不算完，
+    # 跑在子进程里的这些组也得修。
+    env["PYTHONUTF8"] = "1"
+    env["PYTHONIOENCODING"] = "utf-8"
     if subject:
         env["UIBC_SUBJECT"] = subject
     cmd = [sys.executable, path, out_json]

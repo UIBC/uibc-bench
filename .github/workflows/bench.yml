@@ -27,6 +27,12 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         python: ["3.12"]
+    env:
+      # runner 的控制台编码各家不同（windows-latest 实测是 cp1252），统一钉成 UTF-8，
+      # 让"换台机器就跑不起来"这类问题在 CI 里就不可能发生。
+      PYTHONUTF8: "1"
+      PYTHONIOENCODING: "utf-8"
+
     steps:
       - uses: actions/checkout@v4
 
@@ -38,6 +44,12 @@ jobs:
       - name: 取被测仓
         shell: bash
         run: git clone --depth 1 https://github.com/zhaoxinghua09-cell/uibc-core uibc-core-public
+
+      # 被测仓的验证路径用 cryptography/asn1crypto（见其 pyproject 的 [verify] extra）。
+      # 不装的话，B0 组会以 ModuleNotFoundError 报 BLOCKED——那是台子没备料，不是被测仓有问题。
+      - name: 装被测仓依赖（[verify] extra）
+        shell: bash
+        run: python -m pip install "./uibc-core-public[verify]"
 
       - name: 台子活着的快速确认（--quick）
         if: ${{ !inputs.full }}
