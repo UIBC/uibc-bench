@@ -1,0 +1,18 @@
+{
+ "excludes": [
+  "E1 .gitattributes 是否覆盖 tests/fixtures",
+  "E1 字节锚定文件匹配",
+  "E1 实际行尾配置",
+  "E1 行尾改写文件数",
+  "E1 默认配置克隆仓库",
+  "M4 控制台编码 cp936 下 CLI"
+ ],
+ "reasons": {
+  "E1 .gitattributes 是否覆盖 tests/fixtures": "linux 产物无此用例（Windows 专属），本次基线以 linux 为准",
+  "E1 字节锚定文件匹配": "linux 产物无此用例（Windows 专属），本次基线以 linux 为准",
+  "E1 实际行尾配置": "linux 产物无此用例（Windows 专属），本次基线以 linux 为准",
+  "E1 行尾改写文件数": "linux 产物无此用例（Windows 专属），本次基线以 linux 为准",
+  "E1 默认配置克隆仓库": "linux 产物无此用例（Windows 专属），本次基线以 linux 为准",
+  "M4 控制台编码 cp936 下 CLI": "linux 产物无此用例（Windows 专属），本次基线以 linux 为准"
+ }
+}
