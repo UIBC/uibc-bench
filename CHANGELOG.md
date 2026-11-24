@@ -3,6 +3,19 @@
 每一行对应一个 tag，格式：版本 / 日期 / 一行改动 / 证据在哪。
 **没有复跑日志的「修好了」不进这张表。**
 
+## v0.4.36 — 2026-11-24
+
+- **s10 补上"带盐可判"这一档**：新增 I15–I18（`harness/s10_identity_code_interop.py`），把校验码从"永远只能判未验证"推进到"有盐判对错"
+  - I15 规范算例 + 示例盐 → `VERIFIED`，evidence 含 `acps-arc10:0JU4` 与 sha256
+  - I16 段序无关：overview §5.2 的另一种段序同样 `VERIFIED`
+  - I17 末位篡改 → `INVALID`
+  - I18 无盐 / 短盐 → `INCONCLUSIVE`，明写 checksum NOT checked
+- 修正两处过期表述：原文版本 `v02.01` → **`v02.02`**；I9 断言跟着新 detail 改（"not checked"而非"unverified"）
+- 本轮实跑：**11 PASS + 1 REFERENCE**（被测对象取 `uibc-core` main `6187e96` 公开 tar.gz，来源守卫在位）
+- 负向守卫复测：把 `UIBC_SUBJECT` 指到不含 `uibc_core` 的目录 → `[ABORT]` 退出码 1（不是静默退回已安装包）
+- 场景清单 `cases/场景清单.md` 补 10.9–10.12
+- 证据：`s10_results.json`
+
 ## v0.4.35 — 2026-11-24
 
 - **来源守卫**：`harness/s10_identity_code_interop.py` 在导入后检查 `uibc_core.__file__` 是否真在被测路径之下；指错目录或目录不存在一律 `[ABORT]` 退出码 1，不再退回机器上已安装的同名包照样出结论
