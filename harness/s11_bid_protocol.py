@@ -249,19 +249,62 @@ def j6_field_endpoints(B):
         rec("J6.5 服务按 id 查询", "FAIL", traceback.format_exc().splitlines()[-1])
 
 
-# --------------------------------------- J7 官方 SDK 地址（三方对齐的落点）
+# --------------------------------------- J7 官方 SDK 地址（能校验什么、不能反推什么）
 def j7_official_sdk_address(B, subject):
-    path = os.path.join(subject, "fixtures", "bid", "sdk_address.json")
-    if not os.path.exists(path):
-        rec("J7 官方 SDK 地址对齐", "SKIP", "被测仓未提供 fixtures/bid/sdk_address.json")
-        return
+    """The SDK's addresses are evidence for one property, not for a derivation.
+
+    History: this group first asserted "protocol rule reproduces the SDK address",
+    on a single fixture. Over 50 seeds only 7 agree - the SDK's base58 codec is not
+    the Bitcoin one - so the derivation claim was withdrawn upstream. What is
+    checked here is the property that survived: the subject ACCEPTS every address
+    the official implementation emits. The divergence is reported as INFO, because
+    it is a fact about the SDK, not a defect in the subject.
+    """
     import hashlib
-    fixture = json.load(open(path, encoding="utf-8"))
-    key_hex = fixture.get("encPublicKey", "")
-    raw, _prefix = B.strip_key_prefix(key_hex)
-    derived = "did:bid:ef" + B.base58_encode(hashlib.sha256(raw).digest()[10:])
-    rec("J7.1 协议规则复算 == 官方 SDK 地址", "PASS" if derived == fixture.get("address") else "FAIL",
-        "%s vs %s" % (derived, fixture.get("address")))
+    from uibc_core import did_cn as DIDCN
+    batch_path = os.path.join(subject, "fixtures", "bid", "sdk_address_batch.json")
+    single_path = os.path.join(subject, "fixtures", "bid", "sdk_address.json")
+
+    if os.path.exists(batch_path):
+        rows = json.load(open(batch_path, encoding="utf-8"))
+        bad = []
+        for row in rows:
+            suffix = row["address"].split(":", 2)[-1]
+            try:
+                d = DIDCN._check_bid(suffix)
+            except Exception as e:  # noqa: BLE001 - any rejection is the finding
+                bad.append((row["address"], repr(e)))
+                continue
+            if not (d["shape"] == "main" and d["crypto"] == "Ed25519" and d["encoding"] == "base58"):
+                bad.append((row["address"], d))
+        rec("J7.1 官方 SDK 产出的 %d 条地址全部被接受（主链/Ed25519/base58）" % len(rows),
+            "PASS" if not bad else "FAIL", "rejected: %s" % (bad[:2] if bad else "none"))
+
+        lengths = {len(r["address"].split(":", 2)[-1]) for r in rows}
+        in_range = all(22 <= n <= 42 for n in lengths)
+        distinct = len({r["address"] for r in rows}) == len({r["encPublicKey"] for r in rows}) == len(rows)
+        rec("J7.2 suffix 长度落在协议 (22,42) 且键/地址互不重复", "PASS" if in_range and distinct else "FAIL",
+            "lengths=%s distinct=%s" % (sorted(lengths), distinct))
+
+        matches = 0
+        for row in rows:
+            raw, _p = B.strip_key_prefix(row["encPublicKey"])
+            derived = "did:bid:ef" + B.base58_encode(hashlib.sha256(raw).digest()[10:])
+            matches += derived == row["address"]
+        rec("J7.3 协议规则复算（Bitcoin base58）能复现的样本数", "INFO",
+            "%d/%d 一致 —— SDK 的 base58 编解码非 Bitcoin 字母表，地址可校验但不可反推"
+            % (matches, len(rows)))
+        return
+
+    if os.path.exists(single_path):
+        fixture = json.load(open(single_path, encoding="utf-8"))
+        suffix = fixture["address"].split(":", 2)[-1]
+        d = DIDCN._check_bid(suffix)
+        rec("J7.1 单条官方 SDK 地址被接受", "PASS" if d["shape"] == "main" else "FAIL", str(d))
+        rec("J7.2 可复算性", "INFO", "只有单样本；复算主张需 ≥50 样本，被测仓未提供 sdk_address_batch.json")
+        return
+
+    rec("J7 官方 SDK 地址", "SKIP", "被测仓未提供 fixtures/bid/sdk_address.json")
 
 
 def finish():
