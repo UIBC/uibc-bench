@@ -28,7 +28,7 @@ python -m pip install "./uibc-core-public[verify]"
 ## 2. 跑
 
 ```bash
-python run.py            # 全部 11 组，约 6–8 分钟
+python run.py            # 全部 12 组，约 6–8 分钟
 python run.py --quick    # 跳过 s04/s05/s08，约 40 秒
 python run.py --list     # 只看有哪些组
 ```
@@ -134,3 +134,4 @@ GitHub 共享 runner 实测≈950ms。拿一个绝对阈值去判任意 runner �
 另外 `run.py` 与各组子进程都强制 UTF-8（`PYTHONUTF8=1` / `PYTHONIOENCODING=utf-8`）。
 起因是 GitHub 的 windows-latest 控制台是 cp1252，一行带中文的输出就把整个 job 打成 exit 1——
 本机 cp936 上根本复现不了。任何人换机器、换 locale 都应该能跑，所以编码不靠环境赏脸。
+

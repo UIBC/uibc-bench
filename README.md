@@ -5,7 +5,7 @@
 **先跑起来（三分钟）**：装 Python 3.10+，克隆 bench 与被测仓，然后
 
 ```bash
-python run.py            # 全部 11 组
+python run.py            # 全部 12 组
 python run.py --quick    # 跳过最慢的三组，约 30 秒
 ```
 
@@ -400,3 +400,4 @@ job summary 里，但不判红——基线老了这个信号交给人类决定�
 
 - 给「下一个接手的人或 Agent」补了三块料：`AGENTS.md`（三十秒定位 + 先读哪几件 + 怎么积累 + 硬约束）、`SECURITY_AND_ROLES.md`（三身份权限边界，评测号不进 UIBC 组织）、`CHANGELOG.md`（从 0.4.27 起的版本线）
 - 公开仓 `UIBC/uibc-bench` 上线，可被其他账号与会话直接克隆使用；公开的是快照，完整历史仍在本地 bundle
+
