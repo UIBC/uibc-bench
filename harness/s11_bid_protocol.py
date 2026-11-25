@@ -81,6 +81,7 @@ def main():
     j14_mutation_probes(subject)
     j15_mutation_gate(subject)
     j16_competitor_parity(subject)
+    j17_outsider_receipt(subject)
     return finish()
 
 
@@ -342,6 +343,51 @@ def j16_competitor_parity(subject):
     rec("J16.3 仓库自带「表格会错」的反证",
         "PASS" if "check(snap) == 1" in text else "FAIL",
         "tests/test_competitor_parity.py 注入矛盾分数与漂移表格，要求两者都被抓住")
+
+
+def j17_outsider_receipt(subject):
+    """Every receipt so far was signed by the machine that wrote the code.
+
+    J17 asks for the witness a stranger can check offline: a receipt whose tree
+    digest still describes this tree, whose four steps all exited 0, and the
+    test that shows a single edited byte breaks the match.
+    """
+    import json
+    import subprocess
+
+    tool = os.path.join(subject, "tools", "outsider_rerun.py")
+    if not os.path.exists(tool):
+        rec("J17 外人重跑收据", "SKIP", "被测仓未提供 tools/outsider_rerun.py")
+        return
+    env = dict(os.environ)
+    env["PYTHONUTF8"] = "1"
+    res = subprocess.run([sys.executable, tool, "--check"], cwd=subject, capture_output=True,
+                         text=True, encoding="utf-8", errors="replace", env=env, timeout=900)
+    ok = res.returncode == 0 and "OUTSIDER OK" in (res.stdout or "")
+    rec("J17.1 收据仍描述当前这棵树", "PASS" if ok else "FAIL",
+        "rc=%d tail=%r" % (res.returncode, (res.stdout or res.stderr or "")[-70:]))
+    if not ok:
+        return
+
+    path = os.path.join(subject, "docs", "outsider-rerun-receipt.json")
+    try:
+        r = json.load(open(path, encoding="utf-8"))
+    except Exception as exc:                                   # noqa: BLE001
+        rec("J17.2 收据四步全过且排除规则对称", "FAIL", "cannot read receipt: %s" % exc)
+        return
+    steps = r.get("steps", [])
+    rec("J17.2 收据四步全过且排除规则对称",
+        "PASS" if len(steps) == 4 and all(s.get("rc") == 0 and s.get("ok") for s in steps)
+        and len(r.get("digest_excludes", [])) == 2 and r.get("ok") is True else "FAIL",
+        "steps=%d all_ok=%s excludes=%r" % (len(steps),
+                                            all(s.get("ok") for s in steps),
+                                            r.get("digest_excludes")))
+
+    proof = os.path.join(subject, "tests", "test_outsider_rerun.py")
+    text = open(proof, encoding="utf-8").read() if os.path.exists(proof) else ""
+    rec("J17.3 仓库自带「改一个字节就对不上」的反证",
+        "PASS" if "digest != receipt[" in text else "FAIL",
+        "副本里多写一行注释，摘要必须失配")
 
 
 # ------------------------------------ J10 地址推导：50 条官方样本必须逐字节复现
