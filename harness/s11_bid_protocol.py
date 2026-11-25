@@ -77,7 +77,95 @@ def main():
     j10_address_derivation(subject)
     j11_binary_codec(subject)
     j12_demo_and_layout(subject)
+    j13_bit_flip_and_placement(subject)
     return finish()
+
+
+def j13_bit_flip_and_placement(subject):
+    """A decoder can be "implemented" and still not notice that it was re-arranged.
+
+    J11 shows the layer runs backwards. J13 asks the sharper question: for every
+    single bit of a valid message, does something happen? The subject must show
+    which bits are dead (the header's reserved ones) and that a *structural* edit
+    - moving a field to another container - is refused rather than decoded into
+    the same document.
+    """
+    import json
+    import subprocess
+
+    tool = os.path.join(subject, "tools", "mutate_bid_binary.py")
+    if not os.path.exists(tool):
+        rec("J13 逐位翻转与容器归属", "SKIP", "被测仓未提供 tools/mutate_bid_binary.py")
+        return
+    env = dict(os.environ)
+    env["PYTHONUTF8"] = "1"
+    res = subprocess.run([sys.executable, tool, "--json"], cwd=subject, capture_output=True,
+                         text=True, encoding="utf-8", errors="replace", env=env, timeout=240)
+    if res.returncode != 0:
+        rec("J13.1 探针能跑并输出机读结果", "FAIL",
+            "rc=%d %r" % (res.returncode, (res.stderr or "")[-120:]))
+        return
+    try:
+        data = json.loads(res.stdout)
+    except Exception as exc:                                  # noqa: BLE001
+        rec("J13.1 探针能跑并输出机读结果", "FAIL", "not JSON: %s" % exc)
+        return
+    rec("J13.1 探针能跑并输出机读结果", "PASS",
+        "%d bytes, %d bits" % (data.get("message_bytes", 0), data["total"]))
+
+    total = data["total"]
+    covered = data["rejected"] + data["changed"] + len(data["blind"])
+    rec("J13.2 每一位都被归类且只归一类",
+        "PASS" if covered == total and total == data["message_bytes"] * 8 else "FAIL",
+        "rejected=%d changed=%d blind=%d total=%d"
+        % (data["rejected"], data["changed"], len(data["blind"]), total))
+
+    # the blind set must be exactly the header's reserved bits, derived from the
+    # subject's own constants rather than taken from the subject's own report
+    try:
+        from uibc_core.bid_binary import _FLAG_BITS, _OPCODE_SHIFT
+        used = {bit for _n, bit in _FLAG_BITS} | set(range(_OPCODE_SHIFT, _OPCODE_SHIFT + 4))
+        unnamed = {8 + (15 - bit) for bit in range(16) if bit not in used}
+        expected = unnamed | set(range(24, 32))
+    except Exception:                                          # noqa: BLE001
+        expected = None
+    if expected is None:
+        rec("J13.3 盲位恰好是头部保留位", "SKIP", "被测仓未暴露 _FLAG_BITS/_OPCODE_SHIFT")
+    else:
+        rec("J13.3 盲位恰好是头部保留位",
+            "PASS" if set(data["blind"]) == expected else "FAIL",
+            "blind=%d expected=%d" % (len(data["blind"]), len(expected)))
+
+    body_blind = [b for b in data["blind"] if b // 8 >= 16]
+    rec("J13.4 报文正文一位都不盲", "PASS" if body_blind == [] else "FAIL",
+        "body_blind=%r" % (body_blind[:5],))
+
+    # structural edit: the same leaves under a different container
+    try:
+        from uibc_core import bid_binary as BB
+    except Exception:                                          # noqa: BLE001
+        rec("J13.5 改容器必须被拒", "SKIP", "被测仓未提供 uibc_core.bid_binary")
+        return
+    moved = [BB.Unit(0x2100, BB.build_unit(0x2111, b"did:bid:efX#key-1"))]
+    try:
+        BB.decode_document(moved)
+        refused, why = False, "decoded without complaint"
+    except ValueError as exc:
+        refused, why = True, str(exc)[:90]
+    rec("J13.5 把 publicKey 改成文档包装层必须被拒", "PASS" if refused else "FAIL", why)
+
+    try:
+        lenient = BB.decode_document(moved, strict_placement=False)
+        booked = "publicKey.id" in getattr(lenient, "misplaced", {})
+    except TypeError:
+        booked = False
+    rec("J13.6 宽容读法把错位记账而不是丢字段", "PASS" if booked else "FAIL",
+        "strict 默认拒收，strict_placement=False 时进 misplaced")
+
+    # the documented message size must match the bytes actually produced
+    rec("J13.7 示范报文 196 字节与文档一致",
+        "PASS" if data["message_bytes"] == 196 else "FAIL",
+        "actual=%d documented=196" % data["message_bytes"])
 
 
 # ------------------------------------ J10 地址推导：50 条官方样本必须逐字节复现
@@ -379,11 +467,14 @@ def j11_binary_codec(subject):
     # J11.4 a width that disagrees with the bytes must raise, not misread
     wrong = None
     try:
-        BB.decode_document([BB.Unit(0x3200, b"\x00\x00\x00\x05")],
+        BB.decode_document([BB.Unit(0x3000, BB.build_unit(0x3200, b"\x00\x00\x00\x05"))],
                            integer_widths={"long": 8})
     except ValueError as exc:
         wrong = str(exc)
-    rec("J11.4 宽度与字节不符必须 raise", "PASS" if wrong else "FAIL",
+    # the reason matters: raising because the field sits in the wrong container
+    # would pass this condition without testing the width at all
+    ok = bool(wrong) and "declared" in wrong and "carries" in wrong
+    rec("J11.4 宽度与字节不符必须 raise", "PASS" if ok else "FAIL",
         (wrong or "没有 raise")[:80])
 
     # J11.5 an unknown path cannot be invented into a unit ID
