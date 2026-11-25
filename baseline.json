@@ -1,7 +1,7 @@
 {
  "subject_head": "72b14f3d4d847eebbccbce88d8c62cffaaa01f59",
  "updated": "2026-11-25",
- "source_run": "ci-full 45519960667 ubuntu-latest (cases carry over from 45512765050: verdict-identical at 72b14f3)",
+ "source_run": "ci-full 45526837358 ubuntu-latest (I2/I4 verdicts from this run; rest carried over)",
  "recorded_on": "GitHub Actions ubuntu-latest · py3.12 · full（双平台同一次运行）",
  "retired": [
   {
@@ -812,9 +812,9 @@
   },
   {
    "case": "I2 我方取公钥",
-   "verdict": "BLOCKED",
+   "verdict": "PASS",
    "group": "s09_interop_third_party",
-   "note": "回环 did:web 被策略拒绝，取不到公钥。缺的前置：一个公网 did:web 目标（需网络）；本组不用注入 fetcher 绕过策略来伪造这一条"
+   "note": "did:web:identity.foundation 1 条 vm jwk:{\"alg\":\"ES256\"；did:web:veramo.io 3 条 vm hex:042b0af9b3ae6c；did:web:danubetech.com 1 条 vm jwk:{\"crv\":\"P-384\"（1479ms）"
   },
   {
    "case": "I3 第三方解析 did:web",
@@ -824,9 +824,9 @@
   },
   {
    "case": "I4 两实现逐字段比对",
-   "verdict": "BLOCKED",
+   "verdict": "PASS",
    "group": "s09_interop_third_party",
-   "note": "我方按策略拒绝回环，没有可比对对象。要恢复这条：给一个公网 did:web 目标，两边都解析同一份文档再比"
+   "note": "逐字段一致 3 条：did:web:identity.foundation,did:web:veramo.io,did:web:danubetech.com（id / verificationMethod / authentication；重抓后仍不一致才算缺陷）"
   },
   {
    "case": "I4b 策略分歧按设计发生",
