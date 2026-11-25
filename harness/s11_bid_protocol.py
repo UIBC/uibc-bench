@@ -74,7 +74,59 @@ def main():
     j7_official_sdk_address(B, subject)
     j8_trusted_resolution(B, subject)
     j9_vector_pack(B, subject)
+    j10_address_derivation(subject)
     return finish()
+
+
+# ------------------------------------ J10 地址推导：50 条官方样本必须逐字节复现
+RFC_RAW_PUBLIC = "d308378e6b5ff0c2b4be3da741538004525d6388e5df32deb79e2b0c02f133c7"
+RFC_SUFFIX = "38VPR182Y4uTkq32fykXjbKBPdQZutH"
+
+
+def j10_address_derivation(subject):
+    """Is the address rule a rule, or a claim? 50 SDK-produced addresses must re-derive.
+
+    This group exists because the subject once published "addresses can be checked
+    but not re-derived" - which was true only under the wrong Base58 alphabet. Here
+    the subject has to reproduce all 50 official samples byte for byte, and has to
+    keep the two variants apart (RFC-003's version byte vs the shipped SDK's omission).
+    """
+    try:
+        from uibc_core import bid_address as AD
+    except Exception:
+        rec("J10 地址推导", "SKIP", "被测仓未提供 uibc_core.bid_address")
+        return
+    path = os.path.join(subject, "fixtures", "bid", "sdk_address_batch.json")
+    if not os.path.exists(path):
+        rec("J10 地址推导", "SKIP", "被测仓未提供 fixtures/bid/sdk_address_batch.json")
+        return
+    samples = json.load(open(path, encoding="utf-8"))
+    bad = []
+    for s in samples:
+        got = AD.derive_did(s["encPublicKey"], "Ed25519", version_byte=False)["did"]
+        if got != s["address"]:
+            bad.append((s["address"], got))
+    note = "%d/%d" % (len(samples) - len(bad), len(samples))
+    if bad:
+        note += " first=%r" % (bad[0],)
+    rec("J10.1 50 条官方地址逐字节复现", "PASS" if not bad else "FAIL", note)
+
+    hits = sum(1 for s in samples
+               if AD.derive_did(s["encPublicKey"], "Ed25519", version_byte=True)["did"] == s["address"])
+    rec("J10.2 带版本字节是另一个变体（0 命中）", "PASS" if hits == 0 else "FAIL", "hits=%d" % hits)
+
+    rfc = AD.derive_did("b0" + RFC_RAW_PUBLIC, "Ed25519", version_byte=True)
+    rec("J10.3 RFC-003 例题后缀复现", "PASS" if rfc["suffix"] == RFC_SUFFIX else "FAIL", rfc["suffix"])
+
+    wrong = AD.address_matches("b0" + "11" * 32,
+                               AD.derive_did("b0" + RFC_RAW_PUBLIC, version_byte=True)["did"])
+    rec("J10.4 换一把公钥就必须不匹配", "PASS" if wrong is False else "FAIL", "matches=%r" % wrong)
+
+    # The four-letter claim is a claim about the alphabet itself; check it directly.
+    diffs = [(i, a, b) for i, (a, b) in enumerate(zip(AD.SDK_BASE58_ALPHABET, AD.BITCOIN_BASE58_ALPHABET)) if a != b]
+    rec("J10.5 两张字母表只差 4 个大小写", "PASS" if diffs == [(10, "b", "B"), (27, "u", "U"),
+                                                            (34, "B", "b"), (52, "U", "u")] else "FAIL",
+        "diffs=%r" % (diffs,))
 
 
 # ----------------------------------------- J9 被测仓自带的向量集，由外部脚本复跑
