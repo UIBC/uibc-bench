@@ -75,6 +75,7 @@ def main():
     j8_trusted_resolution(B, subject)
     j9_vector_pack(B, subject)
     j10_address_derivation(subject)
+    j11_binary_codec(subject)
     return finish()
 
 
@@ -323,6 +324,100 @@ def j3_signing(B):
         _j34_sm2(B)
     except Exception:
         rec("J3 签名闭环", "FAIL", traceback.format_exc().splitlines()[-1])
+
+# ------------------------------------ J11 二进制编解码：只有解码器没法被反驳
+def j11_binary_codec(subject):
+    """Can the subject's §4.3 layer be run backwards, and are its guesses switches?
+
+    "We implemented the binary protocol" is unverifiable when the only evidence is
+    that a decoder returned a dict. These conditions make the subject produce the
+    bytes itself, refuse its own invented IDs, and prove that flipping an
+    assumption changes what it reads.
+    """
+    try:
+        from uibc_core import bid_binary as BB
+    except Exception:
+        rec("J11 二进制编解码", "SKIP", "被测仓未提供 uibc_core.bid_binary")
+        return
+    for name in ("encode_units", "encode_message", "encode_document", "ASSUMPTIONS"):
+        if not hasattr(BB, name):
+            rec("J11 二进制编解码", "SKIP", "仪器不全：缺 %s" % name)
+            return
+
+    # J11.1 order is information at the unit layer - a sorter would pass a weaker test
+    units = [BB.Unit(0x2102, b"did:bid:ef00"), BB.Unit(0x2101, b"1.0.0")]
+    raw = BB.encode_units(units)
+    back = BB.parse_units(raw)
+    rec("J11.1 单元层逐字节往返（含非升序）",
+        "PASS" if back == units and BB.encode_units(back) == raw else "FAIL",
+        "raw=%s" % raw.hex())
+
+    # J11.2 header + option + body must reproduce the same bytes
+    msg = BB.encode_message([BB.Unit(0x2102, b"did:bid:ef00")], 0x01020304,
+                            option_bytes=b"\x01\x00\x00\x00")
+    hdr = BB.parse_header(msg)
+    again = BB.encode_message([BB.Unit(0x2102, b"did:bid:ef00")], hdr.transaction_id,
+                              option_bytes=hdr.option_bytes)
+    rec("J11.2 报文层逐字节往返（含 option）",
+        "PASS" if again == msg and hdr.header_length == 20 else "FAIL",
+        "len=%d hdr=%d" % (len(msg), hdr.header_length))
+
+    # J11.3 the flag order assumption must actually be a parameter
+    flag_msg = BB.encode_message([], 7, flags={"qr": 1})
+    try:
+        msb = BB.parse_header(flag_msg, flag_bit_order="msb").flags
+        lsb = BB.parse_header(flag_msg, flag_bit_order="lsb").flags
+    except TypeError:
+        rec("J11.3 flag 位序是参数而非注释", "FAIL", "parse_header 不接受 flag_bit_order")
+        msb = lsb = None
+    if msb is not None:
+        rec("J11.3 flag 位序是参数而非注释",
+            "PASS" if msb != lsb and msb.get("qr") == 1 and lsb.get("qr") == 0 else "FAIL",
+            "msb=%r lsb=%r" % (msb, lsb))
+
+    # J11.4 a width that disagrees with the bytes must raise, not misread
+    wrong = None
+    try:
+        BB.decode_document([BB.Unit(0x3200, b"\x00\x00\x00\x05")],
+                           integer_widths={"long": 8})
+    except ValueError as exc:
+        wrong = str(exc)
+    rec("J11.4 宽度与字节不符必须 raise", "PASS" if wrong else "FAIL",
+        (wrong or "没有 raise")[:80])
+
+    # J11.5 an unknown path cannot be invented into a unit ID
+    refused = False
+    try:
+        BB.encode_document({"publicKey": {"madeUp": "x"}})
+    except ValueError:
+        refused = True
+    rec("J11.5 不存在的字段路径不许自造 unit ID", "PASS" if refused else "FAIL")
+
+    # J11.6 hostile bytes: 500 random strings, ValueError only
+    import random as _r
+    rng = _r.Random(2026)
+    bad = []
+    for _ in range(500):
+        data = bytes(rng.randrange(256) for _ in range(rng.randrange(0, 48)))
+        try:
+            BB.decode_message(data)
+        except ValueError:
+            pass
+        except Exception as exc:
+            bad.append(type(exc).__name__)
+    rec("J11.6 随机字节只允许 ValueError", "PASS" if not bad else "FAIL",
+        "other=%s" % (sorted(set(bad))[:4],))
+
+    # J11.7 the registry itself: six entries, each naming a gap and a choice
+    reg = BB.ASSUMPTIONS
+    wanted = {"flag_bit_order", "integer_widths", "acsns_spelling",
+              "bid_document_collision", "fragment_reassembly", "signature_unit_ids"}
+    ok = (set(reg) == wanted and
+          all(item.get("gap") and item.get("choice") and item.get("status") for item in reg.values()))
+    rec("J11.7 六条推断都登记了缺口与处置", "PASS" if ok else "FAIL",
+        "keys=%s" % (sorted(reg),))
+
+
 
 
 def _j34_sm2(B):
