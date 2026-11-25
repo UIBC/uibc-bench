@@ -80,6 +80,7 @@ def main():
     j13_bit_flip_and_placement(subject)
     j14_mutation_probes(subject)
     j15_mutation_gate(subject)
+    j16_competitor_parity(subject)
     return finish()
 
 
@@ -295,6 +296,52 @@ def j15_mutation_gate(subject):
     proof = os.path.join(subject, "tests", "test_mutation_gate.py")
     rec("J15.3 仓库自带「门会失败」的测试", "PASS" if os.path.exists(proof) else "FAIL",
         "仓库自带 tests/test_mutation_gate.py（非法断言会被它抓住）")
+
+
+def j16_competitor_parity(subject):
+    """A ranking is a claim. Ask whether the subject can be recomputed by a stranger.
+
+    J16 reads the competitor table the way an outsider would: one command, offline,
+    no network, and it must either pass or name what broke. The snapshot has to be
+    pinned - every audited repository carries a commit and a tarball digest - and
+    the subject has to have shipped the test that proves the table can go wrong.
+    """
+    import json
+    import subprocess
+
+    tool = os.path.join(subject, "tools", "competitor_gate_parity.py")
+    if not os.path.exists(tool):
+        rec("J16 竞品门禁对照", "SKIP", "被测仓未提供 tools/competitor_gate_parity.py")
+        return
+    env = dict(os.environ)
+    env["PYTHONUTF8"] = "1"
+    res = subprocess.run([sys.executable, tool], cwd=subject, capture_output=True,
+                         text=True, encoding="utf-8", errors="replace", env=env, timeout=600)
+    ok = res.returncode == 0 and "PARITY OK" in (res.stdout or "")
+    rec("J16.1 一条命令离线给出 PARITY OK", "PASS" if ok else "FAIL",
+        "rc=%d tail=%r" % (res.returncode, (res.stdout or res.stderr or "")[-70:]))
+    if not ok:
+        return
+
+    snap_path = os.path.join(subject, "docs", "competitor-parity.json")
+    try:
+        snap = json.load(open(snap_path, encoding="utf-8"))
+    except Exception as exc:                                   # noqa: BLE001
+        rec("J16.2 快照被固定且分数低于本仓", "FAIL", "cannot read snapshot: %s" % exc)
+        return
+    repos = [r for r in snap.get("repos", []) if "error" not in r]
+    pinned = all(len(r.get("sha", "")) == 40 and len(r.get("tarball_sha256", "")) == 64 for r in repos)
+    best = max((sum(r["dims"].values()) for r in repos), default=0)
+    ours = sum(snap.get("ours", {}).get("dims", {}).values())
+    rec("J16.2 快照被固定且分数低于本仓",
+        "PASS" if len(repos) >= 8 and pinned and ours == 10 and best < ours else "FAIL",
+        "repos=%d pinned=%s ours=%d/10 best_competitor=%d/10" % (len(repos), pinned, ours, best))
+
+    proof = os.path.join(subject, "tests", "test_competitor_parity.py")
+    text = open(proof, encoding="utf-8").read() if os.path.exists(proof) else ""
+    rec("J16.3 仓库自带「表格会错」的反证",
+        "PASS" if "check(snap) == 1" in text else "FAIL",
+        "tests/test_competitor_parity.py 注入矛盾分数与漂移表格，要求两者都被抓住")
 
 
 # ------------------------------------ J10 地址推导：50 条官方样本必须逐字节复现
