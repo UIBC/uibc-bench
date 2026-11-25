@@ -73,7 +73,31 @@ def main():
     j6_field_endpoints(B)
     j7_official_sdk_address(B, subject)
     j8_trusted_resolution(B, subject)
+    j9_vector_pack(B, subject)
     return finish()
+
+
+# ----------------------------------------- J9 被测仓自带的向量集，由外部脚本复跑
+def j9_vector_pack(B, subject):
+    """The subject's own vector pack must be runnable by a stranger, and must be green.
+
+    This is the weakest-looking case and the most useful one: it checks that the
+    pack is data (a stranger can run it), that the subject's checker exits 0, and
+    that the run prints the full pass count - not "0 failures" with nothing run.
+    """
+    checker = os.path.join(subject, "tools", "check_bid_vectors.py")
+    pack = os.path.join(subject, "vectors", "bid-resolution-v1.json")
+    if not (os.path.exists(checker) and os.path.exists(pack)):
+        rec("J9 向量集可被外人复跑", "SKIP", "被测仓未提供 tools/check_bid_vectors.py + vectors/")
+        return
+    total = len(json.load(open(pack, encoding="utf-8"))["cases"])
+    env = dict(os.environ, PYTHONUTF8="1")
+    proc = subprocess.run([sys.executable, checker, "--subject", subject], cwd=subject,
+                          capture_output=True, text=True, timeout=180, env=env)
+    last = (proc.stdout or "").strip().splitlines()[-1:] or [""]
+    ok = proc.returncode == 0 and ("%d/%d passed" % (total, total)) in last[0]
+    rec("J9 向量集可被外人复跑（%d 条，全过）" % total, "PASS" if ok else "FAIL",
+        "rc=%d %s" % (proc.returncode, last[0][:70]))
 
 
 # ---------------------------------------- J8 §4.2.4 可信解析（不能相信解析服务的自述）
