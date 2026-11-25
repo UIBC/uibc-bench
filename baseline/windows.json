@@ -1,18 +1,21 @@
 {
+ "note": "平台差异登记。excludes = 本平台本来就不产出的基线用例（登记后不计入“消失”，判据不放松）；windows_only = 本平台额外产出、linux 基线里没有的用例，比对时显示为“新增”，不是失败。",
  "excludes": [
-  "E1 .gitattributes 是否覆盖 tests/fixtures",
-  "E1 字节锚定文件匹配",
-  "E1 实际行尾配置",
-  "E1 行尾改写文件数",
-  "E1 默认配置克隆仓库",
-  "M4 控制台编码 cp936 下 CLI"
+  "E0 平台适用性",
+  "M4 控制台编码 utf-8 下 CLI"
  ],
  "reasons": {
-  "E1 .gitattributes 是否覆盖 tests/fixtures": "linux 产物无此用例（Windows 专属），本次基线以 linux 为准",
-  "E1 字节锚定文件匹配": "linux 产物无此用例（Windows 专属），本次基线以 linux 为准",
-  "E1 实际行尾配置": "linux 产物无此用例（Windows 专属），本次基线以 linux 为准",
-  "E1 行尾改写文件数": "linux 产物无此用例（Windows 专属），本次基线以 linux 为准",
-  "E1 默认配置克隆仓库": "linux 产物无此用例（Windows 专属），本次基线以 linux 为准",
-  "M4 控制台编码 cp936 下 CLI": "linux 产物无此用例（Windows 专属），本次基线以 linux 为准"
- }
+  "E0 平台适用性": "s05 行尾组只在 Windows 执行（测 autocrlf/行尾改写）；linux 上该组产出 E0 平台适用性 SKIP，Windows 上不产出 E0。",
+  "M4 控制台编码 utf-8 下 CLI": "M4 在 linux 测 utf-8 控制台、在 Windows 测 cp936 控制台，两边各只有一条，另一条本平台不产出。"
+ },
+ "windows_only": [
+  "E1 默认配置克隆仓库",
+  "E1 实际行尾配置",
+  "E1 行尾改写文件数",
+  "E1 字节锚定文件匹配",
+  "E1 受影响模块在默认克隆下",
+  "E1 .gitattributes 是否覆盖 tests/fixtures",
+  "M4 控制台编码 cp936 下 CLI"
+ ],
+ "windows_only_reason": "s05 行尾组与 M4 cp936 只在 Windows 有意义，linux 基线里没有对应条目；通用基线以 linux 录制，故本平台多出这几条属正常。"
 }
