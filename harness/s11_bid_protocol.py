@@ -79,6 +79,7 @@ def main():
     j12_demo_and_layout(subject)
     j13_bit_flip_and_placement(subject)
     j14_mutation_probes(subject)
+    j15_mutation_gate(subject)
     return finish()
 
 
@@ -250,6 +251,50 @@ def j14_mutation_probes(subject):
     rec("J14.8 样本地址能由样本公钥复算（探针量的不是空集）",
         "PASS" if addr.get("sample", {}).get("reproduced") is True else "FAIL",
         addr.get("sample", {}).get("address", ""))
+
+
+def j15_mutation_gate(subject):
+    """A gate that cannot fail is decoration. Ask for one command and its verdict.
+
+    J13/J14 read three probes. J15 asks whether the subject has put them behind a
+    single exit code, whether that code covers all three layers, and whether the
+    repository carries a test proving the gate is able to fail.
+    """
+    import json
+    import subprocess
+
+    gate = os.path.join(subject, "tools", "mutation_gate.py")
+    if not os.path.exists(gate):
+        rec("J15 变异门禁", "SKIP", "被测仓未提供 tools/mutation_gate.py")
+        return
+    env = dict(os.environ)
+    env["PYTHONUTF8"] = "1"
+
+    res = subprocess.run([sys.executable, gate], cwd=subject, capture_output=True,
+                         text=True, encoding="utf-8", errors="replace", env=env, timeout=300)
+    ok = res.returncode == 0 and "GATE OK" in (res.stdout or "")
+    rec("J15.1 一条命令给出单一退出码与 GATE OK", "PASS" if ok else "FAIL",
+        "rc=%d tail=%r" % (res.returncode, (res.stdout or res.stderr or "")[-60:]))
+    if not ok:
+        return
+
+    res = subprocess.run([sys.executable, gate, "--json"], cwd=subject, capture_output=True,
+                         text=True, encoding="utf-8", errors="replace", env=env, timeout=300)
+    try:
+        data = json.loads(res.stdout)
+    except Exception as exc:                                   # noqa: BLE001
+        rec("J15.2 门覆盖三层且机读可判", "FAIL", "not JSON: %s" % exc)
+        return
+    layers = {c["layer"] for c in data.get("checks", [])}
+    rec("J15.2 门覆盖三层且机读可判",
+        "PASS" if layers == {"document", "binary", "address"}
+        and data.get("ok") is True and data.get("failed") == [] else "FAIL",
+        "layers=%r checks=%d failed=%r"
+        % (sorted(layers), len(data.get("checks", [])), data.get("failed")))
+
+    proof = os.path.join(subject, "tests", "test_mutation_gate.py")
+    rec("J15.3 仓库自带「门会失败」的测试", "PASS" if os.path.exists(proof) else "FAIL",
+        "仓库自带 tests/test_mutation_gate.py（非法断言会被它抓住）")
 
 
 # ------------------------------------ J10 地址推导：50 条官方样本必须逐字节复现
