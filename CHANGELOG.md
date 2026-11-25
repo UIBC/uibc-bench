@@ -11,7 +11,9 @@
 - **新增 J8 §4.2.4 可信解析（11 条）**：这一组的立场是"解析服务不可信"。J8.1 请求必须真的是 `{url}/{bid}?verify=true`；J8.3 是本组的核心——解析服务自述 `verify=true`、但文档签名后被动过，必须判**不信**；J8.4 `"true"` 字符串必须被拒（协议写的是 Bool）；J8.5 `verify=false` 是答案不是异常；J8.6–J8.8 `extension.delegateSign` 三态：取不到签名者公钥记 `unchecked` 且不冒充全信、给出公钥能验、给错公钥判 `invalid` 并整体不信任；**J8.9 直接 `python tools/demo_bid_trusted.py` 跑被测仓的 demo**（起真 HTTP 服务），退出码非 0 即 FAIL，没提供则 SKIP。
 - **新增 J3.4 SM2（2 条）**：协议 §5 允许 Ed25519 与 SM2，此前只测 Ed25519。用国标 GM/T 0003.5 附录 A 的例题（dA、PA、ZA、e、k、r、s）在被测仓里构造 SM2 文档，要求**验得过**、签名后改动一处必须**被拒**，且成功理由要写明所用区分标识——否则"验过了"没有限定条件。被测仓无 `uibc_core.sm2` 记 SKIP 不记 PASS。
 - **新增 J10 地址推导（5 条）**：被测仓上一版写"地址只能校验、不能反推"。这一组从外部要求它把官方 SDK 的 **50 条**地址逐字节复算出来，并要求它把两个变体分开（RFC-003 的版本字节 vs SDK 的省略），还要能自证"两张字母表只差 4 个大小写位置"。被测仓没有 `uibc_core.bid_address` 或没有夹具时记 SKIP，不记 PASS。
-- 本地重跑：`python harness/s11_bid_protocol.py` → **PASS=52、INFO=2**（54 条）。
+- **新增 J11 二进制编解码（7 条）**：被测仓上一版只能解码 §4.3，而"我们实现了二进制协议"在只有解码器时无法被反驳。J11 要求被测仓自己产出字节：单元层逐字节往返（故意给非升序，排序实现会在这里露馅）、报文层头+option+体往返、flag 位序必须真是参数（翻转后读法必须不同）、`integer_widths` 与载荷长度不符必须 raise 而不是读成错数、不存在的字段路径不许自造 unit ID、500 组随机字节只允许 ValueError、六条推断都登记了缺口与处置。被测仓无 `encode_units`/`ASSUMPTIONS` 时 SKIP 不记 PASS。
+- 本地重跑：`python harness/s11_bid_protocol.py` → **PASS=59、INFO=2**（61 条）。
+- 本轮 J 组由 54 条增至 61 条（J1–J11）。
 
 
 - **J9 向量集外部复跑**：被测仓自带 22 条向量，这一组不读那些用例的代码，只跑它的核对器（`tools/check_bid_vectors.py`），要求退出码 0 且输出 `22/22 passed`——把"我们自己说全过"换成"外人照命令跑也全过"。
