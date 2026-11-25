@@ -72,7 +72,103 @@ def main():
     j5_sub_chain(B)
     j6_field_endpoints(B)
     j7_official_sdk_address(B, subject)
+    j8_trusted_resolution(B, subject)
     return finish()
+
+
+# ---------------------------------------- J8 §4.2.4 可信解析（不能相信解析服务的自述）
+def j8_trusted_resolution(B, subject):
+    """The resolver is untrusted by construction; `data.verify` is a claim, not proof."""
+    import hashlib  # noqa: F401  (kept for symmetry with J7's imports)
+
+    try:
+        resolve = B.resolve_bid_trusted
+    except AttributeError:
+        rec("J8 §4.2.4 可信解析", "SKIP", "被测仓未提供 resolve_bid_trusted")
+        return
+
+    signed_path = os.path.join(subject, "fixtures", "bid", "signed_document.json")
+    if not os.path.exists(signed_path):
+        rec("J8 §4.2.4 可信解析", "SKIP", "被测仓未提供 fixtures/bid/signed_document.json")
+        return
+    doc = json.load(open(signed_path, encoding="utf-8"))
+    did = doc["id"]
+
+    def envelope(d, verify):
+        return {"errorCode": 0, "data": {"version": "1.0.0", "verify": verify, "didDocument": d}}
+
+    def fetch(answer):
+        calls = []
+
+        def f(url, timeout=10):
+            calls.append(url)
+            return answer
+        f.calls = calls
+        return f
+
+    # J8.1 the request shape is the protocol's, not ours
+    f = fetch(envelope(doc, True))
+    r = resolve("http://r.example", did, fetcher=f)
+    rec("J8.1 请求形如 {url}/{bid}?verify=true", "PASS" if f.calls == ["http://r.example/%s?verify=true" % did] else "FAIL",
+        str(f.calls))
+    rec("J8.2 服务自述 verify=true + 好签名 → trusted", "PASS" if r.trusted and r.fully_trusted else "FAIL",
+        "trusted=%s fully=%s state=%s" % (r.trusted, r.fully_trusted, r.delegate_state))
+
+    # J8.3 the lie: server says verified, document was altered after signing
+    tampered = dict(doc, created="2021-06-24T09:10:10Z")
+    r = resolve("http://r.example", did, fetcher=fetch(envelope(tampered, True)))
+    rec("J8.3 服务说验过、文档却被动过 → 不信", "PASS" if (r.server_verify and not r.trusted) else "FAIL",
+        "server_verify=%s trusted=%s reason=%s" % (r.server_verify, r.trusted, r.reason[:60]))
+
+    # J8.4 a string "true" is not the Bool true
+    try:
+        resolve("http://r.example", did, fetcher=fetch({"errorCode": 0, "data": {"verify": "true", "didDocument": doc}}))
+        rec("J8.4 verify='true' 字符串必须被拒", "FAIL", "accepted a string")
+    except Exception as e:  # noqa: BLE001
+        rec("J8.4 verify='true' 字符串必须被拒", "PASS", type(e).__name__)
+
+    # J8.5 verify=false is an answer, not an exception
+    r = resolve("http://r.example", did, fetcher=fetch(envelope(doc, False)))
+    rec("J8.5 服务说 verify=false → 不信任但不抛异常", "PASS" if (not r.server_verify and not r.trusted) else "FAIL",
+        r.reason[:60])
+
+    # J8.6 delegateSign present without a resolver → visibly unchecked
+    signer_seed = bytes([0x11] * 32)
+    signer_id = "did:bid:efJgt44mNDewKK1VEN454R17cjso3mSG#key-1"
+    signer_hex = "b06566" + B.ed_public_key(signer_seed).hex()
+    d2 = json.loads(json.dumps(doc))
+    d2["extension"] = dict(d2["extension"])
+    d2["extension"]["delegateSign"] = {
+        "signer": signer_id,
+        "signatureValue": B.base58_encode(B.ed_sign(signer_seed, B.delegate_signing_bytes(d2)))}
+    d2 = B.sign_bid_document(d2, bytes(range(32)), doc["authentication"][0])
+
+    r = resolve("http://r.example", did, fetcher=fetch(envelope(d2, True)))
+    rec("J8.6 delegateSign 无解析器可取签名者公钥 → unchecked 且不冒充全信",
+        "PASS" if (r.delegate_state == "unchecked" and r.trusted and not r.fully_trusted) else "FAIL",
+        "state=%s trusted=%s fully=%s" % (r.delegate_state, r.trusted, r.fully_trusted))
+
+    r = resolve("http://r.example", did, fetcher=fetch(envelope(d2, True)),
+                delegate_key_resolver=lambda kid: signer_hex)
+    rec("J8.7 delegateSign 给出签名者公钥 → verified", "PASS" if r.delegate_state == "verified" else "FAIL",
+        "state=%s reason=%s" % (r.delegate_state, r.reason[:40]))
+
+    wrong = "b0" + B.ed_public_key(bytes([0x22] * 32)).hex()
+    r = resolve("http://r.example", did, fetcher=fetch(envelope(d2, True)),
+                delegate_key_resolver=lambda kid: wrong)
+    rec("J8.8 delegateSign 用错公钥 → invalid 且整体不信任", "PASS" if r.delegate_state == "invalid" and not r.trusted else "FAIL",
+        "state=%s trusted=%s" % (r.delegate_state, r.trusted))
+
+    # J8.9 the subject ships a runnable demo; run it, don't just read it
+    demo = os.path.join(subject, "tools", "demo_bid_trusted.py")
+    if not os.path.exists(demo):
+        rec("J8.9 跑被测仓的可信解析 demo", "SKIP", "未提供 tools/demo_bid_trusted.py")
+        return
+    env = dict(os.environ, PYTHONUTF8="1")
+    proc = subprocess.run([sys.executable, demo], cwd=subject, capture_output=True, text=True, timeout=120, env=env)
+    tail = (proc.stdout or "").strip().splitlines()[-3:]
+    rec("J8.9 跑被测仓的可信解析 demo", "PASS" if proc.returncode == 0 else "FAIL",
+        "rc=%d tail=%s" % (proc.returncode, " | ".join(tail)))
 
 
 # ---------------------------------------------------------------- J1 §4.2.5
