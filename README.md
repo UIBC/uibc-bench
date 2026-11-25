@@ -12,6 +12,16 @@ python run.py --quick    # 跳过最慢的三组，约 30 秒
 完整上手、退出码含义、常见卡点见 [QUICKSTART.md](QUICKSTART.md)。跨平台：Windows / Linux / macOS 同一条命令，
 除标准库外无依赖（node 可选）。
 
+---
+## 引用与反馈 · Citation and feedback
+
+**引用、转载、复用，不必事先征得我们同意。** 直接引用、直接复用、直接跑、直接接着做，不用再来问。按通常格式署名即可（作者、标题、DOI 或仓库提交号、日期）。本仓为 Apache-2.0，保留许可证声明即可。除此之外没有任何条件。
+
+**You do not need to ask us to cite, quote, or reuse this work.** Cite it, quote it, run it, build on it — no permission request is needed. Attribution in the usual form is appreciated. This repository is Apache-2.0; keep the licence notice. No other condition.
+
+有意见请开 issue：bug、问题、意见、复跑回执都可以。请附上运行环境、提交号和数字，并给出公开可查的地址。File an issue for anything — bugs, questions, opinions, rerun receipts — with runner, platform, commit, numbers, and a public address.
+---
+
 ## 它解决什么问题
 
 上线前/上线后每次改动，都要能回答三个问题：
