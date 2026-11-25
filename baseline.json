@@ -1,853 +1,940 @@
 {
- "subject_head": "25962f15960531e3a00d2de9ffbb073424bab5bc",
+ "subject_head": "dcaa37c39840ac34603dc8d83f5b9f52bca6f838",
+ "updated": "2026-11-25T07:59:34",
+ "source_run": "ci-full 45512765050 ubuntu-latest",
+ "recorded_on": "GitHub Actions ubuntu-latest · py3.12 · full（双平台同一次运行）",
+ "retired": [
+  {
+   "case": "I1 我方解析 did:web",
+   "why": "前提作废：该用例用注入 fetcher 解析回环 did:web 并判 PASS，等于要求实现允许解析指向内网的地址；被测仓已在解析层拒绝回环。由 I1 注入 fetcher 也拒回环 / I1b 真实传输同样拒 取代。"
+  },
+  {
+   "case": "M4 控制台编码 cp936 下 CLI",
+   "why": "只在 Windows 产出（测 cp936 控制台）。基线由 linux 产物录制，同组仍在 linux 产出 M4 控制台编码 utf-8 下 CLI；Windows 侧差异已登记在 baseline/windows.json。"
+  },
+  {
+   "case": "E1 默认配置克隆仓库",
+   "why": "s05 组只在 Windows 执行（测 autocrlf 行尾改写）。linux 上该组产出 E0 平台适用性 SKIP。"
+  },
+  {
+   "case": "E1 实际行尾配置",
+   "why": "同 s05 组，仅 Windows 产出。"
+  },
+  {
+   "case": "E1 行尾改写文件数",
+   "why": "同 s05 组，仅 Windows 产出。"
+  },
+  {
+   "case": "E1 字节锚定文件匹配",
+   "why": "同 s05 组，仅 Windows 产出。"
+  },
+  {
+   "case": "E1 受影响模块在默认克隆下",
+   "why": "同 s05 组，仅 Windows 产出。"
+  },
+  {
+   "case": "E1 .gitattributes 是否覆盖 tests/fixtures",
+   "why": "同 s05 组，仅 Windows 产出。"
+  },
+  {
+   "case": "D1 跳过原因归档",
+   "why": "该条只在被测仓全量里真的有跳过用例时产出（`if skips:`）。本次 linux 全量 D1 跳过数为 0，故未产出；不是用例被删。"
+  }
+ ],
  "cases": [
   {
    "case": "A1 DID 方法分布",
    "verdict": "INFO",
-   "group": "s01",
-   "note": "{'cn': 77}"
+   "group": "s01_platform_contract",
+   "note": "{'cn': 78}"
   },
   {
    "case": "A1 agents 读取 #1",
    "verdict": "PASS",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": ""
   },
   {
    "case": "A1 agents 读取 #2",
    "verdict": "PASS",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": ""
   },
   {
    "case": "A1 agents 读取 #3",
    "verdict": "PASS",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": ""
   },
   {
    "case": "A1 agents 读取 #4",
    "verdict": "PASS",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": ""
   },
   {
    "case": "A1 agents 读取 #5",
    "verdict": "PASS",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": ""
   },
   {
    "case": "A1 同字段类型不一致",
    "verdict": "PASS",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "一致"
   },
   {
    "case": "A1 在册智能体条数",
    "verdict": "INFO",
-   "group": "s01",
-   "note": "n=77"
+   "group": "s01_platform_contract",
+   "note": "n=78"
   },
   {
    "case": "A1 字段缺失/空值",
    "verdict": "PASS",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "无缺失"
   },
   {
    "case": "A1 携带 DID 的条目数",
    "verdict": "INFO",
-   "group": "s01",
-   "note": "77/77"
+   "group": "s01_platform_contract",
+   "note": "78/78"
   },
   {
    "case": "A1 条目字段集合",
    "verdict": "INFO",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "fields=['did', 'name']"
   },
   {
    "case": "A1 顶层字段",
    "verdict": "INFO",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "keys=['code', 'data', 'message', 'success']"
   },
   {
    "case": "A2 DID 类型错误(数字)",
    "verdict": "FAIL",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "success=True rs=FAILED vc=SKIPPED <陷阱:success真但解析失败> <应 400 却返回 200>"
   },
   {
    "case": "A2 不存在的 did:cn:agent",
    "verdict": "WARN",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "success=True rs=FAILED vc=SKIPPED <陷阱:success真但解析失败> <契约陷阱：只能看 resolutionStatus>"
   },
   {
    "case": "A2 别的方法 did:key",
    "verdict": "FAIL",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "success=True rs=FAILED vc=SKIPPED <陷阱:success真但解析失败> <应 400 却返回 200>"
   },
   {
    "case": "A2 别的方法 did:web",
    "verdict": "FAIL",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "success=True rs=FAILED vc=SKIPPED <陷阱:success真但解析失败> <应 400 却返回 200>"
   },
   {
    "case": "A2 含注入字符",
    "verdict": "FAIL",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "success=True rs=FAILED vc=SKIPPED <陷阱:success真但解析失败> <应 400 却返回 200>"
   },
   {
    "case": "A2 含路径穿越",
    "verdict": "FAIL",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "success=True rs=FAILED vc=SKIPPED <陷阱:success真但解析失败> <应 400 却返回 200>"
   },
   {
    "case": "A2 多余字段",
    "verdict": "PASS",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "success=True rs=SUCCESS vc=SKIPPED"
   },
   {
    "case": "A2 已注册 DID",
    "verdict": "PASS",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "success=True rs=SUCCESS vc=SKIPPED"
   },
   {
    "case": "A2 空字符串 DID",
    "verdict": "PASS",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "success=False rs=None vc=None"
   },
   {
    "case": "A2 缺 did 字段",
    "verdict": "PASS",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "success=False rs=None vc=None"
   },
   {
    "case": "A2 超长 DID 4096",
    "verdict": "FAIL",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "success=True rs=FAILED vc=SKIPPED <陷阱:success真但解析失败> <应 400 却返回 200>"
   },
   {
    "case": "A2 非 DID 字符串",
    "verdict": "FAIL",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "success=True rs=FAILED vc=SKIPPED <陷阱:success真但解析失败> <应 400 却返回 200>"
   },
   {
    "case": "A3 TLS 基线",
    "verdict": "PASS",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "ver=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 ALPN=None"
   },
   {
    "case": "A3 agents DELETE",
    "verdict": "INFO",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "allow=None"
   },
   {
    "case": "A3 agents HEAD",
    "verdict": "INFO",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "allow=None"
   },
   {
    "case": "A3 agents OPTIONS",
    "verdict": "INFO",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "allow=GET,HEAD,OPTIONS"
   },
   {
    "case": "A3 agents PUT",
    "verdict": "INFO",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "allow=None"
   },
   {
    "case": "A3 demand-providers 权限",
    "verdict": "INFO",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "{\"code\":0,\"data\":[{\"name\":\"LobsterAI\",\"did\":\"did:cn:agent:sf22GKtH8yG8wXDnXdu7Cgt67d5EQ6Yzb\",\"serviceProviderName\":\"网易北京"
   },
   {
    "case": "A3 响应头基线",
    "verdict": "INFO",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "{'Server': 'nginx', 'Content-Type': 'application/json', 'Vary': 'Accept-Encoding', 'Cache-Control': 'no-cache, no-store, max-age=0, must-revalidate', 'Strict-Transport-Security': 'max-age=15724800; includeSubDomains', 'X-Frame-Options': 'DENY'}"
   },
   {
    "case": "A3 路径变体 /API/PUBLIC/IOA/AGENTS",
    "verdict": "INFO",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "<!DOCTYPE html> <html lang=\"en\">   <head>     <meta charset=\"UTF-8\" />     <link       rel=\"shortcut"
   },
   {
    "case": "A3 路径变体 /api/public/ioa/agents/",
    "verdict": "INFO",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "{\"code\":404,\"message\":\"资源不存在\",\"success\":false}"
   },
   {
    "case": "A3 路径变体 /api/public/ioa/agentz",
    "verdict": "INFO",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "{\"code\":404,\"message\":\"资源不存在\",\"success\":false}"
   },
   {
    "case": "A4 并发 8 读",
    "verdict": "PASS",
-   "group": "s01",
-   "note": "ok=8 err=[] p50=0ms p95=0ms 总耗时=0.1s"
+   "group": "s01_platform_contract",
+   "note": "ok=8 err=[] p50=1ms p95=1ms 总耗时=1.2s"
   },
   {
    "case": "A5 DNS 解析",
    "verdict": "INFO",
-   "group": "s01",
+   "group": "s01_platform_contract",
    "note": "A=['139.198.11.175']"
   },
   {
    "case": "A5 时延基线(境内直连)",
    "verdict": "INFO",
-   "group": "s01",
-   "note": "min=0 p50=0 max=0"
+   "group": "s01_platform_contract",
+   "note": "min=1 p50=1 max=1"
   },
   {
    "case": "B1 did:web 指向回环 127.0.0.1",
-   "verdict": "INFO",
-   "group": "s02",
-   "note": "解析成功（99ms），服务端收到 ['/.well-known/did.json'] —— 无主机白名单，回环可被解析"
+   "verdict": "WARN",
+   "group": "s02_did_hostile",
+   "note": "DIDError: did:web target '127.0.0.1' is not a public address（hits=[]）"
   },
   {
    "case": "B1' 回环目标可解析(id自洽)",
-   "verdict": "FAIL",
-   "group": "s02b",
-   "note": "解析成功，命中 ['/.well-known/did.json']：did:web 未限制回环地址"
+   "verdict": "PASS",
+   "group": "s02b_did_hostile_clean",
+   "note": "DIDError: did:web target '127.0.0.1' is not a public address"
   },
   {
    "case": "B2 did:web URL 构造边界",
    "verdict": "INFO",
-   "group": "s02",
+   "group": "s02_did_hostile",
    "note": "11 个边界样本，2 个被拒绝；内网字面量未被拦：['did:web:169.254.169.254', 'did:web:10.0.0.1', 'did:web:192.168.1.1:8443', 'did:web:localhost', 'did:web:metadata.google.internal']"
   },
   {
    "case": "B3 https 被 302 降级到 http",
    "verdict": "PASS",
-   "group": "s02",
-   "note": "DIDError: document id 'did:web:127.0.0.1%3A9024' does not match 'did:web:127.0.0.1%3A9024:redir'"
+   "group": "s02_did_hostile",
+   "note": "DIDError: did:web target '127.0.0.1' is not a public address"
   },
   {
    "case": "B3' 302 降级到 http 是否被跟随",
-   "verdict": "FAIL",
-   "group": "s02b",
-   "note": "命中序列=['/redir/did.json', 'plain:/plain/did.json']；明文 http 被接受，https 只约束首跳"
+   "verdict": "PASS",
+   "group": "s02b_did_hostile_clean",
+   "note": "DIDError: did:web target '127.0.0.1' is not a public address（hits=[]）"
   },
   {
    "case": "B4 慢响应超时",
    "verdict": "PASS",
-   "group": "s02",
-   "note": "2.0s 后抛出 TimeoutError（timeout=2）"
+   "group": "s02_did_hostile",
+   "note": "0.0s 后抛出 DIDError（timeout=2）"
   },
   {
    "case": "B5 20MB 文档",
    "verdict": "PASS",
-   "group": "s02",
-   "note": "0.3s 拒绝：document id 'did:web:127.0.0.1%3A9024' does not match 'did:web:127.0.0.1%3A9024:"
+   "group": "s02_did_hostile",
+   "note": "0.0s 拒绝：did:web target '127.0.0.1' is not a public address"
   },
   {
    "case": "B5' 20MB 文档(id自洽)",
-   "verdict": "FAIL",
-   "group": "s02b",
-   "note": "接受并解析，耗时 0.7s，峰值内存 70.0MB；无大小上限"
+   "verdict": "INFO",
+   "group": "s02b_did_hostile_clean",
+   "note": "0.0s 拒绝：did:web target '127.0.0.1' is not a public address"
   },
   {
    "case": "B6 返回 HTML 而非 JSON",
    "verdict": "PASS",
-   "group": "s02",
-   "note": "DIDError: document at https://127.0.0.1:9024/html/did.json is not JSON: Expecting value: line 1 colu"
+   "group": "s02_did_hostile",
+   "note": "DIDError: did:web target '127.0.0.1' is not a public address"
   },
   {
    "case": "B7 非 Ed25519 文档",
    "verdict": "PASS",
-   "group": "s02",
+   "group": "s02_did_hostile",
    "note": "DIDError: no usable Ed25519 verification method in DID document"
   },
   {
    "case": "B8 畸形 DID ' did:web:a.com'",
    "verdict": "PASS",
-   "group": "s02",
+   "group": "s02_did_hostile",
    "note": "DIDError: not a DID: ' did:web:a.com'"
   },
   {
    "case": "B8 畸形 DID 'DID:web:x'",
    "verdict": "PASS",
-   "group": "s02",
+   "group": "s02_did_hostile",
    "note": "DIDError: not a DID: 'DID:web:x'"
   },
   {
    "case": "B8 畸形 DID 'did:'",
    "verdict": "PASS",
-   "group": "s02",
+   "group": "s02_did_hostile",
    "note": "DIDError: not a DID: 'did:'"
   },
   {
    "case": "B8 畸形 DID 'did:key:'",
    "verdict": "PASS",
-   "group": "s02",
+   "group": "s02_did_hostile",
    "note": "DIDError: not a DID: 'did:key:'"
   },
   {
    "case": "B8 畸形 DID 'did:key:z'",
    "verdict": "PASS",
-   "group": "s02",
+   "group": "s02_did_hostile",
    "note": "DIDError: invalid multibase value"
   },
   {
    "case": "B8 畸形 DID 'did:key:zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz'",
    "verdict": "PASS",
-   "group": "s02",
+   "group": "s02_did_hostile",
    "note": "DIDError: only ed25519-pub did:key is supported, got prefix b9a2"
   },
   {
    "case": "B8 畸形 DID 'did:web:'",
    "verdict": "PASS",
-   "group": "s02",
+   "group": "s02_did_hostile",
    "note": "DIDError: not a DID: 'did:web:'"
   },
   {
    "case": "B9 20 线程并发解析",
-   "verdict": "PASS",
-   "group": "s02",
-   "note": "ok=20 err=0 耗时 1.0s，实际请求 20 次（无缓存，扇出=并发数）"
+   "verdict": "WARN",
+   "group": "s02_did_hostile",
+   "note": "ok=0 err=20 耗时 0.0s，实际请求 0 次（无缓存，扇出=并发数）"
   },
   {
    "case": "C1 MCP 会话(7 请求+2 垃圾行)",
    "verdict": "PASS",
-   "group": "s03",
+   "group": "s03_ecosystem",
    "note": "exit=0 响应行=8 收到 id=[1, 2, 3, 4, 5, 6, 7, 9] stderr=''"
   },
   {
    "case": "C1 MCP 双进程并发",
    "verdict": "PASS",
-   "group": "s03",
+   "group": "s03_ecosystem",
    "note": "两个独立进程均正常退出"
   },
   {
    "case": "C1 MCP 工具清单",
    "verdict": "INFO",
-   "group": "s03",
+   "group": "s03_ecosystem",
    "note": "7 个：['verify_package', 'gate_check', 'inspect_package', 'cert_verify', 'get_identity', 'list_events', 'list_evidence']"
   },
   {
    "case": "C1 MCP 未知方法是否给 JSON-RPC 错误",
    "verdict": "PASS",
-   "group": "s03",
+   "group": "s03_ecosystem",
    "note": "id3 有无响应：True"
   },
   {
    "case": "C1 MCP 畸形行是否中止进程",
    "verdict": "PASS",
-   "group": "s03",
+   "group": "s03_ecosystem",
    "note": "exit=0（进程存活）"
   },
   {
    "case": "C2 A2A 导出函数",
    "verdict": "INFO",
-   "group": "s03",
+   "group": "s03_ecosystem",
    "note": "6 个：['SemanticDrift', 'check_roundtrip', 'convert', 'detect_format', 'json_to_xml', 'xml_to_json']"
   },
   {
    "case": "C2 A2A 畸形输入",
-   "verdict": "WARN",
-   "group": "s03",
-   "note": "3 处异常：[\"detect_format('None')->ValueError\", \"detect_format('')->ValueError\", \"detect_format('xxxxxxxxxxxxxxxxxxxxxxxx')->ValueError\"]"
+   "verdict": "PASS",
+   "group": "s03_ecosystem",
+   "note": "全部以异常/拒绝收场，无静默错值"
   },
   {
    "case": "C3 Node 校验 Python 生成的包",
    "verdict": "PASS",
-   "group": "s03",
+   "group": "s03_ecosystem",
    "note": "node exit=0 判定=INCONCLUSIVE 失败检查=[]（JS 端只做结构类，签名/时间戳留白）"
   },
   {
    "case": "C3 两语言判定是否一致",
    "verdict": "PASS",
-   "group": "s03",
+   "group": "s03_ecosystem",
    "note": "Python=INCONCLUSIVE Node=INCONCLUSIVE（同一个包）"
   },
   {
    "case": "C3 生成演示包",
    "verdict": "PASS",
-   "group": "s03",
-   "note": "exit=0 0.2s submission sealed: agent=js-parity-01 evidence=1 root=f25928472f161833cb30080ecb1b363308d0"
+   "group": "s03_ecosystem",
+   "note": "exit=0 0.1s submission sealed: agent=js-parity-01 evidence=1 root=3c1ff0b3d4e0af5970fecea61be6104ad393"
   },
   {
    "case": "C4 CLI event",
    "verdict": "PASS",
-   "group": "s03",
-   "note": "exit=0 0.3s appended event ACTIVATE (ca21a82e-d3d7-4ff9-941a-474980a92364)"
+   "group": "s03_ecosystem",
+   "note": "exit=0 0.1s appended event ACTIVATE (ccdb61a7-e04c-4696-834f-2992784472ed)"
   },
   {
    "case": "C4 CLI evidence",
    "verdict": "PASS",
-   "group": "s03",
-   "note": "exit=0 0.3s evidence added: OUTPUT files\\证据_输出.txt (hash recorded)"
+   "group": "s03_ecosystem",
+   "note": "exit=0 0.1s evidence added: OUTPUT files/证据_输出.txt (hash recorded)"
   },
   {
    "case": "C4 CLI gate",
    "verdict": "PASS",
-   "group": "s03",
-   "note": "exit=3 0.2s }"
+   "group": "s03_ecosystem",
+   "note": "exit=3 0.1s }"
   },
   {
    "case": "C4 CLI init（中文+空格路径）",
    "verdict": "PASS",
-   "group": "s03",
-   "note": "exit=0 0.3s next: uibc register C:\\Users\\SZYL\\AppData\\Local\\Temp\\实测_中国信通院 身份码 场景\\包 一\\包 --agent-id <id> --owner <"
+   "group": "s03_ecosystem",
+   "note": "exit=0 0.1s next: uibc register /tmp/实测_中国信通院 身份码 场景/包 一/包 --agent-id <id> --owner <owner>"
   },
   {
    "case": "C4 CLI inspect",
    "verdict": "PASS",
-   "group": "s03",
-   "note": "exit=0 0.2s root:       f8ceef5b950aa6acfe7d1ed66954f046acda52a412355eafd06bbe7a84213076"
+   "group": "s03_ecosystem",
+   "note": "exit=0 0.1s root:       376b68cf0a0770a45568e66751a28b519abf906b44c5ecb6ac4c3a610f4057e7"
   },
   {
    "case": "C4 CLI keygen（中文+空格路径）",
    "verdict": "PASS",
-   "group": "s03",
-   "note": "exit=0 0.2s keep this file secret - anyone holding it can sign packages as you"
+   "group": "s03_ecosystem",
+   "note": "exit=0 0.1s keep this file secret - anyone holding it can sign packages as you"
   },
   {
    "case": "C4 CLI register",
    "verdict": "PASS",
-   "group": "s03",
-   "note": "exit=0 0.3s registered agent 'caict-test-agent-01' (owner: 中国信通院-测试主体) at 2026-11-23T07:55:21Z"
+   "group": "s03_ecosystem",
+   "note": "exit=0 0.1s registered agent 'caict-test-agent-01' (owner: 中国信通院-测试主体) at 2026-11-24T23:47:38Z"
   },
   {
    "case": "C4 CLI submit",
    "verdict": "PASS",
-   "group": "s03",
-   "note": "exit=0 0.3s submission sealed: agent=caict-test-agent-01 evidence=1 root=f8ceef5b950aa6acfe7d1ed66954f046acda52a412355eafd"
+   "group": "s03_ecosystem",
+   "note": "exit=0 0.1s submission sealed: agent=caict-test-agent-01 evidence=1 root=376b68cf0a0770a45568e66751a28b519abf906b44c5ecb6a"
   },
   {
    "case": "C4 CLI verify",
    "verdict": "PASS",
-   "group": "s03",
-   "note": "exit=0 0.2s }"
+   "group": "s03_ecosystem",
+   "note": "exit=0 0.1s }"
   },
   {
    "case": "C4 截断 manifest 的处理",
    "verdict": "PASS",
-   "group": "s03",
+   "group": "s03_ecosystem",
    "note": "exit=1 }"
   },
   {
    "case": "C4 截断时是否泄漏堆栈",
    "verdict": "PASS",
-   "group": "s03",
+   "group": "s03_ecosystem",
    "note": "stderr 含 Traceback：False"
   },
   {
    "case": "C4 空证据包 → INCONCLUSIVE(exit1)",
    "verdict": "PASS",
-   "group": "s03",
+   "group": "s03_ecosystem",
    "note": "result=INCONCLUSIVE exit=1（三值判定语义正确）"
   },
   {
    "case": "C4 篡改包后 verify 必须非 0",
    "verdict": "PASS",
-   "group": "s03",
+   "group": "s03_ecosystem",
    "note": "exit=1 }"
   },
   {
    "case": "C5 6 进程并发 submit 同一包",
    "verdict": "PASS",
-   "group": "s03",
-   "note": "ok=6 err=[] 总耗时=3.3s（锁在 Windows 上走 msvcrt 分支）"
+   "group": "s03_ecosystem",
+   "note": "ok=6 err=[] 总耗时=0.9s（锁在 Windows 上走 msvcrt 分支）"
   },
   {
    "case": "C5 包写在没有权限的目录",
    "verdict": "INFO",
-   "group": "s03",
-   "note": "exit=0 next: uibc register C:\\Users\\SZYL\\AppData\\Local\\Temp\\实测_中国信通院 身份码 场景\\并发\\只读\\p2 --agent-id <"
+   "group": "s03_ecosystem",
+   "note": "exit=0 next: uibc register /tmp/实测_中国信通院 身份码 场景/并发/只读/p2 --agent-id <id> --owner <owner>"
   },
   {
    "case": "C5 并发后包仍可校验",
    "verdict": "PASS",
-   "group": "s03",
+   "group": "s03_ecosystem",
    "note": "exit=0"
   },
   {
    "case": "C6 demo 在 TZ=Asia/Shanghai",
    "verdict": "PASS",
-   "group": "s03",
-   "note": "exit=0 0.4s"
+   "group": "s03_ecosystem",
+   "note": "exit=0 0.1s"
   },
   {
    "case": "C6 demo 在 TZ=UTC",
    "verdict": "PASS",
-   "group": "s03",
-   "note": "exit=0 0.5s"
+   "group": "s03_ecosystem",
+   "note": "exit=0 0.1s"
   },
   {
    "case": "C6 控制台 cp936（中文 Windows 默认）",
    "verdict": "PASS",
-   "group": "s03",
-   "note": "exit=0                  python -m uibc_core.cli verify C:\\Users\\SZYL\\AppData\\Local\\Temp\\uibc-demo-78vyxq3a\\forged --pubkey C:\\U"
+   "group": "s03_ecosystem",
+   "note": "exit=0                  python -m uibc_core.cli verify /tmp/uibc-demo-v1gmywi1/forged --pubkey /tmp/uibc-demo-v1gmywi1/owner.ke"
   },
   {
    "case": "C7 密钥文件是否明文落盘",
    "verdict": "INFO",
-   "group": "s03",
+   "group": "s03_ecosystem",
    "note": "64 字节，明文 hex；Windows 下无 POSIX 0600 语义，靠 ACL 继承"
   },
   {
    "case": "C7 输出中是否出现密钥素材",
    "verdict": "PASS",
-   "group": "s03",
+   "group": "s03_ecosystem",
    "note": "扫描目录内无 64 位十六进制密钥/私钥头"
   },
   {
    "case": "D0 环境指纹",
    "verdict": "INFO",
-   "group": "s04",
-   "note": "Windows / AMD64 / py3.13.18 / 8核 / 时区 中国标准时间 +0800 / 磁盘余 28.5GB / github:133ms / iaisp:15ms"
+   "group": "s04_full_suite",
+   "note": "Linux / x86_64 / py3.12.16 / 4核 / 时区 UTC +0000 / 磁盘余 87.0GB / github:5ms / iaisp:752ms"
   },
   {
    "case": "D1 外人全量单测",
    "verdict": "PASS",
-   "group": "s04",
-   "note": "exit=0 用例=1086 失败=0 跳过=23 用时=314s"
-  },
-  {
-   "case": "D1 跳过原因归档",
-   "verdict": "INFO",
-   "group": "s04",
-   "note": "21 条跳过，9 种原因：agent_evidence_vectors corpus not installed / coincurve not installed / competitor package not installed here / corpus already present; self-seeding path not exercised / langchain-core not installed / pip install agent-action-capsule / pynostr not installed / set UIBC_SLOW=1 to run the "
+   "group": "s04_full_suite",
+   "note": "exit=0 用例=1688 失败=0 跳过=35 用时=129s"
   },
   {
    "case": "D2 网关一致性 43 条",
    "verdict": "PASS",
-   "group": "s04",
+   "group": "s04_full_suite",
    "note": "exit=0 1s   安全防护   PASS  4  PARTIAL  6  MISSING  0 |   路由寻址   PASS  4  PARTIAL  3  MISSING  0 |   身份分发   PASS  6  PARTIAL  9  MISSING  0"
   },
   {
    "case": "D3 独立交叉核验",
    "verdict": "PASS",
-   "group": "s04",
+   "group": "s04_full_suite",
    "note": "exit=0 0s   [clean] V6/S6: the shipped clean fixture carries no seal, and no key was supplied, so provenance is unattested while the evidence chain is intact. Both implementations answer INCONCLUSIVE for the wh"
   },
   {
    "case": "D4 一条命令端到端 demo",
    "verdict": "PASS",
-   "group": "s04",
-   "note": "exit=0 0.3s [8/8] verify the same package PINNED to the owner's public key |      -> result: FAIL (expected FAIL: key substitution caught by pinning - publish your .pub where verifiers can pin it) | Try it yourse"
+   "group": "s04_full_suite",
+   "note": "exit=0 0.1s [8/8] verify the same package PINNED to the owner's public key |      -> result: FAIL (expected FAIL: key substitution caught by pinning - publish your .pub where verifiers can pin it) | Try it yourse"
   },
   {
    "case": "D5 Release 包 run.py",
    "verdict": "PASS",
-   "group": "s04",
-   "note": "uibc-conformance-0.5.0.zip · 9.8s · strict 36/36 |  | receipt written to receipt.json"
+   "group": "s04_full_suite",
+   "note": "uibc-conformance-0.5.0.zip · 4.1s · strict 36/36 |  | receipt written to receipt.json"
   },
   {
-   "case": "E1 .gitattributes 是否覆盖 tests/fixtures",
-   "verdict": "FAIL",
-   "group": "s05",
-   "note": ".gitattributes 命中规则：无（这是 47 条失败的根因）"
-  },
-  {
-   "case": "E1 受影响模块在默认克隆下",
-   "verdict": "FAIL",
-   "group": "s05",
-   "note": " | FAILED (failures=9)"
-  },
-  {
-   "case": "E1 字节锚定文件匹配",
-   "verdict": "FAIL",
-   "group": "s05",
-   "note": "1 个锚点中 1 个被改写；例：tests/fixtures/aer1-merkle-vectors.json 期望 8c76473616ba 实得 78965088e468"
-  },
-  {
-   "case": "E1 实际行尾配置",
-   "verdict": "INFO",
-   "group": "s05",
-   "note": "autocrlf='true' eol='unset'"
-  },
-  {
-   "case": "E1 行尾改写文件数",
-   "verdict": "INFO",
-   "group": "s05",
-   "note": "1328 个文件与 LF 检出不同"
-  },
-  {
-   "case": "E1 默认配置克隆仓库",
-   "verdict": "INFO",
-   "group": "s05",
-   "note": "369s（未加 core.autocrlf=false，与 Windows 默认一致）"
+   "case": "E0 平台适用性",
+   "verdict": "SKIP",
+   "group": "s05_windows_default_clone",
+   "note": "本组只验证 Windows 默认克隆的行尾改写；当前平台 linux 的 autocrlf 默认不同，结论不可比，整组跳过"
   },
   {
    "case": "F0 判定器自检（exit≠0 必判 FAIL）",
    "verdict": "PASS",
-   "group": "s06",
+   "group": "s06_perf_thresholds",
    "note": "构造 exit=3、耗时≈0ms 的调用 → 判定=FAIL（应为 FAIL）；规则有效"
   },
   {
    "case": "F0 阈值来源",
    "verdict": "INFO",
-   "group": "s06",
+   "group": "s06_perf_thresholds",
    "note": "thresholds.json 已加载，档位=local"
   },
   {
    "case": "F1 冷启动 TLS 握手",
-   "verdict": "PASS",
-   "group": "s06",
-   "note": "76ms 阈值=1500ms（新连接成本，短连接客户端要乘调用次数）"
+   "verdict": "REFERENCE",
+   "group": "s06_perf_thresholds",
+   "note": "共享 runner 上不判（连接建立成本随网络路径变化）"
   },
   {
    "case": "F1 平台 agents 时延 P50/P95",
-   "verdict": "PASS",
-   "group": "s06",
-   "note": "P50=69ms P95=85ms 最慢=161ms 阈值=300ms（n=7）"
+   "verdict": "REFERENCE",
+   "group": "s06_perf_thresholds",
+   "note": "P50=1522ms P95=1548ms 最慢=1904ms（n=7）；共享 runner 的计时不作判据——要判性能请在目标网络里用 UIB_PROFILE 指定档位"
   },
   {
    "case": "F1 最慢单次请求",
-   "verdict": "PASS",
-   "group": "s06",
-   "note": "最慢 161ms（阈值×3=900ms）"
+   "verdict": "REFERENCE",
+   "group": "s06_perf_thresholds",
+   "note": "最慢 1904ms（仅记录，不判）"
   },
   {
    "case": "F2 10 证据包校验",
    "verdict": "PASS",
-   "group": "s06",
-   "note": "348ms 阈值=2000ms"
+   "group": "s06_perf_thresholds",
+   "note": "70ms 阈值=2000ms"
   },
   {
    "case": "F2 CLI demo 端到端",
    "verdict": "PASS",
-   "group": "s06",
-   "note": "387ms 阈值=10000ms exit=0"
+   "group": "s06_perf_thresholds",
+   "note": "128ms 阈值=10000ms exit=0"
   },
   {
    "case": "F2 did:key 单次解析",
    "verdict": "PASS",
-   "group": "s06",
-   "note": "0.03ms/次（200 次均值）阈值=3ms"
+   "group": "s06_perf_thresholds",
+   "note": "0.02ms/次（200 次均值）阈值=3ms"
   },
   {
    "case": "G0 环境自检",
    "verdict": "PASS",
-   "group": "s07",
-   "note": "python.exe 可用"
+   "group": "s07_package_boundaries",
+   "note": "python 可用"
   },
   {
    "case": "G1 证据索引路径穿越(../)",
    "verdict": "PASS",
-   "group": "s07",
+   "group": "s07_package_boundaries",
    "note": "exit=1 结果=未通过/被拒；包外条目哈希已按真实内容填写，被接受即证明读了包外文件"
   },
   {
    "case": "G2 重复 JSON 成员名",
    "verdict": "PASS",
-   "group": "s07",
+   "group": "s07_package_boundaries",
    "note": "exit=1（严格序列化应拒收）"
   },
   {
    "case": "G3 agent_id emoji",
    "verdict": "INFO",
-   "group": "s07",
-   "note": "exit=0 registered agent '智能体🤖-01' (owner: x) at 2026-11-23T08:07:18"
+   "group": "s07_package_boundaries",
+   "note": "exit=0 registered agent '智能体🤖-01' (owner: x) at 2026-11-24T23:50:10"
   },
   {
    "case": "G3 agent_id 保留设备名",
    "verdict": "INFO",
-   "group": "s07",
-   "note": "exit=0 registered agent 'CON' (owner: x) at 2026-11-23T08:07:20Z"
+   "group": "s07_package_boundaries",
+   "note": "exit=0 registered agent 'CON' (owner: x) at 2026-11-24T23:50:10Z"
   },
   {
    "case": "G3 agent_id 双向文本",
-   "verdict": "WARN",
-   "group": "s07",
-   "note": "exit=0 registered agent 'abc‮\"evil' (owner: x) at 2026-11-23T08:07:（被接受，标识符校验偏松）"
+   "verdict": "PASS",
+   "group": "s07_package_boundaries",
+   "note": "exit=1 error: agent id contains a bidirection control U+202E"
   },
   {
    "case": "G3 agent_id 控制字符",
-   "verdict": "WARN",
-   "group": "s07",
-   "note": "exit=0 registered agent 'a\u0001b' (owner: x) at 2026-11-23T08:07:18Z（被接受，标识符校验偏松）"
+   "verdict": "PASS",
+   "group": "s07_package_boundaries",
+   "note": "exit=1 error: agent id contains a control character U+0001"
   },
   {
    "case": "G3 agent_id 空串",
-   "verdict": "WARN",
-   "group": "s07",
-   "note": "exit=0 registered agent '' (owner: x) at 2026-11-23T08:07:20Z（被接受，标识符校验偏松）"
+   "verdict": "PASS",
+   "group": "s07_package_boundaries",
+   "note": "exit=1 error: agent id must not be empty"
   },
   {
    "case": "G3 agent_id 超长 10000 字符",
-   "verdict": "INFO",
-   "group": "s07",
-   "note": "exit=0 registered agent 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+   "verdict": "PASS",
+   "group": "s07_package_boundaries",
+   "note": "exit=1 error: agent id is 10000 characters, limit is 128"
   },
   {
    "case": "G3 agent_id 路径样串",
    "verdict": "INFO",
-   "group": "s07",
-   "note": "exit=0 registered agent '../../etc/passwd' (owner: x) at 2026-11-23"
+   "group": "s07_package_boundaries",
+   "note": "exit=0 registered agent '../../etc/passwd' (owner: x) at 2026-11-24"
   },
   {
    "case": "G4 10 并发只读校验",
    "verdict": "PASS",
-   "group": "s07",
-   "note": "ok=10 err=[] 中位=513ms"
+   "group": "s07_package_boundaries",
+   "note": "ok=10 err=[] 中位=271ms"
   },
   {
    "case": "G4 校验是否写了包目录",
    "verdict": "PASS",
-   "group": "s07",
+   "group": "s07_package_boundaries",
    "note": "改动 [] 新增 []（校验应只读；有写入说明副作用）"
   },
   {
    "case": "G5 三时区判定一致",
    "verdict": "PASS",
-   "group": "s07",
+   "group": "s07_package_boundaries",
    "note": "{'UTC': (1, 'PASS'), 'Asia/Shanghai': (1, 'PASS'), 'Pacific/Kiritimati': (1, 'PASS')}"
   },
   {
    "case": "G6 50MB 证据包校验",
    "verdict": "PASS",
-   "group": "s07",
-   "note": "exit=1 耗时 0.5s"
+   "group": "s07_package_boundaries",
+   "note": "exit=1 耗时 0.1s"
   },
   {
    "case": "G6 50MB 证据文件入包",
    "verdict": "PASS",
-   "group": "s07",
-   "note": "exit=0 耗时 0.5s（只算哈希，不应整包复制）"
+   "group": "s07_package_boundaries",
+   "note": "exit=0 耗时 0.1s（只算哈希，不应整包复制）"
   },
   {
    "case": "I0 本地 did:web 宿主",
    "verdict": "INFO",
-   "group": "s09",
-   "note": "port=9752 文档=354 字节 公钥 z6Mkoq3U53uY5R…"
+   "group": "s09_interop_third_party",
+   "note": "port=57627 文档=358 字节 公钥 z6Mknp6dvrtGNL…"
   },
   {
-   "case": "I1 我方解析 did:web",
+   "case": "I1 注入 fetcher 也拒回环",
    "verdict": "PASS",
-   "group": "s09",
-   "note": "id=did:web:127.0.0.1%3A9752 vm=did:web:127.0.0.1%3A9752#key-1 type=Ed25519VerificationKey2020 61ms"
+   "group": "s09_interop_third_party",
+   "note": "DIDError: did:web target '127.0.0.1' is not a public address（0ms）"
+  },
+  {
+   "case": "I10 错校验码不判",
+   "verdict": "PASS",
+   "group": "s10_identity_code_interop",
+   "note": "state=INCONCLUSIVE（盐未公开，拒判）"
+  },
+  {
+   "case": "I11 示例前缀不被写死",
+   "verdict": "PASS",
+   "group": "s10_identity_code_interop",
+   "note": "shape matches ACPs-spec-AIC-v02.02 (prefix 1.2.156.1234; entity AIC; checksum ar"
+  },
+  {
+   "case": "I12 无 VERIFIED 出口",
+   "verdict": "PASS",
+   "group": "s10_identity_code_interop",
+   "note": "states=['INCONCLUSIVE', 'INVALID']"
+  },
+  {
+   "case": "I13 profile 标注",
+   "verdict": "PASS",
+   "group": "s10_identity_code_interop",
+   "note": "gbz185.2 / aip-acps"
+  },
+  {
+   "case": "I14 第三方实跑记录",
+   "verdict": "REFERENCE",
+   "group": "s10_identity_code_interop",
+   "note": "aipmc-basic 0.0.2 于 2026-11-24 实跑：十段 ACCEPT（默认盐校验通过）、八段 REJECT；错误 CRC 仍 ACCEPT（其 parse 不验校验码）。日志见 uibc-core docs/THIRD-PARTY-DIVERGENCE.md"
+  },
+  {
+   "case": "I15 带盐判通过",
+   "verdict": "PASS",
+   "group": "s10_identity_code_interop",
+   "note": "VERIFIED acps-arc10:0JU4"
+  },
+  {
+   "case": "I16 段序无关仍判通过",
+   "verdict": "PASS",
+   "group": "s10_identity_code_interop",
+   "note": "VERIFIED（版本段在实例之后，校验码照样对）"
+  },
+  {
+   "case": "I17 带盐判篡改",
+   "verdict": "PASS",
+   "group": "s10_identity_code_interop",
+   "note": "INVALID"
+  },
+  {
+   "case": "I18 无盐或短盐不判",
+   "verdict": "PASS",
+   "group": "s10_identity_code_interop",
+   "note": "INCONCLUSIVE / INCONCLUSIVE"
+  },
+  {
+   "case": "I1b 真实传输同样拒",
+   "verdict": "PASS",
+   "group": "s09_interop_third_party",
+   "note": "DIDError: did:web target '127.0.0.1' is not a public address（0ms）"
   },
   {
    "case": "I2 我方取公钥",
-   "verdict": "PASS",
-   "group": "s09",
-   "note": "32 字节与宿主一致=True vm=did:web:127.0.0.1%3A9752#key-1"
+   "verdict": "BLOCKED",
+   "group": "s09_interop_third_party",
+   "note": "回环 did:web 被策略拒绝，取不到公钥。缺的前置：一个公网 did:web 目标（需网络）；本组不用注入 fetcher 绕过策略来伪造这一条"
   },
   {
    "case": "I3 第三方解析 did:web",
    "verdict": "PASS",
-   "group": "s09",
-   "note": "ok=True id=did:web:127.0.0.1%3A9752 vm=did:web:127.0.0.1%3A9752#key-1 271ms "
+   "group": "s09_interop_third_party",
+   "note": "ok=True id=did:web:127.0.0.1%3A57627 vm=did:web:127.0.0.1%3A57627#key-1 108ms "
   },
   {
    "case": "I4 两实现逐字段比对",
+   "verdict": "BLOCKED",
+   "group": "s09_interop_third_party",
+   "note": "我方按策略拒绝回环，没有可比对对象。要恢复这条：给一个公网 did:web 目标，两边都解析同一份文档再比"
+  },
+  {
+   "case": "I4b 策略分歧按设计发生",
    "verdict": "PASS",
-   "group": "s09",
-   "note": "id/vm/type/公钥 全部一致"
+   "group": "s09_interop_third_party",
+   "note": "我方拒回环 / 第三方成功解析=True（第三方无主机策略，这是分歧的全部内容）"
   },
   {
    "case": "I5 坏 DID 两边都拒",
    "verdict": "PASS",
-   "group": "s09",
+   "group": "s09_interop_third_party",
    "note": "我方 DIDError / 第三方 invalidDid"
   },
   {
    "case": "I6 不可达方法两边都拒",
    "verdict": "PASS",
-   "group": "s09",
+   "group": "s09_interop_third_party",
    "note": "我方 URLError / 第三方 resolutionError"
+  },
+  {
+   "case": "I7 八段读者拒十段",
+   "verdict": "PASS",
+   "group": "s10_identity_code_interop",
+   "note": "INVALID"
+  },
+  {
+   "case": "I8 十段读者拒八段",
+   "verdict": "PASS",
+   "group": "s10_identity_code_interop",
+   "note": "INVALID"
+  },
+  {
+   "case": "I9 十段自读且不判校验码",
+   "verdict": "PASS",
+   "group": "s10_identity_code_interop",
+   "note": "INCONCLUSIVE"
   },
   {
    "case": "M0 平台与架构",
    "verdict": "INFO",
-   "group": "s08",
-   "note": "Windows / AMD64 / 8 核 / 解释器 3.13.18"
+   "group": "s08_env_matrix",
+   "note": "Linux / x86_64 / 4 核 / 解释器 3.12.16"
   },
   {
    "case": "M1 Python 版本门槛",
    "verdict": "PASS",
-   "group": "s08",
-   "note": "cpython 3.13.18（要求 CPython ≥ 3.10）"
+   "group": "s08_env_matrix",
+   "note": "cpython 3.12.16（要求 CPython ≥ 3.10）"
   },
   {
    "case": "M10 磁盘写满",
    "verdict": "SKIP",
-   "group": "s08",
-   "note": "无法安全构造「磁盘写满」：当前空闲 28.6GB（远未满）；Windows 需管理员+虚拟磁盘，本机未做"
+   "group": "s08_env_matrix",
+   "note": "无法安全构造「磁盘写满」：当前空闲 86.9GB（远未满）；loop 设备可用（可造小文件系统）"
   },
   {
    "case": "M11 24 小时长跑",
    "verdict": "SKIP",
-   "group": "s08",
+   "group": "s08_env_matrix",
    "note": "本轮未做长跑（单次运行最长 8.5 分钟）；如需，用 `bench.py run` 定时重复 + compare_baseline 做漂移检测"
   },
   {
    "case": "M2 文件系统大小写敏感",
    "verdict": "INFO",
-   "group": "s08",
-   "note": "不敏感（Windows 默认）（两个名字是否同一文件：是）"
+   "group": "s08_env_matrix",
+   "note": "敏感（区分大小写）（两个名字是否同一文件：否）"
   },
   {
    "case": "M3 中文+空格路径端到端",
    "verdict": "PASS",
-   "group": "s08",
-   "note": "exit=0 0.4s                  python -m uibc_core.cli verify C:\\Users\\SZYL\\AppData\\Local\\Temp\\uibc-demo"
+   "group": "s08_env_matrix",
+   "note": "exit=0 0.1s                  python -m uibc_core.cli verify /tmp/uibc-demo-2vqd47o9/forged --pubkey /t"
   },
   {
-   "case": "M4 控制台编码 cp936 下 CLI",
+   "case": "M4 控制台编码 utf-8 下 CLI",
    "verdict": "PASS",
-   "group": "s08",
-   "note": "exit=0 0.4s                  python -m uibc_core.cli verify C:\\Users\\SZYL\\AppData\\Local\\Temp\\uibc-demo"
+   "group": "s08_env_matrix",
+   "note": "exit=0 0.1s                  python -m uibc_core.cli verify /tmp/uibc-demo-ocdzqrrv/forged --pubkey /t"
   },
   {
    "case": "M5 容器化环境",
    "verdict": "INFO",
-   "group": "s08",
+   "group": "s08_env_matrix",
    "note": "不在容器内（探测标记：无）"
   },
   {
    "case": "M6 只读临时目录下运行",
    "verdict": "PASS",
-   "group": "s08",
-   "note": "exit=0 0.4s（未受影响，不写临时目录）"
+   "group": "s08_env_matrix",
+   "note": "exit=0 0.1s（未受影响，不写临时目录）"
   },
   {
    "case": "M7 离线/断网环境",
    "verdict": "SKIP",
-   "group": "s08",
-   "note": "无法安全构造「断网」（会切断本机与平台/仓库的链路）：外网可达（说明没有处于离线）；netsh 防火墙查询可用"
+   "group": "s08_env_matrix",
+   "note": "无法安全构造「断网」（会切断本机与平台/仓库的链路）：外网可达（说明没有处于离线）；iptables 不可用（无 root/netns 权限）"
   },
   {
    "case": "M8 企业代理 MITM",
    "verdict": "SKIP",
-   "group": "s08",
+   "group": "s08_env_matrix",
    "note": "当前环境代理变量：均未设置；注入 MITM 需要自签根证书与中间人代理（本机无该条件）"
   },
   {
    "case": "M9 弱网/高延迟",
    "verdict": "SKIP",
-   "group": "s08",
-   "note": "无法构造可控弱网：Windows 无 tc；需要第三方弱网工具（Clumsy/NetLimiter），本机未装"
+   "group": "s08_env_matrix",
+   "note": "无法构造可控弱网：tc 可用；root=False"
   }
- ],
- "updated": "2026-11-23T16:07:39",
- "source_run": "20261123_155503_v043full_b"
+ ]
 }
