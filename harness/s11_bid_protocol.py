@@ -268,8 +268,41 @@ def j3_signing(B):
                          ("b06566 前缀 70", "b06566" + (hexed[2:] if len(hexed) == 66 else hexed))):
             d2 = B.sign_bid_document(doc(publicKey=[dict(doc()["publicKey"][0], publicKeyHex=hx)]), seed, KEY_ID)
             rec("J3.3 键编码 %s 可验" % name, "PASS" if B.verify_bid_document(d2, DID)[0] else "FAIL", "hex=%d" % len(hx))
+        _j34_sm2(B)
     except Exception:
         rec("J3 签名闭环", "FAIL", traceback.format_exc().splitlines()[-1])
+
+
+def _j34_sm2(B):
+    """§5 also allows SM2. Checked here against the subject, not against our own copy:
+    the standard's example (GM/T 0003.5 Annex A) is used to build a document and the
+    subject must verify it and reject a tampered copy."""
+    try:
+        from uibc_core import sm2 as S
+    except Exception:
+        rec("J3.4 SM2 验签（GM/T 0003.5 附录A）", "SKIP", "被测仓未提供 uibc_core.sm2")
+        return
+    d = 0x3945208F7B2144B13F36E38AC6D39F95889393692860B51A42FB81EF4DF7C5B8
+    px = 0x09F9DF311E5421A150DD7D161E4BC5C672179FAD1833FC076BB08FF356F35020
+    py = 0xCCEA490CE26775A52DC6EA718CC1AA600AED05FBF35E084A6632F6072DA9AD13
+    try:
+        body = px.to_bytes(32, "big") + py.to_bytes(32, "big")
+        base = doc()
+        unsigned = {k: v for k, v in base.items() if k != "proof"}
+        unsigned["publicKey"] = [dict(base["publicKey"][0], publicKeyHex="b06566" + body.hex(), type="SM2")]
+        r, s = S.sign(d, B.signing_bytes(unsigned), px=px, py=py)
+        signed = dict(unsigned)
+        signed["proof"] = {"creator": KEY_ID,
+                           "signatureValue": B.base58_encode(r.to_bytes(32, "big") + s.to_bytes(32, "big")),
+                           "type": "SM2Signature"}
+        ok, reason = B.verify_bid_document(signed, DID)
+        rec("J3.4a SM2 文档可验（并写明所用区分标识）", "PASS" if ok and "SM2" in reason else "FAIL", reason[:70])
+        bad = dict(signed, created="2021-06-24T09:10:10Z")
+        ok2, reason2 = B.verify_bid_document(bad, DID)
+        rec("J3.4b SM2 签名后改动必须被拒", "PASS" if ok2 is False else "FAIL", reason2[:60])
+    except Exception:
+        rec("J3.4 SM2 验签（GM/T 0003.5 附录A）", "FAIL", traceback.format_exc().splitlines()[-1])
+
 
 
 # ------------------------------------------------------- J4 跨语言（node）
