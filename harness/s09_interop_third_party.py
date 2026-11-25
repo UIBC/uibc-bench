@@ -27,6 +27,48 @@ def rec(case, verdict, note="", extra=None):
     print("[%-7s] %-28s %s" % (verdict, case, note))
 
 
+# 公网 did:web 目标：由第三方主体发布、我们不控制其内容的身份文档。
+# 早期版本把 I2/I4 记 BLOCKED，缺的前置正是"一个公网 did:web 目标"——不是缺代码，是缺被测对象。
+# 这三条是真实存在的第三方身份（DIF、Veramo、Danube Tech 各自的域名），不伪造、不托管、不注入 fetcher：
+# 真实 HTTPS 抓取，两实现各拿一份当次读数再比。
+# 判定只认"两边当次读数一致 + 我方文档 id 与请求的 DID 相同"，不钉死密钥值——文档轮换是发布方的自由，
+# 不该让台子红；反过来，真不一致（同一时刻两边读到的字段不同）才是互操作缺陷。
+PUBLIC_DIDS = [
+    "did:web:identity.foundation",
+    "did:web:veramo.io",
+    "did:web:danubetech.com",
+]
+
+
+def _keyref(vm):
+    """公钥规范化。必须与 tools/interop/resolve3p.js 的 keyref() 逐字一致。"""
+    if vm.get("publicKeyMultibase"):
+        return "mb:" + str(vm["publicKeyMultibase"])
+    if vm.get("publicKeyJwk"):
+        return "jwk:" + json.dumps(vm["publicKeyJwk"], sort_keys=True, separators=(",", ":"))
+    if vm.get("publicKeyHex"):
+        return "hex:" + str(vm["publicKeyHex"])
+    if vm.get("publicKeyBase58"):
+        return "b58:" + str(vm["publicKeyBase58"])
+    if vm.get("publicKeyPem"):
+        return "pem:" + str(vm["publicKeyPem"])
+    return "none"
+
+
+def _vmlist(doc):
+    return sorted(
+        [dict(id=(vm.get("id") or None), type=(vm.get("type") or None),
+              controller=(vm.get("controller") or None), key=_keyref(vm))
+         for vm in (doc.get("verificationMethod") or [])],
+        key=lambda x: str(x["id"]))
+
+
+def _auth(doc):
+    return sorted([a if isinstance(a, str) else (a or {}).get("id")
+                   for a in (doc.get("authentication") or [])])
+
+
+
 DOC_T = {
     "@context": ["https://www.w3.org/ns/did/v1"],
     "id": None,
@@ -184,15 +226,48 @@ def main():
         rec("I1b 真实传输同样拒", "PASS" if hit else "FAIL",
             "%s: %s（%.0fms）" % (type(e).__name__, str(e)[:100], (time.time() - t0) * 1000))
 
-    rec("I2 我方取公钥", "BLOCKED",
-        "回环 did:web 被策略拒绝，取不到公钥。缺的前置：一个公网 did:web 目标（需网络）；"
-        "本组不用注入 fetcher 绕过策略来伪造这一条", {"needs": "public did:web target"})
+    # I2 现在有真前置了：第三方主体发布的公网 did:web（不是回环、不是自建、不注入 fetcher）。
+    # 判 PASS 要同时满足两件事：① 至少一条真取到了文档；② 取到的那条，文档 id 与请求的 DID 逐字相同，
+    # 且至少有一个带公钥材料的 verificationMethod。取不到（本机/CI 无出网）记 BLOCKED 并写明原因，
+    # 不改成 PASS、也不改成 FAIL —— 缺的是外网连通性，不是被测仓的能力。
+    pub_docs, pub_errs = {}, {}
+    t_pub = time.time()
+    for pd in PUBLIC_DIDS:
+        try:
+            pub_docs[pd] = U.resolve(pd, timeout=15)
+        except Exception as e:
+            pub_errs[pd] = "%s: %s" % (type(e).__name__, str(e)[:110])
+
+    if not pub_docs:
+        rec("I2 我方取公钥", "BLOCKED",
+            "三条公网 did:web 一条也没取到（本机需能出网访问 443）：%s"
+            % "；".join("%s→%s" % (k, v) for k, v in pub_errs.items()),
+            {"needs": "outbound HTTPS", "errors": pub_errs})
+    else:
+        wrong_id, no_key = [], []
+        for pd, doc in pub_docs.items():
+            if (doc.get("id") or "") != pd:
+                wrong_id.append("%s→id=%s" % (pd, doc.get("id")))
+            if not any(_keyref(vm) != "none" for vm in (doc.get("verificationMethod") or [])):
+                no_key.append(pd)
+        ok_i2 = not wrong_id and not no_key
+        detail = "；".join("%s %d 条 vm %s" % (k, len(v.get("verificationMethod") or []),
+                                             _keyref((v.get("verificationMethod") or [{}])[0])[:18])
+                           for k, v in pub_docs.items())
+        if pub_errs:
+            detail += "（未取到：%s）" % ",".join(pub_errs)
+        rec("I2 我方取公钥", "PASS" if ok_i2 else "FAIL",
+            "%s（%.0fms）%s" % (detail, (time.time() - t_pub) * 1000,
+                              ("  文档 id 不符：" + "；".join(wrong_id)) if wrong_id else "")
+            + (("  无公钥材料：" + ",".join(no_key)) if no_key else ""),
+            {"docs": {k: {"id": v.get("id"), "vms": len(v.get("verificationMethod") or [])}
+                      for k, v in pub_docs.items()}, "errors": pub_errs})
 
     t0 = time.time()
     theirs = third_party(did)
     if theirs is None:
         rec("I3 第三方解析 did:web", "BLOCKED", "未安装：先跑 npm i 于 runs/_interop（did-resolver + web-did-resolver）")
-        rec("I4 两实现逐字段比对", "BLOCKED", "依赖 I3")
+        rec("I4 两实现逐字段比对", "BLOCKED", "依赖第三方解释器（node + did-resolver），未安装")
         rec("I5 坏 DID 两边都拒", "BLOCKED", "依赖 I3")
         rec("I6 不可达方法两边都拒", "BLOCKED", "依赖 I3")
         # 防止整组只剩 BLOCKED 而被读成"没问题"：显式留一条 WARN 把"互操作未验证"写进计分
@@ -205,14 +280,61 @@ def main():
                                             theirs.get("error") or ""), {"result": theirs})
 
     if theirs is None:
-        pass  # I4–I6 已在上方按依赖缺失记为 BLOCKED，不再重复记一条 FAIL
-    elif ours is None:
-        # 逐字段比对需要两边都拿到文档。我方现在按策略拒绝回环，客观上没有可比对对象；
-        # 记 BLOCKED 而不是"通过"，同时把分歧本身单独判一条——分歧是设计，不是缺陷，
-        # 但必须由机器证明它确实按设计发生了，而不是嘴上说。
-        rec("I4 两实现逐字段比对", "BLOCKED",
-            "我方按策略拒绝回环，没有可比对对象。要恢复这条：给一个公网 did:web 目标，"
-            "两边都解析同一份文档再比", {"needs": "public did:web target"})
+        pass  # I3–I6 已在上方按依赖缺失记为 BLOCKED，不再重复记一条 FAIL
+    else:
+        # 逐字段比对现在比对的是"公网第三方文档"：两边各自真实抓一份，按规范化后的
+        # id / verificationMethod 清单 / authentication 比。轮换频繁的文档可能在两次抓取之间变化，
+        # 因此出现不一致时先让两边重抓一次再判——只有重抓后仍不一致才算互操作缺陷。
+        cmp_ok, cmp_bad, cmp_skip = [], [], []
+
+        def _fields(od, td):
+            f = []
+            if (od.get("id") or "") != (td.get("didDocumentId") or ""):
+                f.append("id")
+            if _vmlist(od) != (td.get("vmList") or []):
+                f.append("verificationMethod")
+            if _auth(od) != (td.get("authentication") or []):
+                f.append("authentication")
+            return f
+
+        for pd in PUBLIC_DIDS:
+            od = pub_docs.get(pd)
+            td = third_party(pd)
+            if od is None or not (td or {}).get("ok"):
+                cmp_skip.append("%s（我方%s / 第三方%s）" % (
+                    pd, "取到" if od is not None else "未取到",
+                    "ok" if (td or {}).get("ok") else ((td or {}).get("error") or "node 无输出")))
+                continue
+            diffs = _fields(od, td)
+            if diffs:
+                try:
+                    od = U.resolve(pd, timeout=15)
+                    pub_docs[pd] = od
+                    td = third_party(pd)
+                    diffs = [] if (td or {}).get("ok") else diffs
+                    diffs = _fields(od, td or {})
+                except Exception as e:
+                    diffs = diffs + ["重抓失败:%s" % type(e).__name__]
+            if diffs:
+                cmp_bad.append((pd, diffs))
+            else:
+                cmp_ok.append(pd)
+
+        if cmp_bad:
+            rec("I4 两实现逐字段比对", "FAIL",
+                "不一致：" + "；".join("%s 字段 %s" % (d, ",".join(f)) for d, f in cmp_bad)
+                + ("  （可比对一致：%s）" % ",".join(cmp_ok) if cmp_ok else ""),
+                {"bad": cmp_bad, "ok": cmp_ok})
+        elif cmp_ok:
+            rec("I4 两实现逐字段比对", "PASS",
+                "逐字段一致 %d 条：%s（id / verificationMethod / authentication；重抓后仍不一致才算缺陷）"
+                % (len(cmp_ok), ",".join(cmp_ok)),
+                {"ok": cmp_ok})
+        else:
+            rec("I4 两实现逐字段比对", "BLOCKED", "无可比对对象：" + "；".join(cmp_skip),
+                {"skip": cmp_skip})
+
+        # 回环那条仍单独判：分歧是设计，不是缺陷，但必须由机器证明它确实按设计发生了。
         ok4 = theirs.get("ok") is True
         rec("I4b 策略分歧按设计发生", "PASS" if ok4 else "FAIL",
             "我方拒回环 / 第三方成功解析=%s（第三方无主机策略，这是分歧的全部内容）" % theirs.get("ok"),

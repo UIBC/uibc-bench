@@ -90,7 +90,9 @@ uibc-实测台/
 │   ├─ s07_package_boundaries.py  包与证据层对抗边界（G 组）
 │   ├─ s08_env_matrix.py          环境矩阵（M 组：12 项环境条件逐一取证，做不了的必须给探测证据）
 │   └─ s09_interop_third_party.py  跨实现互操作（I 组：与第三方 did:web 解析器逐字段比对）
-│                                  依赖缺失时不静默：I3–I6 记 BLOCKED，并额外记一条 WARN「互操作未验证」
+│                                  I2/I4 解析的是第三方主体已发布的公网身份（identity.foundation /
+│                                  veramo.io / danubetech.com），需要出网；没出网时这两条记 BLOCKED 并写明原因，
+│                                  I3–I6 的第三方依赖缺失时不静默：记 BLOCKED，并额外记一条 WARN「互操作未验证」
 ├─ tools/                 可复跑的外部基准接入件（不参与 bench 计分）
 │   ├─ resolver_https_shim.py     最小 HTTPS binding：把库函数按 DID Resolution 规范暴露成 endpoint
 │   ├─ aitb_bridge.py           AITB（试真台）桥：full / interop / negctl（负对照）\n│   ├─ official_suite/            官方 W3C 套件的接入说明 + 我方 resolver 清单
