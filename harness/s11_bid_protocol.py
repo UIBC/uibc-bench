@@ -78,6 +78,7 @@ def main():
     j11_binary_codec(subject)
     j12_demo_and_layout(subject)
     j13_bit_flip_and_placement(subject)
+    j14_mutation_probes(subject)
     return finish()
 
 
@@ -166,6 +167,89 @@ def j13_bit_flip_and_placement(subject):
     rec("J13.7 示范报文 196 字节与文档一致",
         "PASS" if data["message_bytes"] == 196 else "FAIL",
         "actual=%d documented=196" % data["message_bytes"])
+
+
+def j14_mutation_probes(subject):
+    """The other two layers get the bit-flip treatment: document shapes, addresses.
+
+    J13 asked it of individual bits. J14 asks the same question of a whole field and
+    of a whole character: one edit at a time, and the implementation has to say
+    something. The subject's own probes answer; this only checks that the answers
+    are the ones a stranger would demand.
+    """
+    import json
+    import subprocess
+
+    env = dict(os.environ)
+    env["PYTHONUTF8"] = "1"
+
+    def run_json(rel):
+        path = os.path.join(subject, rel)
+        if not os.path.exists(path):
+            return None, "被测仓未提供 %s" % rel
+        res = subprocess.run([sys.executable, path, "--json"], cwd=subject,
+                             capture_output=True, text=True, encoding="utf-8",
+                             errors="replace", env=env, timeout=300)
+        if res.returncode != 0:
+            return None, "rc=%d %r" % (res.returncode, (res.stderr or "")[-140:])
+        try:
+            return json.loads(res.stdout), ""
+        except Exception as exc:                               # noqa: BLE001
+            return None, "not JSON: %s" % exc
+
+    shapes, why = run_json(os.path.join("tools", "mutate_document_shapes.py"))
+    if shapes is None:
+        rec("J14 文档形状与地址绑定", "SKIP", why)
+    else:
+        summary = shapes["summary"]
+        ok = (summary["caught"] == summary["must_reject"] and not summary["silent"]
+              and not summary["wrong_error"] and summary["must_reject"] >= 20)
+        rec("J14.1 每个被禁形状都被拒，且没有静默接受",
+            "PASS" if ok else "FAIL",
+            "caught=%d/%d silent=%r wrong=%r"
+            % (summary["caught"], summary["must_reject"], summary["silent"],
+               summary["wrong_error"]))
+        rows = {row["mutant"]: row for row in shapes["rows"]}
+        cited = all(rows.get(n, {}).get("outcome") == "rejected"
+                    and item in rows.get(n, {}).get("reason", "")
+                    and "必填" in rows.get(n, {}).get("reason", "")
+                    for n, item in (("created deleted", "9.created"),
+                                    ("updated deleted", "10.updated")))
+        rec("J14.2 缺 created/updated 必须被拒并引 §4.2.1 项目号",
+            "PASS" if cited else "FAIL",
+            rows.get("created deleted", {}).get("reason", "没有这一条")[:70])
+        rec("J14.3 未知顶层字段必须被接受（可扩展）",
+            "PASS" if summary["tolerated"]
+            and all(item["outcome"] == "silent" for item in summary["tolerated"]) else "FAIL",
+            "%d 个" % len(summary["tolerated"]))
+        relabel = shapes.get("type_relabel", {})
+        rec("J14.4 改标密钥类型必须由验签挡住，而不是靠解析层沉默",
+            "PASS" if relabel.get("honest_doc_verifies") is True
+            and relabel.get("relabelled_verifies") is False else "FAIL",
+            relabel.get("relabelled_reason", "")[:70])
+
+    addr, why = run_json(os.path.join("tools", "probe_address_binding.py"))
+    if addr is None:
+        rec("J14 地址绑定", "SKIP", why)
+        return
+    key_side = addr.get("key_to_address", {})
+    rec("J14.5 翻任意一位密钥，地址都要变且不相撞",
+        "PASS" if key_side.get("collisions_with_base") == 0
+        and (key_side.get("char_distance_min") or 0) >= 20 else "FAIL",
+        "flips=%s collisions=%s char_distance=%s..%s"
+        % (key_side.get("bits"), key_side.get("collisions_with_base"),
+           key_side.get("char_distance_min"), key_side.get("char_distance_max")))
+    side = addr.get("address_to_key", {})
+    rec("J14.6 地址里换掉任一字符都必须不匹配",
+        "PASS" if side.get("accepted") == [] and (side.get("tried") or 0) > 1000 else "FAIL",
+        "tried=%s accepted=%s" % (side.get("tried"), len(side.get("accepted") or [])))
+    length = addr.get("length", {})
+    rec("J14.7 截短/补长的地址不匹配",
+        "PASS" if length and all(v is False for v in length.values()) else "FAIL",
+        repr(length)[:70])
+    rec("J14.8 样本地址能由样本公钥复算（探针量的不是空集）",
+        "PASS" if addr.get("sample", {}).get("reproduced") is True else "FAIL",
+        addr.get("sample", {}).get("address", ""))
 
 
 # ------------------------------------ J10 地址推导：50 条官方样本必须逐字节复现
