@@ -335,7 +335,7 @@ def j16_competitor_parity(subject):
     best = max((sum(r["dims"].values()) for r in repos), default=0)
     ours = sum(snap.get("ours", {}).get("dims", {}).values())
     rec("J16.2 快照被固定且分数低于本仓",
-        "PASS" if len(repos) >= 8 and pinned and ours == 10 and best < ours else "FAIL",
+        "PASS" if len(repos) >= 15 and pinned and ours == 10 and best < ours else "FAIL",
         "repos=%d pinned=%s ours=%d/10 best_competitor=%d/10" % (len(repos), pinned, ours, best))
 
     proof = os.path.join(subject, "tests", "test_competitor_parity.py")
