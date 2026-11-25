@@ -76,6 +76,7 @@ def main():
     j9_vector_pack(B, subject)
     j10_address_derivation(subject)
     j11_binary_codec(subject)
+    j12_demo_and_layout(subject)
     return finish()
 
 
@@ -416,6 +417,52 @@ def j11_binary_codec(subject):
           all(item.get("gap") and item.get("choice") and item.get("status") for item in reg.values()))
     rec("J11.7 六条推断都登记了缺口与处置", "PASS" if ok else "FAIL",
         "keys=%s" % (sorted(reg),))
+
+
+
+# ------------------------------------ J12 可运行 demo 与生成式图
+def j12_demo_and_layout(subject):
+    """Tests can agree with code and still tell a stranger nothing.
+
+    J12 asks for the two artefacts that let an outsider check the layer without
+    reading the source: a demo that runs and says so, and a diagram that is
+    regenerated from the module rather than drawn once by hand.
+    """
+    import subprocess
+
+    demo = os.path.join(subject, "tools", "demo_bid_binary.py")
+    if not os.path.exists(demo):
+        rec("J12 demo 与布局图", "SKIP", "被测仓未提供 tools/demo_bid_binary.py")
+        return
+    env = dict(os.environ)
+    env["PYTHONUTF8"] = "1"
+
+    def run(args):
+        return subprocess.run([sys.executable] + args, cwd=subject, capture_output=True,
+                              text=True, encoding="utf-8", errors="replace",
+                              env=env, timeout=180)
+
+    res = run([demo, "--flip"])
+    ok = (res.returncode == 0 and "ALL OK" in (res.stdout or "")
+          and "HARD-FAIL" not in (res.stdout or ""))
+    rec("J12.1 demo 跑得起来且自报 ALL OK", "PASS" if ok else "FAIL",
+        "rc=%d tail=%r" % (res.returncode, (res.stdout or res.stderr or "")[-60:]))
+    if not ok:
+        return
+    two = ("msb=" in res.stdout and "lsb=" in res.stdout)
+    rec("J12.2 demo 同时展示两种读法", "PASS" if two else "FAIL")
+
+    render = os.path.join(subject, "tools", "render_bid_binary_layout.py")
+    doc = os.path.join(subject, "docs", "BID-BINARY-LAYOUT.svg")
+    if not (os.path.exists(render) and os.path.exists(doc)):
+        rec("J12.3 图由模块常量生成且与仓库那份一致", "SKIP", "缺 render 脚本或 SVG")
+        return
+    r2 = run([render, "--stdout"])
+    fresh = r2.stdout or ""
+    committed = open(doc, encoding="utf-8").read()
+    rec("J12.3 图由模块常量生成且与仓库那份一致",
+        "PASS" if r2.returncode == 0 and fresh == committed else "FAIL",
+        "fresh=%dB committed=%dB" % (len(fresh), len(committed)))
 
 
 
