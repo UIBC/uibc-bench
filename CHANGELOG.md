@@ -1,3 +1,10 @@
+## 未发布 — 2026-11-26（J18：两条能悄悄买到分的记录，和一条被写死的数量断言）
+
+- **J18 三条（新增）**：① 真跑记录不许改分——`docs/competitor-realrun.json` 每条 `affects_score` 必须显式为 `false`、`score_impact.changed_scores` 必须为 0、`exit_code == 0` 必须当且仅当 `failed == 0`、每条 sha 必须 40 位；② 301 必须在新闻下活着——`docs/refs-report.json` 里每条 `status=301` 的 `followed.status` 必须是 200，且 `summary.moved_verified == moved`、`dead == 0`、`dead_after_move == 0`；③ 被测仓必须自带这两条的反证测试（`test_parity_realrun.py` 的 `affects_score is False` 与 `test_refs_check.py` 的 `test_a_move_must_be_live_at_the_new_name`）。
+- **J17.2 从数两个文件改成判三条规则**：旧断言写死 `len(digest_excludes) == 2`，于是被测仓多生成一页看板就判红——那是把**数量**当成了规则。现在判：至少排除两件、只排 `docs/` 下的生成物、且必须包含收据自身。改由实测触发：对 core `aec46e2` 跑，J17.2 原本红（`excludes=3`），改后绿。
+- **J 组由 88 条增至 91 条（J1–J18）**。对被测仓 `zhaoxinghua09-cell/uibc-core` `aec46e2` 实跑：**PASS=89、INFO=2、FAIL=0**。
+- 与 J15–J17 同位：只读被测仓交付物、不连网、不读私有仓；被测仓没交付对应 JSON 就记 SKIP，不记 PASS。
+
 ## 未发布 — 2026-11-26（J16.2 门槛抬到 15 家，与 core 的 MIN_REPOS 对齐）
 
 - **J16.2 门槛 8 → 15**：core 的竞品快照已扩到 25 家、并把 `MIN_REPOS` 定在 25；bench 侧原来只要求 8 家，等于允许被测仓拿一个缩水的样本过 J16.2。现在门槛抬到 15，缩水样本在 bench 上也过不了。
