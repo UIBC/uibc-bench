@@ -82,6 +82,7 @@ def main():
     j15_mutation_gate(subject)
     j16_competitor_parity(subject)
     j17_outsider_receipt(subject)
+    j18_claim_hardening(subject)
     return finish()
 
 
@@ -376,18 +377,88 @@ def j17_outsider_receipt(subject):
         rec("J17.2 收据四步全过且排除规则对称", "FAIL", "cannot read receipt: %s" % exc)
         return
     steps = r.get("steps", [])
+    excl = list(r.get("digest_excludes", []))
+    # 排除集是"摘要自己生成的那些页"，页数会随交付增长（恰恰是好事）。旧断言写死 ==2，
+    # 于是核多加一页看板就判红——那是断言把数量当成了规则。规则其实是三条：
+    # 至少排除两件（收据 + 看板）、只排 docs/ 下的生成物、且必须包含收据自身。
+    self_excluded = any("receipt" in str(e) for e in excl)
+    only_docs = all(str(e).replace("\\", "/").startswith("docs/") for e in excl)
     rec("J17.2 收据四步全过且排除规则对称",
         "PASS" if len(steps) == 4 and all(s.get("rc") == 0 and s.get("ok") for s in steps)
-        and len(r.get("digest_excludes", [])) == 2 and r.get("ok") is True else "FAIL",
-        "steps=%d all_ok=%s excludes=%r" % (len(steps),
-                                            all(s.get("ok") for s in steps),
-                                            r.get("digest_excludes")))
+        and len(excl) >= 2 and self_excluded and only_docs and r.get("ok") is True else "FAIL",
+        "steps=%d all_ok=%s excludes=%d self=%s only_docs=%s %r"
+        % (len(steps), all(s.get("ok") for s in steps), len(excl), self_excluded,
+           only_docs, excl))
 
     proof = os.path.join(subject, "tests", "test_outsider_rerun.py")
     text = open(proof, encoding="utf-8").read() if os.path.exists(proof) else ""
     rec("J17.3 仓库自带「改一个字节就对不上」的反证",
         "PASS" if "digest != receipt[" in text else "FAIL",
         "副本里多写一行注释，摘要必须失配")
+
+
+def j18_claim_hardening(subject):
+    """Two records that can quietly buy score: a real-run log and a renamed citation.
+
+    A suite that passes is not evidence about the gate, and a repository that moved
+    is not a dead link. Both can be *written down* as if they were wins. J18 asks
+    the subject to have written down the opposite: the run may not move a single
+    point, and a moved citation must still be alive under the new name - and the
+    subject must ship the test that goes red when either rule is broken.
+    """
+    import json
+
+    def load(rel):
+        path = os.path.join(subject, rel)
+        if not os.path.exists(path):
+            return None, "被测仓未提供 %s" % rel
+        try:
+            return json.load(open(path, encoding="utf-8")), ""
+        except Exception as exc:                                   # noqa: BLE001
+            return None, "cannot read %s: %s" % (rel, exc)
+
+    recd, why = load(os.path.join("docs", "competitor-realrun.json"))
+    if recd is None:
+        rec("J18.1 真跑记录不许改分", "SKIP", why)
+    else:
+        rows = recd.get("records", [])
+        impact = recd.get("score_impact") or {}
+        no_score = [r for r in rows if r.get("affects_score") is False]
+        consistent = all((r.get("exit_code") == 0) == (r.get("failed") == 0) for r in rows)
+        pinned = all(len(r.get("sha", "")) == 40 for r in rows)
+        ok = (len(rows) >= 2 and len(no_score) == len(rows)
+              and impact.get("changed_scores") == 0 and consistent and pinned)
+        rec("J18.1 真跑记录不许改分",
+            "PASS" if ok else "FAIL",
+            "records=%d no_score=%d changed_scores=%r exit_consistent=%s pinned=%s"
+            % (len(rows), len(no_score), impact.get("changed_scores"), consistent, pinned))
+
+    rep, why = load(os.path.join("docs", "refs-report.json"))
+    if rep is None:
+        rec("J18.2 301 必须在新闻下活着", "SKIP", why)
+    else:
+        moved = [e for e in rep.get("entries", []) if e.get("status") == 301]
+        alive = [e for e in moved if (e.get("followed") or {}).get("status") == 200]
+        summary = rep.get("summary") or {}
+        ok = (bool(moved) and len(alive) == len(moved)
+              and summary.get("moved_verified") == summary.get("moved")
+              and summary.get("dead") == 0
+              and summary.get("dead_after_move") == 0)
+        rec("J18.2 301 必须在新闻下活着",
+            "PASS" if ok else "FAIL",
+            "moved=%d alive_at_new_name=%d summary=%r"
+            % (len(moved), len(alive), summary))
+
+    rr = os.path.join(subject, "tests", "test_parity_realrun.py")
+    rc = os.path.join(subject, "tests", "test_refs_check.py")
+    rr_t = open(rr, encoding="utf-8").read() if os.path.exists(rr) else ""
+    rc_t = open(rc, encoding="utf-8").read() if os.path.exists(rc) else ""
+    a = 'r["affects_score"] is False' in rr_t and "changed_scores" in rr_t
+    b = "test_a_move_must_be_live_at_the_new_name" in rc_t
+    rec("J18.3 仓库自带「两条规矩会被打破」的反证",
+        "PASS" if a and b else "FAIL",
+        "realrun_selftest=%s move_selftest=%s" % (a, b))
+
 
 
 # ------------------------------------ J10 地址推导：50 条官方样本必须逐字节复现
